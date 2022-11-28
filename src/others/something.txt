@@ -1,0 +1,43 @@
+// import {createSlice} from "@reduxjs/toolkit";
+// import { loginType } from "../types";
+//
+//
+// const initialState : loginType= {
+//     user_id : null
+// }
+//
+//
+//
+//
+//
+// const login = createSlice({
+//     name : 'login',
+//     initialState,
+//     reducers: {
+//
+//     }
+// })
+//
+//
+//
+// export default login.reducer
+
+// import {configureStore} from "@reduxjs/toolkit";
+// import loginReducer from "./reducers/loginReducer";
+//
+// const store = configureStore({
+//     reducer : {
+//         login : loginReducer
+//     }
+// })
+//
+// export type StateType = ReturnType<typeof store.getState>
+//
+// export type globalDispatch = ReturnType<typeof store.dispatch>
+//
+//
+// export default store
+
+
+
+C:\Program Files\MongoDB\Server\4.4\bin
