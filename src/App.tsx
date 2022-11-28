@@ -9,8 +9,8 @@ function App() {
   return (
     <div className="App">
         <Routes>
-          <Route path={'/login'} element={<Login/>}/>
-          <Route path={'/register'} element={<Register/>} />
+          <Route path={'/login'} element={<Login isRegistration={false}/>}/>
+          <Route path={'/register'} element={<Login isRegistration={true} />} />
           <Route path={'/'} element={<Main/>}/>
         </Routes>
     </div>

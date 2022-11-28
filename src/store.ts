@@ -3,13 +3,16 @@ import loginReducer from "./reducers/loginReducer";
 
 const store = configureStore({
     reducer : {
-        login : loginReducer
+        userData : loginReducer
     }
 })
 
+//@ts-ignore
+window.s = store.getState
+
 export type StateType = ReturnType<typeof store.getState>
 
-export type globalDispatch = ReturnType<typeof store.dispatch>
+export type globalDispatch = typeof store.dispatch
 
 
 export default store

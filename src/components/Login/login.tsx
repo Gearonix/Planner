@@ -1,25 +1,56 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Formik, Form, Field, useFormik} from 'formik';
-import {Input,Button} from "./login.styles";
+import {Input,Button,Error} from "./login.styles";
+import {useDispatch, useSelector} from "react-redux";
+import { getOrCreateUser } from '../../reducers/loginReducer';
+import { globalDispatch, StateType } from '../../store';
+import {Link, useNavigate} from "react-router-dom";
+import {loginValidator} from "../../validate";
 
 
-type FormValues = {
+export type formValues = {
     email : string,
     password : string
 }
 
+type LoginProps = {
+    isRegistration : boolean
+}
 
-const Login : React.FC = () => {
-    const initialValues : FormValues = {email: '',password:''}
+const Login  = ({isRegistration} : LoginProps) => {
 
-    const {handleSubmit,handleChange,values} = useFormik({initialValues,onSubmit: (data : FormValues) => console.log(data)})
 
+    const pageName = isRegistration ? '/login' : '/register'
+    const initialValues : formValues = {email: '',password:''}
+    const [globError,setError] = useState(null)
+    const dispatch= useDispatch<globalDispatch>()
+
+    const user_id = useSelector((state : StateType) => state.userData.user_id)
+
+    const onSubmit = async (data : formValues) => {
+        const {payload} = await dispatch(getOrCreateUser({...data,isRegistration}))
+        // @ts-ignore
+        if (payload) setError(payload)
+    }
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (user_id) navigate('/')
+    },[user_id])
+
+    const formik = useFormik({initialValues,
+        onSubmit,validate: loginValidator,validateOnBlur: true,validateOnChange : false})
     return <div>
       login
-        <Input type="text" name={'email'} onChange={handleChange('email')} value={values['email']}/>
-        <input type="text" name={'password'} onChange={handleChange('password')} value={values['password']}/>
+        <Input type="text" name={'email'} onChange={formik.handleChange('email')}
+           value={formik.values['email']} onBlur={formik.handleBlur}/>
+        <Error>{formik.errors.email}</Error>
+        <input type="text" name={'password'} onChange={formik.handleChange('password')}
+               value={formik.values['password']} onBlur={formik.handleBlur}/>
+        <Error>{formik.errors.password}</Error>
         {/*@ts-ignore*/}
-        <Button onClick={handleSubmit}>submit</Button>
+        <Button onClick={formik.handleSubmit} type={'submit'}>submit</Button>
+        <Error>{globError}</Error>
+        <Link to={pageName}>{pageName.slice(1)}</Link>
     </div>
 }
 
