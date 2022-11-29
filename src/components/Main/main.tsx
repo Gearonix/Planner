@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {useSelector} from "react-redux";
 import { StateType } from '../../store';
 
@@ -11,7 +11,7 @@ const Main = () => {
     })
 
 
-    return <>main</>
+    return <><Link to={'/users/me'}>to profile</Link></>
 }
 
 

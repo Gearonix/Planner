@@ -4,6 +4,7 @@ import {Routes,Route} from "react-router-dom";
 import Login from "./components/Login/login";
 import Register from "./components/Register/register";
 import Main from './components/Main/main';
+import Profile from "./components/Profile/Profile";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path={'/login'} element={<Login isRegistration={false}/>}/>
           <Route path={'/register'} element={<Login isRegistration={true} />} />
           <Route path={'/'} element={<Main/>}/>
+          <Route path={'/users/me'} element={<Profile/>}/>
         </Routes>
     </div>
   );

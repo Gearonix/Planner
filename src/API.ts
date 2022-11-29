@@ -1,24 +1,33 @@
 import axios from 'axios'
+import { loginFormValues } from './components/Login/login';
+import {passwordFormType, profileFormType, setUserImageType} from "./components/Profile/Profile";
 
 
 const instance = axios.create({
     baseURL: 'http://localhost:6868',
-    withCredentials: true
+    withCredentials: true,
 
 })
 
 
-export type userHttpType = {
-    email : string,
-    password: string
-}
-
 const API = {
-    loginUser(data : userHttpType){
+    loginUser(data : loginFormValues){
         return instance.put('/user',data)
     },
-    createUser(data : userHttpType){
+    createUser(data : loginFormValues){
         return instance.post('/user',data)
+    },
+    changeUserData(data : profileFormType){
+        return instance.put('/user/change/username',data)
+    },
+    uploadFile(data : any){
+        return instance.put('/user/upload/image',data)
+    },
+    setUserImage(data : setUserImageType){
+        return instance.put('/user/set/image',data)
+    },
+    changeUserPassword(data : passwordFormType){
+        return instance.put('/user/change/password',data)
     }
 }
 

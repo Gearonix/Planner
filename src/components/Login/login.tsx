@@ -8,7 +8,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {loginValidator} from "../../validate";
 
 
-export type formValues = {
+export type loginFormValues = {
     email : string,
     password : string
 }
@@ -21,13 +21,13 @@ const Login  = ({isRegistration} : LoginProps) => {
 
 
     const pageName = isRegistration ? '/login' : '/register'
-    const initialValues : formValues = {email: '',password:''}
+    const initialValues : loginFormValues = {email: '',password:''}
     const [globError,setError] = useState(null)
     const dispatch= useDispatch<globalDispatch>()
 
     const user_id = useSelector((state : StateType) => state.userData.user_id)
 
-    const onSubmit = async (data : formValues) => {
+    const onSubmit = async (data : loginFormValues) => {
         const {payload} = await dispatch(getOrCreateUser({...data,isRegistration}))
         // @ts-ignore
         if (payload) setError(payload)

@@ -41,3 +41,9 @@
 
 
 C:\Program Files\MongoDB\Server\4.4\bin
+
+
+http://localhost:6868/static/thumb-1920-472498.jpg
+
+
+сделать нормальную валидаци.

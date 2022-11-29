@@ -2,19 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="372145f9-d6f2-4e21-9d05-3ebe7237d6d8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/API.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/constants.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/validate.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Profile/Profile.styles.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/API.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/API.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/backend.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login/login.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/login.styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Login/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/login.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Main/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/others/something.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/others/something.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/reducers/loginReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/loginReducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validate.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,6 +27,7 @@
       <list>
         <option value="JavaScript File" />
         <option value="HTTP Request" />
+        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
       </list>
     </option>
@@ -67,7 +68,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Node.js.backend.js">
+  <component name="RunManager" selected="npm.npm start">
     <configuration name="httpTests#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/src/httpTests.http" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -102,11 +103,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669615645577</updated>
-      <workItem from="1669615647996" duration="18718000" />
+      <workItem from="1669615647996" duration="20756000" />
+      <workItem from="1669702424102" duration="16721000" />
     </task>
+    <task id="LOCAL-00001" summary="Verification done">
+      <created>1669635650526</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1669635650526</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Verification done" />
+    <option name="LAST_COMMIT_MESSAGE" value="Verification done" />
   </component>
 </project>
