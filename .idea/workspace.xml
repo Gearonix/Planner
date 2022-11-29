@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="372145f9-d6f2-4e21-9d05-3ebe7237d6d8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/Profile.styles.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" afterDir="false" />
+    <list default="true" id="372145f9-d6f2-4e21-9d05-3ebe7237d6d8" name="Default Changelist" comment="added frontend part for login/registration">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/API.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/API.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Login/login.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/login.styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Login/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/others/something.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/others/something.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/loginReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/loginReducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validate.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Register/register.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Register/register.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,6 +43,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -105,6 +102,7 @@
       <updated>1669615645577</updated>
       <workItem from="1669615647996" duration="20756000" />
       <workItem from="1669702424102" duration="16721000" />
+      <workItem from="1669740607023" duration="8859000" />
     </task>
     <task id="LOCAL-00001" summary="Verification done">
       <created>1669635650526</created>
@@ -113,14 +111,42 @@
       <option name="project" value="LOCAL" />
       <updated>1669635650526</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="user data change added">
+      <created>1669740776383</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1669740776383</updated>
+    </task>
+    <task id="LOCAL-00003" summary="backend js has been added">
+      <created>1669740891520</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1669740891520</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Verification done" />
-    <option name="LAST_COMMIT_MESSAGE" value="Verification done" />
+    <MESSAGE value="user data change added" />
+    <MESSAGE value="backend js has been added" />
+    <MESSAGE value="added frontend part for login/registration" />
+    <option name="LAST_COMMIT_MESSAGE" value="added frontend part for login/registration" />
   </component>
 </project>

@@ -11,7 +11,7 @@ function App() {
     <div className="App">
         <Routes>
           <Route path={'/login'} element={<Login isRegistration={false}/>}/>
-          <Route path={'/register'} element={<Login isRegistration={true} />} />
+          <Route path={'/signup'} element={<Login isRegistration={true} />} />
           <Route path={'/'} element={<Main/>}/>
           <Route path={'/users/me'} element={<Profile/>}/>
         </Routes>
