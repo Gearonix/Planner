@@ -1,3 +1,4 @@
+import React from "react";
 
 export type nor = null | string
 
@@ -21,3 +22,5 @@ export type loginResponseType = {
 export type changeUserResponseType = {
     userName : string
 }
+
+export type refType = React.RefObject<HTMLInputElement>

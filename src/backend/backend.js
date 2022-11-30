@@ -4,6 +4,7 @@ const {MongoClient,ObjectId} = require('mongodb')
 const server = require('http').Server(app)
 const cors = require('cors')
 const multer = require('multer')
+const emailValidator = require('deep-email-validator');
 const PORT = 6868
 
 const corsOptions = {
@@ -52,9 +53,11 @@ app.put('/user',(req , res)  => {
         else res.json(error('Wrong password or username'))
     } )
 })
-app.post('/user',(req,res) => {
+app.post('/user' , async (req,res) => {
     const {email,password} = req.body
-    db.collection('users').find({email,password}).toArray((err,result) => {
+    const {valid : isEmailExists} = await emailValidator.validate(email)
+    if (!isEmailExists) return res.json(error('Email does not exist'))
+    db.collection('users').find({email}).toArray((err,result) => {
         if (result[0]) {
             res.json(error('User already exists'))
             return

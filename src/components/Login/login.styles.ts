@@ -45,8 +45,8 @@ export const IconWrapper = styled.div`
 
 
 
+
 export const Input = styled.input`
-    
     outline: none;  
     border: none;
     width: 100%;
@@ -59,7 +59,7 @@ export const Input = styled.input`
     border-image: linear-gradient(to right,#7293ff,pink);
     border-image-slice: 1;
   }
- 
+  -webkit-text-security: ${({isPassword} : {isPassword : boolean     }) => isPassword ? 'disc' : 'none'};
 `
 const inputTransition = keyframes`
   from{
@@ -85,9 +85,19 @@ export const InputWrapper = styled.div`
   }
 `
 
+export const EyeIconWrapper = styled.div`
+  width: 13px;
+  height: 13px;
+  color: #a9a9a9;
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  cursor: pointer;
+`
 
 
 export const InputPlaceholder = styled.span`
+        display: block;
   position: absolute;
   top: 10px;
   left: 0;
@@ -194,6 +204,7 @@ export const ButtonInner = styled.div`
   &:hover {
     top: -120px;
   }
+  
 `
 
 export const SwitchPageLink = styled.div`
@@ -204,7 +215,74 @@ export const SwitchPageLink = styled.div`
     color: #555;
     font-size: 15px;
   }
-  
 `
+const PrealoderAnimation1 = keyframes`
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+`
+const PrealoderAnimation2 = keyframes`
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+`
+
+const PrealoderAnimation3 = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+
+`
+export const Preloader = styled.div`
+  display: inline-block;
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  margin-top: 480px;
+  & > div {
+    position: absolute;
+    top: 33px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #333;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  }
+  & > div:nth-child(1){
+    left: 8px;
+    animation: ${PrealoderAnimation1} 0.6s infinite;
+  }
+  & > div:nth-child(2){
+    left: 8px;
+    animation: ${PrealoderAnimation2} 0.6s infinite;
+  }
+  & > div:nth-child(3){
+    left: 32px;
+    animation: ${PrealoderAnimation2} 0.6s infinite;
+  }
+  & > div:nth-child(4){
+    left: 56px;
+    animation: ${PrealoderAnimation3} 0.6s infinite;
+  }
+`
+
+
+
+
+
+
+
 
 
