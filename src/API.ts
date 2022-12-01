@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { loginFormValues } from './components/Login/login';
-import {passwordFormType, profileFormType, setUserImageType} from "./components/Profile/Profile";
+import {passwordFormType, profileFormWithID, setUserImageType} from "./components/Profile/Profile";
 
 
 const instance = axios.create({
@@ -12,12 +12,12 @@ const instance = axios.create({
 
 const API = {
     loginUser(data : loginFormValues){
-        return instance.put('/user',data)
+        return instance.put('/user/login',data)
     },
     createUser(data : loginFormValues){
-        return instance.post('/user',data)
+        return instance.post('/user/signup',data)
     },
-    changeUserData(data : profileFormType){
+    changeUserData(data : profileFormWithID){
         return instance.put('/user/change/username',data)
     },
     uploadFile(data : any){
@@ -28,7 +28,15 @@ const API = {
     },
     changeUserPassword(data : passwordFormType){
         return instance.put('/user/change/password',data)
+    },
+    getAuth(){
+        return instance.get('/cookie/auth')
+    },
+    logoutUser(){
+        return instance.delete('/cookie/clear')
     }
 }
+
+
 
 export default API

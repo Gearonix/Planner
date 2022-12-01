@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {Formik, Form, Field, useFormik} from 'formik';
-import {Input,Button,Error, PageContainer, LoginWrapper, IconWrapper, LoginTitle, ButtonTitle, ButtonInner, SwitchPageLink, InputWrapper, InputPlaceholder, Preloader, EyeIconWrapper} from "./login.styles";
+import {InputElement,Button, PageContainer, LoginWrapper, IconWrapper, LoginTitle, ButtonTitle, ButtonInner, SwitchPageLink, InputWrapper, InputPlaceholder, Preloader, EyeIconWrapper, ErrorMessage, MainErrorMessage} from "./login.styles";
 import {useDispatch, useSelector} from "react-redux";
 import { getOrCreateUser } from '../../reducers/loginReducer';
 import { globalDispatch, StateType } from '../../store';
@@ -10,6 +10,11 @@ import {GoGear} from 'react-icons/go'
 import {FaHeart} from 'react-icons/fa'
 import { refType } from '../../types';
 import {BsEyeFill,BsEyeSlashFill} from 'react-icons/bs'
+import {IoMdAlert} from 'react-icons/io'
+import { capitalizeFirstLetter } from '../../tools';
+
+
+
 
 export type loginFormValues = {
     email : string,
@@ -30,7 +35,6 @@ const Login  = ({isRegistration} : LoginProps) => {
     const [globError,setError] = useState(null)
 
     const [isLoading,setPreloader] = useState(false)
-    const [isPasswordOpened,switchInputPassType] = useState(false)
 
     const dispatch= useDispatch<globalDispatch>()
 
@@ -44,74 +48,44 @@ const Login  = ({isRegistration} : LoginProps) => {
     }
     const navigate = useNavigate()
 
-    const PageIcon = !isRegistration ? <GoGear style={{
+    const PageIcon = <IconWrapper>
+        {!isRegistration ? <GoGear style={{
         width: '90%',
         height: '100%',
         color : '#333'
-        }} /> :
+    }} /> :
         <FaHeart  style={{
             width: '85%',
             height: '100%',
             color: '#f52c47'
-        }}/>
+        }}/>}
+    </IconWrapper>
 
     useEffect(() => {
         if (user_id) navigate('/')
     },[user_id])
 
 
-
     const formik = useFormik({initialValues,
         onSubmit,validate: loginValidator,validateOnBlur: true,validateOnChange : false})
-
-
-
-    const emailInputRef : refType = React.createRef();
-    const passwordInputRef  : refType= React.createRef()
 
 
     return   <PageContainer>
         <LoginWrapper>
 
             <LoginTitle>{!isRegistration ? 'Welcome back.' : 'Create an account'}</LoginTitle>
-            <IconWrapper>
-                {PageIcon}
-            </IconWrapper>
-            <InputWrapper>
-                <Input type="text" name={'email'} onChange={formik.handleChange('email')}
-                       value={formik.values['email']}
-                       onBlur={formik.handleBlur} autoComplete={'off'} ref={emailInputRef}
-                isPassword={false}/>
-                       {/*@ts-ignore*/}
-                {formik.values.email ? null :   <InputPlaceholder
-                    onClick={() => {emailInputRef.current?.focus()}} >Email</InputPlaceholder>}
-            </InputWrapper>
-
-            <Error>{formik.errors.email}</Error>
-            <InputWrapper>
-                <Input type={'text'} name={'password'} onChange={formik.handleChange('password')}
-                       value={formik.values['password']}
-                       onBlur={formik.handleBlur} autoComplete={'off'} ref={passwordInputRef}
-                       isPassword={!isPasswordOpened}/>
-                {formik.values.password ? null :   <InputPlaceholder onClick={() => {passwordInputRef.current?.focus()}}>Password</InputPlaceholder>}
-                <EyeIconWrapper onClick={() => {
-                    switchInputPassType(!isPasswordOpened)
-                }}>
-                    {isPasswordOpened ? <BsEyeSlashFill/> : <BsEyeFill/> }
-                </EyeIconWrapper>
-            </InputWrapper>
-
-            <Error>{formik.errors.password}</Error>
-
+            {PageIcon}
+            <Input formik={formik} name={'email'}/>
+            <Input formik={formik} name={'password'}/>
             {!isLoading || <LoginPreloader />}
-
-
             {/*@ts-ignore*/}
+
             <Button onClick={formik.handleSubmit}>
                 <ButtonTitle>{!isRegistration ? 'Login' : 'Sign Up'}</ButtonTitle>
                 <ButtonInner isPink={isRegistration}/>
             </Button>
-            <Error>{globError}</Error>
+
+            <MainErrorMessage>{globError}</MainErrorMessage>
             <SwitchPageLink>
                 <Link to={pageName}>{linkTitle}</Link>
             </SwitchPageLink>
@@ -127,6 +101,51 @@ const LoginPreloader = () => <Preloader>
     <div></div>
 </Preloader>
 
+
+const Error = ({message} : {message : string | void}) => {
+    const ErrorMessageRef = React.createRef()
+    return  !message ? null : <>
+        {/*@ts-ignore*/}
+        <ErrorMessage ref={ErrorMessageRef}>
+            {message}
+    </ErrorMessage>
+    <EyeIconWrapper onMouseOver={() => {
+        // @ts-ignore
+        ErrorMessageRef.current.style.opacity = '1'
+
+    }} onMouseOut={() => {
+        // @ts-ignore
+        ErrorMessageRef.current.style.opacity = '0'
+
+    }
+    }>
+        <IoMdAlert style={{color : 'red',width: '14px',
+            height: '14px'}}/>
+    </EyeIconWrapper>
+
+    </>
+}
+
+const Input = ({formik,name} : {formik: any,name : string}) => {
+    const InputRef : refType = React.createRef()
+    const [isPasswordOpened,openPassword] = useState(false)
+    const ErrorPin = name == 'password' ? <EyeIconWrapper onClick={() => {
+        openPassword(!isPasswordOpened)
+    }}>{isPasswordOpened ? <BsEyeSlashFill/> : <BsEyeFill/> }
+    </EyeIconWrapper> : null
+
+    return  <InputWrapper>
+        <InputElement type="text" name={name} onChange={formik.handleChange(name)}
+                      value={formik.values[name]}
+                      onBlur={formik.handleBlur} autoComplete={'off'} ref={InputRef}
+                      isPassword={name == 'password' && !isPasswordOpened}/>
+        {formik.values[name] ? null :   <InputPlaceholder
+            onClick={() => {InputRef.current?.focus()}} >{capitalizeFirstLetter(name)}</InputPlaceholder>}
+
+        {formik.errors[name] ? <Error message={formik.errors[name]}/> : ErrorPin }
+
+    </InputWrapper>
+}
 
 
 

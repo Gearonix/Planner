@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="372145f9-d6f2-4e21-9d05-3ebe7237d6d8" name="Default Changelist" comment="added frontend part for login/registration">
+    <list default="true" id="372145f9-d6f2-4e21-9d05-3ebe7237d6d8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/others/todo.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/tools.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/API.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/API.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/backend.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/backend.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Login/login.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/login.styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Login/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Register/register.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Register/register.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Profile.styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/others/something.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/others/something.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/loginReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/loginReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validate.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -21,9 +28,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="HTTP Request" />
         <option value="TypeScript JSX File" />
+        <option value="JavaScript File" />
         <option value="TypeScript File" />
       </list>
     </option>
@@ -49,6 +56,7 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="yiiguxing.plugin.translate" />
     <property name="ts.external.directory.path" value="C:\Users\Егор\Desktop\Егор\html проэкты\html projects\start\planner_1.0\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -102,7 +110,9 @@
       <updated>1669615645577</updated>
       <workItem from="1669615647996" duration="20756000" />
       <workItem from="1669702424102" duration="16721000" />
-      <workItem from="1669740607023" duration="8859000" />
+      <workItem from="1669740607023" duration="9357000" />
+      <workItem from="1669824292422" duration="6242000" />
+      <workItem from="1669875517930" duration="19881000" />
     </task>
     <task id="LOCAL-00001" summary="Verification done">
       <created>1669635650526</created>
@@ -125,7 +135,21 @@
       <option name="project" value="LOCAL" />
       <updated>1669740891520</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added frontend part for login/registration">
+      <created>1669749572085</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1669749572085</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added frontend part for login/registration">
+      <created>1669829911641</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1669829911641</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,6 +165,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Verification done" />
@@ -148,5 +173,9 @@
     <MESSAGE value="backend js has been added" />
     <MESSAGE value="added frontend part for login/registration" />
     <option name="LAST_COMMIT_MESSAGE" value="added frontend part for login/registration" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

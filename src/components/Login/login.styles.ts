@@ -22,7 +22,7 @@ export const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+    
 `
 export const LoginTitle = styled.h2`
   font-size: 28px;
@@ -46,7 +46,7 @@ export const IconWrapper = styled.div`
 
 
 
-export const Input = styled.input`
+export const InputElement = styled.input`
     outline: none;  
     border: none;
     width: 100%;
@@ -86,14 +86,32 @@ export const InputWrapper = styled.div`
 `
 
 export const EyeIconWrapper = styled.div`
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
   color: #a9a9a9;
   position: absolute;
   top: 10px;
   right: 5px;
   cursor: pointer;
 `
+
+export const ErrorMessage = styled.div`
+    position: absolute;
+    right: 0;
+    top: 10px;
+    width: 70%;
+    height: 19px;
+    color: #c80000;
+    border-radius: 4px;
+    border: 1px solid #c80000;
+    font-size: 12px;
+    display: flex;
+  align-items: center;
+  padding-left: 2px;
+  opacity: 0;
+  transition: opacity 400ms;
+`
+
 
 
 export const InputPlaceholder = styled.span`
@@ -112,9 +130,11 @@ export const InputPlaceholder = styled.span`
 
 
 
-export const Error = styled.h2`
-  color: red;
-  display: none;
+export const MainErrorMessage = styled.h2`
+  color: #c80000;
+  font-size: 15px;
+  font-weight: 300;
+  
 `
 
 
@@ -133,7 +153,7 @@ export const Button = styled.div`
    transition: 0.2s;
    transform: scale(0.65);
   margin-top: 20px;
-   width: 69%;
+   width: 60%;
   text-align: center;
    
   &:hover{

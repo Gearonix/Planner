@@ -2,7 +2,8 @@ import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {changeUserResponseType, loginResponseType, loginType} from "../types";
 import API from "../API";
 import {isError, STATUS} from "../constants";
-import {passwordFormType, profileFormType, setUserImageType } from "../components/Profile/Profile";
+import {passwordFormType, profileFormWithID, setUserImageType } from "../components/Profile/Profile";
+import { randomizeColors } from "../tools";
 
 
 const initialState : loginType= {
@@ -36,12 +37,16 @@ const loginReducer = createSlice({
         },
         updateUserPassword(state,{payload} : PayloadAction<string>){
             state.password = payload
+        },
+        clearUserData(state,{payload} : PayloadAction<void>){
+            return initialState
         }
     }
 })
 
 
-const {setUserValues,changeUserValues,setUserImage,updateUserPassword} = loginReducer.actions
+const {setUserValues,changeUserValues,setUserImage,
+    updateUserPassword,clearUserData} = loginReducer.actions
 
 
 type getOrCreateUserType = {
@@ -56,14 +61,13 @@ export const getOrCreateUser = createAsyncThunk('GET_OR_CREATE_USER',
     const callback = data.isRegistration ? API.createUser : API.loginUser
 
     const {data : userData} = await callback(data)
-    console.log(userData)
     if (isError(userData)) return userData.message
     dispatch(setUserValues(userData.data))
 })
 
 
 export const changeUserName = createAsyncThunk('CHANGE_USER_NAME',
-    async (data : profileFormType,{dispatch}) => {
+    async (data : profileFormWithID, {dispatch}) => {
         const {data : userData} = await API.changeUserData(data)
         if (isError(userData)) return
         dispatch(changeUserValues(userData.data))
@@ -96,6 +100,22 @@ export const updateUserImage = createAsyncThunk('UPDATE_USER_IMAGE',
     async (data : setUserImageType,{dispatch}) => {
         const response = await API.setUserImage(data)
         if (isError(response.data)) return
+})
+
+
+export const getAuth = createAsyncThunk('GET_AUTH',
+    async (data : void,{dispatch}) => {
+
+        const {data : response} = await API.getAuth()
+        if (isError(response)) return true
+        if (!localStorage.getItem('defaultAvatarColor')) localStorage.setItem('defaultAvatarColor',randomizeColors())
+        dispatch(setUserValues(response.data))
+})
+
+export const logoutUser = createAsyncThunk('LOGOUT_USER',
+    async (data : void,{dispatch}) => {
+    await API.logoutUser()
+    dispatch(clearUserData())
 })
 
 

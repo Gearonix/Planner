@@ -2,21 +2,50 @@ import React, {useEffect, useState} from 'react';
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import { StateType } from '../../store';
-import { Input } from './Profile.styles';
+import {
+    AvatarButton,
+    AvatarButtonTitle,
+    ChangePasswordBlock,
+    FieldBlock,
+    FieldInput,
+    FieldsContainer,
+    FieldTitle,
+    GreyLine,
+    InnerContainer,
+    Input,
+    MainContent,
+    PasswordBlock,
+    PasswordButton,
+    PasswordButtons,
+    PasswordInput,
+    PasswordInputChange,
+    PasswordInputsBlock,
+    ProfileTitle,
+    ProfileWrapper,
+    SmallerTitle,
+    UserImageElement,
+    UserAvatarBlock,
+    EmptyAvatar,
+    EmptyAvatarTitle
+} from './Profile.styles';
 import {changePasswordValidator, profileValidator } from '../../validate';
 import {useNavigate} from "react-router-dom";
-import {changeUserName, changeUserPassword, updateUserImage, uploadFile} from "../../reducers/loginReducer";
+import {changeUserName, changeUserPassword, logoutUser, updateUserImage, uploadFile} from "../../reducers/loginReducer";
 import {FILES_LOCATION} from "../../constants";
 
 
-export type profileFormType = {
-    userName : string
+export type profileFormWithID = {
+    userName : string,
+    user_id : string
 }
 export type setUserImageType = {
     user_id : string,
     filename : string
 }
 
+export type profileFormType = {
+    userName : string
+}
 
 
 const Profile = () => {
@@ -25,7 +54,7 @@ const Profile = () => {
     const initialValues : profileFormType = {userName : userName || ''}
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [isPasswordOpened,openPasswordComp] = useState(false)
+    const [isPasswordOpened,openPasswordComp] = useState(true)
     useEffect(() => {
         if (!user_id) navigate('/login')
     })
@@ -33,7 +62,7 @@ const Profile = () => {
     const onSubmit = (formData : profileFormType) => {
         if (formData.userName == userName) return
         // @ts-ignore
-        dispatch(changeUserName(formData))
+        dispatch(changeUserName({...formData,user_id}))
     }
     const changeAvatar = async (e : any) => {
 
@@ -47,18 +76,62 @@ const Profile = () => {
     }
 
 
-    const formik = useFormik({initialValues,onSubmit,validateOnChange : false,
-        validate: profileValidator})
+    const UserImage = userImage ?
+        <UserImageElement src={FILES_LOCATION +  userImage}/> :
+        <EmptyAvatar color={localStorage.getItem('defaultAvatarColor') || ''}>
+            <EmptyAvatarTitle>{userName ? userName[0].toUpperCase() : ''}</EmptyAvatarTitle></EmptyAvatar>
+
+    // @ts-ignore
+    const formik = useFormik({initialValues,onSubmit,validateOnChange : false, validate: profileValidator})
 
     return <>
-    {/*@ts-ignore*/}
-    <Input value={formik.values.userName} onChange={formik.handleChange} onBlur={formik.handleSubmit}
-           type={'text'} name={'userName'}/>
-    <span>{formik.errors.userName}</span>
-        <input type="file" onChange={changeAvatar} />
-        {userImage ? <img src={FILES_LOCATION +  userImage} alt=""/> : null}
-    <button onClick={() => openPasswordComp(!isPasswordOpened)}>change password</button>
-        {!isPasswordOpened || <ChangePassword/>}
+        <ProfileWrapper>
+            <MainContent>
+               <ProfileTitle>Settings</ProfileTitle>
+                <GreyLine/>
+                <SmallerTitle>Profile Settings</SmallerTitle>
+                <InnerContainer>
+                    <UserAvatarBlock>
+                        {UserImage}
+                        <AvatarButton>
+                            <AvatarButtonTitle>Edit</AvatarButtonTitle>
+                            <input type="file" onChange={changeAvatar}/>
+                        </AvatarButton>
+                    </UserAvatarBlock>
+                    <FieldsContainer>
+                        <FieldBlock>
+                            <FieldTitle>Username</FieldTitle>
+                            {createInput(FieldInput,formik,'userName')}
+                        </FieldBlock>
+                        <FieldBlock>
+                            <FieldTitle>Email</FieldTitle>
+                            <FieldInput disabled value={email || ''}/>
+                        </FieldBlock>
+                        <FieldBlock>
+                            <FieldTitle>Password</FieldTitle>
+                            <ChangePasswordBlock>
+                                <FieldInput isPassword={true} disabled value={password || ''}/>
+                                <PasswordButton  onClick={() => openPasswordComp(!isPasswordOpened)}>
+                                    Change password
+                                </PasswordButton>
+                            </ChangePasswordBlock>
+                        </FieldBlock>
+                        {isPasswordOpened || <ChangePassword close={() => openPasswordComp(true)}/> }
+                        <FieldBlock>
+                            <FieldTitle>Leave the account</FieldTitle>
+                            {/*@ts-ignore   */}
+                            <PasswordButton style={{width: '27%' }} onClick={() => dispatch(logoutUser())} >
+                                Log out
+                            </PasswordButton>
+                        </FieldBlock>
+                    </FieldsContainer>
+
+                </InnerContainer>
+            </MainContent>
+
+        </ProfileWrapper>
+
+
     </>
 }
 
@@ -72,7 +145,7 @@ export type passwordFormType = {
     user_id : string
 }
 
-const ChangePassword = () => {
+const ChangePassword = ({close} : {close : () => void}) => {
     const {password : currentPassword,user_id} = useSelector((state :StateType) => state.userData)
     const dispatch = useDispatch()
     const initialValues : changePassFormType = {
@@ -87,19 +160,33 @@ const ChangePassword = () => {
 
     const {values,handleChange,handleSubmit,errors} = useFormik({initialValues,onSubmit,
         validateOnChange:false,validateOnBlur : false,validate: changePasswordValidator})
-    return <div>
-        <span>current password: {currentPassword}</span>
-        <Input value={values.nextPassword} onChange={handleChange} name={'nextPassword'}/>
-        <Input value={values.repeatPassword} onChange={handleChange} name={'repeatPassword'}/>
-        {/*@ts-ignore*/}
-        <button type={'submit'} onClick={handleSubmit}>submit changes</button>
-        {errors.nextPassword}
-        {errors.repeatPassword}
-    </div>
+    return <PasswordBlock>
+        <FieldTitle></FieldTitle>
+        <PasswordInputsBlock>
+            <PasswordInput disabled value={currentPassword  || ''}/>
+            <PasswordInput value={values.nextPassword} onChange={handleChange}
+                       name={'nextPassword'} placeholder={'New password'}/>
+            <PasswordInput value={values.repeatPassword} onChange={handleChange}
+                           name={'repeatPassword'} placeholder={'Confirm new password'}/>
+
+        <PasswordButtons>
+            <PasswordButton onClick={close}>
+                Cancel
+            </PasswordButton>
+            {/*@ts-ignore*/}
+            <PasswordButton onClick={handleSubmit}>
+                Save
+            </PasswordButton>
+        </PasswordButtons>
+        </PasswordInputsBlock>
+    </PasswordBlock>
 }
 
 
-
+const createInput = (Component : any,formik : any,name : string) => {
+    return <Component value={formik.values[name]} onChange={formik.handleChange} onBlur={formik.handleSubmit}
+                      type={'text'} name={name}/>
+}
 
 
 export default Profile

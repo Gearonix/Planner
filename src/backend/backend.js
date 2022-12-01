@@ -5,6 +5,7 @@ const server = require('http').Server(app)
 const cors = require('cors')
 const multer = require('multer')
 const emailValidator = require('deep-email-validator');
+const cookieParser = require('cookie-parser')
 const PORT = 6868
 
 const corsOptions = {
@@ -16,6 +17,7 @@ const corsOptions = {
 app.use(express.static(__dirname));
 app.use(express.json())
 app.use(cors(corsOptions))
+app.use(cookieParser())
 
 const connectToDB = async () => {
     const URI = 'mongodb://0.0.0.0:27017/'
@@ -46,14 +48,19 @@ connectToDB().then(response => {
 
 
 
-app.put('/user',(req , res)  => {
+app.put('/user/login',(req , res)  => {
     const {email,password} = req.body
     db.collection('users').find({email,password}).toArray((err,result) =>{
-        if (result[0]) res.json(ok(result[0]))
+        if (result[0]) {
+            const user_id = result[0]._id.toString()
+            res.cookie('user_id',user_id)
+            res.cookie('password',password)
+            res.json(ok(result[0]))
+        }
         else res.json(error('Wrong password or username'))
     } )
 })
-app.post('/user' , async (req,res) => {
+app.post('/user/signup' , async (req,res) => {
     const {email,password} = req.body
     const {valid : isEmailExists} = await emailValidator.validate(email)
     if (!isEmailExists) return res.json(error('Email does not exist'))
@@ -62,14 +69,39 @@ app.post('/user' , async (req,res) => {
             res.json(error('User already exists'))
             return
         }
+
+
         const data = {email,password,userImage : null,
             userName :  email.split('@')[0]}
         db.collection('users').insertOne(data,(err, {insertedId}) => {
+            res.cookie('user_id',insertedId)
+            res.cookie('password',password)
             res.json(ok({...data , _id : insertedId}))
         })
 
     })
 })
+app.get('/cookie/auth',(req,res) => {
+    const {user_id,password} = req.cookies
+    if (user_id){
+        db.collection('users').find({_id : new ObjectId(user_id),password}).toArray((err,result) => {
+            if (err || !result[0]) {
+                return res.json(error('Cookie error'))
+            }
+            res.json(ok(result[0]))
+        })
+        return
+    }
+    res.json(error('No cookie'))
+
+})
+
+app.delete('/cookie/clear',(req,res) => {
+    res.clearCookie('user_id')
+    res.clearCookie('password')
+    res.json(ok())
+})
+
 app.put('/user/change/username',(req,res) => {
     const {userName,user_id} = req.body
     db.collection('users').updateOne({_id : new ObjectId(user_id)},{$set : {userName}})
