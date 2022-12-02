@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import './App.css';
 import {Routes,Route} from "react-router-dom";
 import Login from "./components/Login/login";
 import Main from './components/Main/main';
-import Profile from "./components/Profile/Profile";
+import Profile from "./components/Profile/profile";
 import {useDispatch} from "react-redux";
-import {getAuth} from "./reducers/loginReducer";
-import {randomizeColors} from "./tools";
+import {getAuth} from "./reducers/userDataReducer";
 
 
 
@@ -15,7 +13,8 @@ function App() {
     const [isUserLoading,setUserLoading] = useState(true)
     useEffect(() => {
         // @ts-ignore
-        dispatch(getAuth()).then(() =>  setUserLoading(false))})
+        dispatch(getAuth())
+        .then(() =>  setUserLoading(false))})
   return isUserLoading ? null : (
     <div className="App">
         <Routes>

@@ -1,9 +1,9 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {changeUserResponseType, loginResponseType, loginType} from "../types";
-import API from "../API";
-import {isError, STATUS} from "../constants";
-import {passwordFormType, profileFormWithID, setUserImageType } from "../components/Profile/Profile";
-import { randomizeColors } from "../tools";
+import {changeUserResponseType, loginResponseType, loginType} from "../global/types";
+import API from "../global/API";
+import {isError} from "../global/constants";
+import {passwordFormType, profileFormWithID, setUserImageType } from "../components/Profile/profile";
+import { randomizeColors } from "../global/tools";
 
 
 const initialState : loginType= {
@@ -18,8 +18,8 @@ const initialState : loginType= {
 
 
 
-const loginReducer = createSlice({
-    name : 'loginReducer',
+const userDataReducer = createSlice({
+    name : 'userDataReducer',
     initialState,
     reducers: {
         setUserValues(state, {payload} : PayloadAction<loginResponseType>){
@@ -46,7 +46,7 @@ const loginReducer = createSlice({
 
 
 const {setUserValues,changeUserValues,setUserImage,
-    updateUserPassword,clearUserData} = loginReducer.actions
+    updateUserPassword,clearUserData} = userDataReducer.actions
 
 
 type getOrCreateUserType = {
@@ -97,7 +97,7 @@ export const uploadFile = createAsyncThunk('UPLOAD_FILE',
 
 
 export const updateUserImage = createAsyncThunk('UPDATE_USER_IMAGE',
-    async (data : setUserImageType,{dispatch}) => {
+    async (data : setUserImageType) => {
         const response = await API.setUserImage(data)
         if (isError(response.data)) return
 })
@@ -119,4 +119,4 @@ export const logoutUser = createAsyncThunk('LOGOUT_USER',
 })
 
 
-export default loginReducer.reducer
+export default userDataReducer.reducer

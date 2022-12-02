@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { loginFormValues } from './components/Login/login';
-import {passwordFormType, profileFormWithID, setUserImageType} from "./components/Profile/Profile";
+import { loginFormValues } from '../components/Login/login';
+import {passwordFormType, profileFormWithID, setUserImageType} from "../components/Profile/profile";
+import {setDaysFormT} from "../components/Main/main";
 
 
 const instance = axios.create({
@@ -34,6 +35,9 @@ const API = {
     },
     logoutUser(){
         return instance.delete('/cookie/clear')
+    },
+    getUserDays({user_id,fulldate} : setDaysFormT){
+        return instance.get(`/planner/month?user_id=${user_id}&fulldate=${fulldate || 'null'}`)
     }
 }
 

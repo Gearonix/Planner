@@ -1,5 +1,5 @@
-import {loginFormValues as loginValues} from './components/Login/login'
-import {changePassFormType, profileFormWithID } from './components/Profile/Profile'
+import {loginFormValues as loginValues} from '../components/Login/login'
+import {changePassFormType, profileFormWithID } from '../components/Profile/profile'
 import { nor } from './types'
 
 

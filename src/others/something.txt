@@ -23,11 +23,11 @@
 // export default login.reducer
 
 // import {configureStore} from "@reduxjs/toolkit";
-// import loginReducer from "./reducers/loginReducer";
+// import userDataReducer from "./reducers/userDataReducer";
 //
 // const store = configureStore({
 //     reducer : {
-//         login : loginReducer
+//         login : userDataReducer
 //     }
 // })
 //

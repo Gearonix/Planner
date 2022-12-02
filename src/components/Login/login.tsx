@@ -2,16 +2,16 @@ import React, {useEffect, useState} from 'react'
 import {Formik, Form, Field, useFormik} from 'formik';
 import {InputElement,Button, PageContainer, LoginWrapper, IconWrapper, LoginTitle, ButtonTitle, ButtonInner, SwitchPageLink, InputWrapper, InputPlaceholder, Preloader, EyeIconWrapper, ErrorMessage, MainErrorMessage} from "./login.styles";
 import {useDispatch, useSelector} from "react-redux";
-import { getOrCreateUser } from '../../reducers/loginReducer';
-import { globalDispatch, StateType } from '../../store';
+import { getOrCreateUser } from '../../reducers/userDataReducer';
+import { globalDispatch, StateType } from '../../global/store';
 import {Link, useNavigate} from "react-router-dom";
-import {loginValidator} from "../../validate";
+import {loginValidator} from "../../global/validate";
 import {GoGear} from 'react-icons/go'
 import {FaHeart} from 'react-icons/fa'
-import { refType } from '../../types';
+import { refType } from '../../global/types';
 import {BsEyeFill,BsEyeSlashFill} from 'react-icons/bs'
 import {IoMdAlert} from 'react-icons/io'
-import { capitalizeFirstLetter } from '../../tools';
+import { capitalizeFirstLetter } from '../../global/tools';
 
 
 

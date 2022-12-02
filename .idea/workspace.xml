@@ -2,23 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="372145f9-d6f2-4e21-9d05-3ebe7237d6d8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/others/todo.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/tools.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Main/MonthCalendar/CalendarGenerator/Calendar.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/global/tools.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/global/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/others/test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/reducers/tasksListReducer.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/API.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/API.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/API.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global/API.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/DayCalendar/dayCalendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.test.tsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend/backend.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/backend.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login/login.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/login.styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Login/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Profile.styles.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/main.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/MonthCalendar/MonthCalendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/main.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/profile.styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Profile/Profile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Profile/profile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logo.svg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/others/something.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/others/something.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/loginReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/loginReducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/validate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/validate.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/react-app-env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reducers/loginReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/userDataReducer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/setupTests.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tools.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/validate.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global/validate.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,14 +40,17 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTTP Request" />
-        <option value="TypeScript JSX File" />
         <option value="JavaScript File" />
+        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedIndex" value="1" />
   </component>
   <component name="ProjectId" id="2IADlaY8rUeOCh9OYhmJIIPC5TJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -59,6 +73,14 @@
     <property name="settings.editor.selected.configurable" value="yiiguxing.plugin.translate" />
     <property name="ts.external.directory.path" value="C:\Users\Егор\Desktop\Егор\html проэкты\html projects\start\planner_1.0\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Егор\Desktop\Егор\html проэкты\html projects\start\planner_1.0\src\components\Main\MonthCalendar" />
+      <recent name="C:\Users\Егор\Desktop\Егор\html проэкты\html projects\start\planner_1.0\src\components\Main" />
+      <recent name="C:\Users\Егор\Desktop\Егор\html проэкты\html projects\start\planner_1.0\src\global" />
+      <recent name="C:\Users\Егор\Desktop\Егор\html проэкты\html projects\start\planner_1.0\src\others" />
+    </key>
   </component>
   <component name="RestClientSettings">
     <option name="REQUEST_HISTORY">
@@ -112,7 +134,9 @@
       <workItem from="1669702424102" duration="16721000" />
       <workItem from="1669740607023" duration="9357000" />
       <workItem from="1669824292422" duration="6242000" />
-      <workItem from="1669875517930" duration="19881000" />
+      <workItem from="1669875517930" duration="20682000" />
+      <workItem from="1669906009318" duration="9382000" />
+      <workItem from="1669961544022" duration="15996000" />
     </task>
     <task id="LOCAL-00001" summary="Verification done">
       <created>1669635650526</created>
@@ -149,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669829911641</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="added cookies, added interface for profile component">
+      <created>1669897336996</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1669897336996</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,7 +203,8 @@
     <MESSAGE value="user data change added" />
     <MESSAGE value="backend js has been added" />
     <MESSAGE value="added frontend part for login/registration" />
-    <option name="LAST_COMMIT_MESSAGE" value="added frontend part for login/registration" />
+    <MESSAGE value="added cookies, added interface for profile component" />
+    <option name="LAST_COMMIT_MESSAGE" value="added cookies, added interface for profile component" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

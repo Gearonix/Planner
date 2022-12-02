@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import { StateType } from '../../store';
+import { StateType } from '../../global/store';
 import {
     AvatarButton,
     AvatarButtonTitle,
@@ -27,11 +27,11 @@ import {
     UserAvatarBlock,
     EmptyAvatar,
     EmptyAvatarTitle
-} from './Profile.styles';
-import {changePasswordValidator, profileValidator } from '../../validate';
+} from './profile.styles';
+import {changePasswordValidator, profileValidator } from '../../global/validate';
 import {useNavigate} from "react-router-dom";
-import {changeUserName, changeUserPassword, logoutUser, updateUserImage, uploadFile} from "../../reducers/loginReducer";
-import {FILES_LOCATION} from "../../constants";
+import {changeUserName, changeUserPassword, logoutUser, updateUserImage, uploadFile} from "../../reducers/userDataReducer";
+import {FILES_LOCATION} from "../../global/constants";
 
 
 export type profileFormWithID = {

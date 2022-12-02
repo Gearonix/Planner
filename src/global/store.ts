@@ -1,9 +1,11 @@
 import {configureStore} from "@reduxjs/toolkit";
-import loginReducer from "./reducers/loginReducer";
+import userDataReducer from "../reducers/userDataReducer";
+import tasksListReducer from "../reducers/tasksListReducer";
 
 const store = configureStore({
     reducer : {
-        userData : loginReducer
+        userData : userDataReducer,
+        taskLists : tasksListReducer
     }
 })
 
