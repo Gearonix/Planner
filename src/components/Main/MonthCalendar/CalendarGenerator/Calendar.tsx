@@ -11,14 +11,14 @@ type calendarProps = {
 
 const CalendarGenerator = ({year, month, clickHandler: handle}: calendarProps) => {
     const daysAmount = createDaysAmount(year, month)
-    const firstWeekDay = (new Date(+year, +month, 1).getDay() || 7)
+    const firstWeekDay = (new Date(+year, (+month) - 1, 1).getDay())
 
     const calendarArray = generateCalendarArray(firstWeekDay, daysAmount)
     const numbers = getArrayByC(daysAmount).map(i => i + 1)
 
     const calendarHead = <tr>{getArrayByC(7).map((i, idx) => <td key={idx}>{weekDays[i].toUpperCase()}</td>)}</tr>
-
     return <>
+        <span>{year + '-' + month}</span>
         <table>
             <tbody>
             {calendarHead}

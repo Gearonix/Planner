@@ -35,6 +35,8 @@ export type taskListType = {
 export type taskListReducerType = {
     daysData : Array<taskListType>,
     current : taskListType,
+    year: string,
+    month : string
 }
 
 

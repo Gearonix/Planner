@@ -27,7 +27,6 @@ type LoginProps = {
 
 const Login  = ({isRegistration} : LoginProps) => {
 
-
     const pageName = isRegistration ? '/login' : '/signup'
     const linkTitle = isRegistration ? 'Already have an account? Login!' :
         'Don’t have an account? Sign Up'

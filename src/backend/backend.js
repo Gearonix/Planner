@@ -1,3 +1,5 @@
+import {stringToTime} from "../global/tools";
+
 const express = require('express')
 const app = express()
 const {MongoClient, ObjectId} = require('mongodb')
@@ -144,8 +146,8 @@ const fileFilter = (req, file, cb) => cb(null, true)
 
 app.get('/planner/month', (req, res) => {
     const {user_id, fulldate} = req.query
-    const month = fulldate && fulldate != 'null' ? fulldate : new Date().getMonth().toString()
-    db.collection('tasklists').find({user_id, month}).toArray((err, result) => {
+    const [year,month] = stringToTime(fulldate)
+    db.collection('tasklists').find({user_id, month,year}).toArray((err, result) => {
         if (err) {
             console.log(err)
             res.json(error(err))

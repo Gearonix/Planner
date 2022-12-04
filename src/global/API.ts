@@ -37,7 +37,7 @@ const API = {
         return instance.delete('/cookie/clear')
     },
     getUserDays({user_id,fulldate} : setDaysFormT){
-        return instance.get(`/planner/month?user_id=${user_id}&fulldate=${fulldate || 'null'}`)
+        return instance.get(`/planner/month?user_id=${user_id}&fulldate=${fulldate}`)
     }
 }
 
