@@ -1,3 +1,5 @@
+import { MONTHS } from "./constants"
+
 export const capitalizeFirstLetter = (word : string) => word[0].toUpperCase() + word.slice(1)
 
 export const randomizeColors = () => {
@@ -54,3 +56,6 @@ export const parseQuery = (query : string) => Object.fromEntries(query.slice(1).
     .map((str : string) => str.split('=')))
 
 export const formatMonth = (month : number = new Date().getMonth()) =>  normalizeNumber(month + 1)
+
+
+export const toMonthName = (month : string) => MONTHS[parseInt(month) - 1]

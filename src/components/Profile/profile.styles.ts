@@ -53,22 +53,27 @@ export const UserAvatarBlock = styled.div`
   align-items: center;
 `
 export const UserImageElement = styled.img`
-  width: 232px;
-  height: 232px;
+  width: ${(props : {size : 
+  number}) => props.size + 'px'};
+  height: ${props => props.size + 'px'};
   border-radius: 100%;
   border: 1px solid black;
+  cursor: pointer;
 `
 export const EmptyAvatar = styled.div`
-  width: 232px;
-  height: 232px;
+  width: ${(props : {size :
+            number}) => props.size + 'px'};
+  height: ${props => props.size + 'px'};
   border-radius: 100%;  
   background: ${({color} : any) => color }; 
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `
 export const EmptyAvatarTitle = styled.h2`
-  font-size: 48px;
+  font-size: ${({fontSize} :
+{ fontSize : number }) => fontSize + 'px' };
   color: white;
   
 

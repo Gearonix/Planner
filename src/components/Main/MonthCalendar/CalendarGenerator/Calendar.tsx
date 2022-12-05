@@ -1,6 +1,6 @@
 import {createDaysAmount, generateCalendarArray, getArrayByC} from "../../../../global/tools";
 import React from "react";
-import {weekDays} from "../../../../global/constants";
+import {WEEKDAYS} from "../../../../global/constants";
 
 
 type calendarProps = {
@@ -16,7 +16,7 @@ const CalendarGenerator = ({year, month, clickHandler: handle}: calendarProps) =
     const calendarArray = generateCalendarArray(firstWeekDay, daysAmount)
     const numbers = getArrayByC(daysAmount).map(i => i + 1)
 
-    const calendarHead = <tr>{getArrayByC(7).map((i, idx) => <td key={idx}>{weekDays[i].toUpperCase()}</td>)}</tr>
+    const calendarHead = <tr>{getArrayByC(7).map((i, idx) => <td key={idx}>{WEEKDAYS[i].toUpperCase()}</td>)}</tr>
     return <>
         <span>{year + '-' + month}</span>
         <table>

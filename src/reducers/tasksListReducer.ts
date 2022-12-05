@@ -18,6 +18,7 @@ const initialState: taskListReducerType = {
     },
     year: normalizeNumber(new Date().getFullYear()),
     month: formatMonth(),
+    date : normalizeNumber(new Date().getDate())
 
 }
 type setDaysDataT = {

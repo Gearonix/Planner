@@ -20,13 +20,13 @@ const DayCalendar = () => {
     }
 
 
-    return <>
+    return <div>
         <span>{date + ' ' + month + ' ' + year}</span>
         <span>{weekDay}</span>
         <div>-----</div>
         {tasklist.map((item: taskType,idx) => <span key={idx}>{item.title + ' ' + item.starts + ' ' + item.ends}</span>)}
         <button onClick={RedirectToMonth}>month</button>
-    </>
+    </div>
 }
 
 export default DayCalendar

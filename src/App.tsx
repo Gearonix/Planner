@@ -5,8 +5,6 @@ import Main from './components/Main/main';
 import Profile from "./components/Profile/profile";
 import {useDispatch, useSelector} from "react-redux";
 import {getAuth} from "./reducers/userDataReducer";
-import DayCalendar from "./components/Main/DayCalendar/dayCalendar";
-import MonthCalendar from "./components/Main/MonthCalendar/MonthCalendar";
 import {StateType} from "./global/store";
 import 'react-calendar/dist/Calendar.css';
 

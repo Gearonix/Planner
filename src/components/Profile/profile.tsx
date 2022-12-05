@@ -76,11 +76,6 @@ const Profile = () => {
     }
 
 
-    const UserImage = userImage ?
-        <UserImageElement src={FILES_LOCATION +  userImage}/> :
-        <EmptyAvatar color={localStorage.getItem('defaultAvatarColor') || ''}>
-            <EmptyAvatarTitle>{userName ? userName[0].toUpperCase() : ''}</EmptyAvatarTitle></EmptyAvatar>
-
     // @ts-ignore
     const formik = useFormik({initialValues,onSubmit,validateOnChange : false, validate: profileValidator})
 
@@ -92,7 +87,7 @@ const Profile = () => {
                 <SmallerTitle>Profile Settings</SmallerTitle>
                 <InnerContainer>
                     <UserAvatarBlock>
-                        {UserImage}
+                        <UserImage size={232} fontSize={48}/>
                         <AvatarButton>
                             <AvatarButtonTitle>Edit</AvatarButtonTitle>
                             <input type="file" onChange={changeAvatar}/>
@@ -184,8 +179,24 @@ const ChangePassword = ({close} : {close : () => void}) => {
 
 
 const createInput = (Component : any,formik : any,name : string) => {
-    return <Component value={formik.values[name]} onChange={formik.handleChange} onBlur={formik.handleSubmit}
+    return <Component value={formik.values[name]} onChange={formik.handleChange}
+                      onBlur={formik.handleSubmit}
                       type={'text'} name={name}/>
+}
+
+
+type userImageProps = {
+    size : number,
+    fontSize: number
+}
+
+export const UserImage = ({size,fontSize} : userImageProps) => {
+    const {userName,userImage} = useSelector((state : StateType) => state.userData)
+    return userImage ?
+        <UserImageElement src={FILES_LOCATION +  userImage} size={size}/> :
+        <EmptyAvatar color={localStorage.getItem('defaultAvatarColor') || ''} size={size}>
+            <EmptyAvatarTitle fontSize={fontSize}>{userName ? userName[0].toUpperCase() : ''}</EmptyAvatarTitle></EmptyAvatar>
+
 }
 
 
