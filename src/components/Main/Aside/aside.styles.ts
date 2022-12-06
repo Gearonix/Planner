@@ -1,5 +1,6 @@
 import styled,{keyframes} from 'styled-components'
 import { PasswordButton } from '../../Profile/profile.styles'
+import { ArrowIconWrapper } from '../Header/header.styles'
 
 
 export const AsideElement = styled.aside`

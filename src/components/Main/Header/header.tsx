@@ -5,22 +5,27 @@ import {BurgerWrapper, HeaderElement, BurgerIconWrapper,
     SettingsBlock, SettingsIconWrapper } from './header.styles'
 import {RxHamburgerMenu} from 'react-icons/rx'
 import {StateType} from "../../../global/store";
-import {useSelector} from "react-redux";
-import { toMonthName } from '../../../global/tools';
+import {useDispatch, useSelector} from "react-redux";
+import {generateTodayDate, stringToTime, toMonthName} from '../../../global/tools';
 import {BsArrowLeftSquare,BsArrowRightSquare
 ,BsSearch} from 'react-icons/bs'
 import {FiSettings} from 'react-icons/fi'
 import {UserImage} from './../../Profile/profile'
 import {Link} from "react-router-dom";
+import {setCurrentData, setUserDays} from "../../../reducers/tasksListReducer";
 
 type headerProps = {
-    closeAside : () => void
+    closeAside : () => void,
+    toToday : () => void
 }
 
 
-const Header = ({closeAside} : headerProps) => {
+const Header = ({closeAside,toToday} : headerProps) => {
     const {year,month,date} =
     useSelector((state : StateType) => state.taskLists.current)
+    const user_id = useSelector((state: StateType) => state.userData.user_id) || ''
+    const {year : currentYear,month : currentMonth} = useSelector((state: StateType) => state.taskLists)
+    const dispatch = useDispatch()
     return <HeaderElement>
         <Logo>Gearonix</Logo>
         <BurgerWrapper onClick={closeAside}>
@@ -28,18 +33,12 @@ const Header = ({closeAside} : headerProps) => {
                 <RxHamburgerMenu/>
             </BurgerIconWrapper>
         </BurgerWrapper>
-        <TodayButton>
+        <TodayButton onClick={toToday}>
             Today
         </TodayButton>
         <TodayTitle>
             {date} {toMonthName(month || '')} {year}
         </TodayTitle>
-        <ArrowIconWrapper>
-            <BsArrowLeftSquare/>
-        </ArrowIconWrapper>
-        <ArrowIconWrapper>
-            <BsArrowRightSquare/>
-        </ArrowIconWrapper>
         <SearchInputWrapper>
             <SearchInput placeholder={'Search'}/>
             <SearchIconWrapper>

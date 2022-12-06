@@ -6,7 +6,6 @@ import Profile from "./components/Profile/profile";
 import {useDispatch, useSelector} from "react-redux";
 import {getAuth} from "./reducers/userDataReducer";
 import {StateType} from "./global/store";
-import 'react-calendar/dist/Calendar.css';
 
 
 function App() {

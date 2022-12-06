@@ -87,6 +87,9 @@ export const ArrowIconWrapper = styled.div`
   & > *:hover {
     background: #F4F4F4;
   }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 export const SearchInput = styled.input`
   background: #EFF6FF;
@@ -103,7 +106,7 @@ export const SearchInput = styled.input`
 export const SearchInputWrapper = styled.div`
   width: 13%;
   height: 40px;
-  margin-left: 4%;
+  margin-left: 0;
   position: relative;
 `
 export const SearchIconWrapper = styled.div`

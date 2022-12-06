@@ -25,7 +25,8 @@ type setDaysDataT = {
     data: Array<taskListType>,
     index: number,
     user_id: string,
-    fulldate : string
+    fulldate : string,
+    sendToCurrent : boolean | void
 }
 
 const taskListReducer = createSlice({
@@ -35,7 +36,9 @@ const taskListReducer = createSlice({
         setDaysData(state, {payload}: PayloadAction<setDaysDataT>) {
             const [year,month] = stringToTime(payload.fulldate)
             state.daysData = payload.data
-            state.current = payload.data[payload.index] || createDateData(payload.user_id,payload.fulldate)
+            if (!payload.sendToCurrent){
+                state.current = payload.data[payload.index] || createDateData(payload.user_id,payload.fulldate)
+            }
             state.year = year
             state.month = month
         },
@@ -63,7 +66,8 @@ export const setUserDays = createAsyncThunk('SET_USER_DAYS',
         const currentIndex = payload.findIndex((day => day.date == stringToTime(data.fulldate)[2]))
         const actionProps = {
             data: response.data, index: currentIndex,
-            user_id: data.user_id, fulldate : data.fulldate
+            user_id: data.user_id, fulldate : data.fulldate,
+            sendToCurrent: data.noCurrent
         }
         dispatch(setDaysData(actionProps))
     })

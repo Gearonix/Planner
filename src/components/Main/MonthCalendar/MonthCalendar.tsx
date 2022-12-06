@@ -2,12 +2,12 @@ import { normalizeNumber, timeToString} from "../../../global/tools";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../global/store";
 import {setCurrentData} from "../../../reducers/tasksListReducer";
-import CalendarGenerator from "./CalendarGenerator/Calendar";
+import CalendarModule from "./CalendarModule/CalendarModule";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 // @ts-ignore
 
-const MonthCalendar = () => {
+const MonthCalendar = ({toToday} : {toToday : Function}) => {
     const dispatch = useDispatch()
     const user_id  = useSelector((state : StateType) => state.userData.user_id) || ''
     const currentDate = useSelector((state : StateType) => state.taskLists.current.date)
@@ -20,7 +20,7 @@ const MonthCalendar = () => {
     if (currentDate) navigate('/day')
 
     return <div>
-    <CalendarGenerator month={stateMonth} year={stateYear} clickHandler={clickToDay}/>
+    <CalendarModule clickHandler={clickToDay} toToday={toToday}/>
     </div>
 }
 

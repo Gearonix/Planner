@@ -10,7 +10,5 @@ export const MainElement = styled.main`
   height: 1000px;
   width: 100%;
   display: flex;
-
-
 `
 

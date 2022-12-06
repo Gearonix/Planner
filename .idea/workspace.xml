@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="372145f9-d6f2-4e21-9d05-3ebe7237d6d8" name="Default Changelist" comment="">
+    <list default="true" id="372145f9-d6f2-4e21-9d05-3ebe7237d6d8" name="Default Changelist" comment="added header , aside and improved interface for main">
+      <change afterPath="$PROJECT_DIR$/src/components/Main/Aside/CalendarComp/calendar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Main/DayCalendar/dayCalendar.styles.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Main/MonthCalendar/CalendarModule/CalendarModule.styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/backend.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/backend.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Login/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Login/login.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Aside/aside.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Aside/aside.styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Aside/aside.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Aside/aside.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Main/DayCalendar/dayCalendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/DayCalendar/dayCalendar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main/MonthCalendar/CalendarGenerator/Calendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/MonthCalendar/CalendarGenerator/Calendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Header/header.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Header/header.styles.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/Header/header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/Header/header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/MonthCalendar/CalendarGenerator/Calendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/MonthCalendar/CalendarModule/CalendarModule.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Main/MonthCalendar/MonthCalendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/MonthCalendar/MonthCalendar.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Main/main.styles.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/main.styles.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Main/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Main/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/global/API.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global/API.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/global/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global/constants.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/global/tools.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global/tools.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/global/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/global/types.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/others/todo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/others/todo.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/reducers/tasksListReducer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/tasksListReducer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,15 +34,13 @@
         <option value="HTTP Request" />
         <option value="JavaScript File" />
         <option value="TypeScript JSX File" />
+        <option value="CSS File" />
         <option value="TypeScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedIndex" value="1" />
   </component>
   <component name="ProjectId" id="2IADlaY8rUeOCh9OYhmJIIPC5TJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -51,16 +53,21 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="ToolWindowServices.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="yiiguxing.plugin.translate" />
+    <property name="settings.editor.selected.configurable" value="editor.reader.mode" />
     <property name="ts.external.directory.path" value="C:\Users\Егор\Desktop\Егор\html проэкты\html projects\start\planner_1.0\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="ReaderModeSettings">
+    <option name="enabled" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -83,7 +90,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="npm.npm start">
+  <component name="RunManager" selected="Node.js.backend.js">
     <configuration name="httpTests#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$PROJECT_DIR$/src/httpTests.http" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -127,6 +134,12 @@
       <workItem from="1669961544022" duration="16704000" />
       <workItem from="1670095938141" duration="5460000" />
       <workItem from="1670152390408" duration="5994000" />
+      <workItem from="1670177007428" duration="3064000" />
+      <workItem from="1670228546787" duration="13331000" />
+      <workItem from="1670243614321" duration="670000" />
+      <workItem from="1670258656958" duration="9297000" />
+      <workItem from="1670311284240" duration="13727000" />
+      <workItem from="1670332415964" duration="3496000" />
     </task>
     <task id="LOCAL-00001" summary="Verification done">
       <created>1669635650526</created>
@@ -177,7 +190,14 @@
       <option name="project" value="LOCAL" />
       <updated>1669977873472</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="added header , aside and improved interface for main">
+      <created>1670243682279</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1670243682279</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -202,7 +222,8 @@
     <MESSAGE value="added frontend part for login/registration" />
     <MESSAGE value="added cookies, added interface for profile component" />
     <MESSAGE value="work on the main page calendar has begun" />
-    <option name="LAST_COMMIT_MESSAGE" value="work on the main page calendar has begun" />
+    <MESSAGE value="added header , aside and improved interface for main" />
+    <option name="LAST_COMMIT_MESSAGE" value="added header , aside and improved interface for main" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
