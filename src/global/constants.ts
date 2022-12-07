@@ -20,3 +20,4 @@ export const taskColors = {
     grey : {background : '#F3F4F6', color : '#475569'},
 }
 
+export const repetitionDelays = ['single','daily','weekly','monthly','annually']

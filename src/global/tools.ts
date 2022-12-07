@@ -1,4 +1,5 @@
 import { MONTHS, WEEKDAYS } from "./constants"
+import {taskType} from "./types";
 
 export const capitalizeFirstLetter = (word : string) => word[0].toUpperCase() + word.slice(1)
 
@@ -7,7 +8,7 @@ export const randomizeColors = () => {
         '#7AD9FF','#F5EEAE','#D090FF']
     return colors[Math.floor(Math.random() * colors.length)]
 }
-export const normalizeNumber = (number : number) => {
+export const formatNum = (number : number) => {
     return number.toString().length == 1 ? '0' + number : number.toString()
 }
 export const formatWeekDay = (day : number) => {
@@ -51,7 +52,7 @@ export const getArrayByC = (count : number) => [...Array(count).keys()]
 export const convertPromise = (state : any) => JSON.parse(JSON.stringify(state));
 
 
-export const formatMonth = (month : number = new Date().getMonth()) =>  normalizeNumber(month + 1)
+export const formatMonth = (month : number = new Date().getMonth()) =>  formatNum(month + 1)
 
 
 export const toMonthName = (month : string) => MONTHS[parseInt(month) - 1]
@@ -67,8 +68,8 @@ export const normalizeWeekDay = (weekDay : string) => {
 export const generateTodayDate = (inString ?: boolean) => {
     const date = new Date()
 
-    const array =  [normalizeNumber(date.getFullYear()),formatMonth(date.getMonth()),
-        normalizeNumber(date.getDate())]
+    const array =  [formatNum(date.getFullYear()),formatMonth(date.getMonth()),
+        formatNum(date.getDate())]
     if (inString) return array.join('-')
     return array
 }
@@ -77,5 +78,23 @@ export const ValidateMonthChange = (year : number,month : number) => {
     let arr = [year,month]
     if (month == 13) arr =  [year + 1,1]
     if (month == 0) arr = [year - 1 ,12]
-    return arr.map(i => normalizeNumber(i))
+    return arr.map(i => formatNum(i))
 }
+
+export const numberTimeToStr = (time : number | string) => formatNum(+time) + ':00'
+
+export const strTimeToNumber = (time : string) => +time.split(':')[0]
+
+export const getInitialTaskType = (starts : number,date : string) : taskType => ({
+    title : '(No Title)',
+    task_id : null,
+    starts : numberTimeToStr(starts),
+    ends : numberTimeToStr(starts==23 ? 0 : starts + 1),
+    taskBackground: null,
+    date,
+    color: 'blue',
+    description : null,
+    repetitionDelay: 'one'
+})
+
+

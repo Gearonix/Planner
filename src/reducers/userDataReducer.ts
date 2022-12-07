@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {changeUserResponseType, loginResponseType, loginType} from "../global/types";
-import API from "../global/API";
+import ConnectToAPI from "../global/connectToAPI";
 import {isError} from "../global/constants";
 import {passwordFormType, profileFormWithID, setUserImageType } from "../components/Profile/profile";
 import { randomizeColors } from "../global/tools";
@@ -58,7 +58,7 @@ type getOrCreateUserType = {
 export const getOrCreateUser = createAsyncThunk('GET_OR_CREATE_USER',
     async (data : getOrCreateUserType, {dispatch}) => {
     // @ts-ignore
-    const callback = data.isRegistration ? API.createUser : API.loginUser
+    const callback = data.isRegistration ? ConnectToAPI.createUser : ConnectToAPI.loginUser
 
     const {data : userData} = await callback(data)
     if (isError(userData)) return userData.message
@@ -68,14 +68,14 @@ export const getOrCreateUser = createAsyncThunk('GET_OR_CREATE_USER',
 
 export const changeUserName = createAsyncThunk('CHANGE_USER_NAME',
     async (data : profileFormWithID, {dispatch}) => {
-        const {data : userData} = await API.changeUserData(data)
+        const {data : userData} = await ConnectToAPI.changeUserData(data)
         if (isError(userData)) return
         dispatch(changeUserValues(userData.data))
 })
 
 export const changeUserPassword = createAsyncThunk('CHANGE_USER_PASSWORD',
     async (data : passwordFormType,{dispatch}) => {
-        const {data : userData} = await API.changeUserPassword(data)
+        const {data : userData} = await ConnectToAPI.changeUserPassword(data)
         if (isError(userData)) return
         dispatch(updateUserPassword(userData.data.password))
     })
@@ -84,7 +84,7 @@ export const uploadFile = createAsyncThunk('UPLOAD_FILE',
     async (file : any,{dispatch}) => {
         const formData = new FormData()
         formData.append('avatar', file)
-        const {data: userData} = await API.uploadFile(formData)
+        const {data: userData} = await ConnectToAPI.uploadFile(formData)
         if (isError(userData)){
             console.log('Upload failed.')
             return
@@ -98,7 +98,7 @@ export const uploadFile = createAsyncThunk('UPLOAD_FILE',
 
 export const updateUserImage = createAsyncThunk('UPDATE_USER_IMAGE',
     async (data : setUserImageType) => {
-        const response = await API.setUserImage(data)
+        const response = await ConnectToAPI.setUserImage(data)
         if (isError(response.data)) return
 })
 
@@ -106,7 +106,7 @@ export const updateUserImage = createAsyncThunk('UPDATE_USER_IMAGE',
 export const getAuth = createAsyncThunk('GET_AUTH',
     async (data : void,{dispatch}) => {
 
-        const {data : response} = await API.getAuth()
+        const {data : response} = await ConnectToAPI.getAuth()
         if (isError(response)) return true
         if (!localStorage.getItem('defaultAvatarColor')) localStorage.setItem('defaultAvatarColor',randomizeColors())
         dispatch(setUserValues(response.data))
@@ -114,7 +114,7 @@ export const getAuth = createAsyncThunk('GET_AUTH',
 
 export const logoutUser = createAsyncThunk('LOGOUT_USER',
     async (data : void,{dispatch}) => {
-    await API.logoutUser()
+    await ConnectToAPI.logoutUser()
     dispatch(clearUserData())
 })
 

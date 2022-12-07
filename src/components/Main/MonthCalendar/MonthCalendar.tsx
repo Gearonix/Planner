@@ -1,4 +1,4 @@
-import { normalizeNumber, timeToString} from "../../../global/tools";
+import { formatNum, timeToString} from "../../../global/tools";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../global/store";
 import {setCurrentData} from "../../../reducers/tasksListReducer";
@@ -14,7 +14,7 @@ const MonthCalendar = ({toToday} : {toToday : Function}) => {
     const {month: stateMonth,year: stateYear} = useSelector((state : StateType) => state.taskLists)
     const navigate = useNavigate()
     const clickToDay = (date : number) => {
-        const submitData = {user_id, fulldate: timeToString(stateYear,stateMonth,normalizeNumber(date))}
+        const submitData = {user_id, fulldate: timeToString(stateYear,stateMonth,formatNum(date))}
         dispatch(setCurrentData(submitData))
     }
     if (currentDate) navigate('/day')

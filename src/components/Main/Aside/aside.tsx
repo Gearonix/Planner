@@ -4,7 +4,7 @@ import {AddButton, AddButtonBlock, AddButtonText, AsideElement, HiddenCheckBox, 
 import Calendar from 'react-calendar';
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../global/store";
-import {formatMonth, normalizeNumber, timeToString} from "../../../global/tools";
+import {formatMonth, formatNum, timeToString} from "../../../global/tools";
 import {setCurrentData, setUserDays} from "../../../reducers/tasksListReducer";
 import { PasswordButton } from '../../Profile/profile.styles';
 import {BsFillPlusCircleFill} from 'react-icons/bs'
@@ -18,8 +18,8 @@ const Aside = ({isHide} : {isHide : boolean}) => {
     const user_id  = useSelector((state : StateType) => state.userData.user_id) || ''
     const [isDropDown,showDropDown] = useState(false)
     const setAnotherMonth = (dateObject : any) => {
-        const [selectedYear,selectedMonth,day] = [normalizeNumber(dateObject.getFullYear()),
-            formatMonth(dateObject.getMonth()),normalizeNumber(dateObject.getDate())]
+        const [selectedYear,selectedMonth,day] = [formatNum(dateObject.getFullYear()),
+            formatMonth(dateObject.getMonth()),formatNum(dateObject.getDate())]
         const fulldate = timeToString(selectedYear,selectedMonth,day)
         setCalendarDate(dateObject)
         if (selectedMonth == stateMonth && selectedYear == stateYear) {

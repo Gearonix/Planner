@@ -4,10 +4,7 @@ import {StyleProps} from "../../../global/tools";
 
 export const DayCalendarMain = styled(MonthBlock)`
   width: 60%;
-`
-export const CalendarDate = styled(CurrentDate)`
-  
-
+  position: relative;
 `
 
 export const DayList = styled.div`
@@ -38,6 +35,7 @@ export const HoursContainer = styled.div`
   width: 95%;
   margin: 0 auto;
   position: relative;
+  cursor: pointer;
 `
 
 export const HourBlock = styled.div`

@@ -13,7 +13,7 @@ export type loginType = {
 
 export type taskType = {
     title : string,
-    task_id : string,
+    task_id : nor,
     starts : string,
     ends : string,
     taskBackground : nor,
@@ -22,6 +22,10 @@ export type taskType = {
     description : nor,
     repetitionDelay : string
 }
+
+
+
+
 export type taskListType = {
     user_id : nor,
     date : nor,

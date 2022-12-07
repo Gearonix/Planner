@@ -10,6 +10,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Poppins', sans-serif;
   background: #f2f2f2;
-  overflow-y: hidden;
+  overflow: hidden;
   user-select: none;
 }

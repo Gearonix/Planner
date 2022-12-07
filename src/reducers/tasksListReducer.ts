@@ -1,9 +1,9 @@
 import {taskListReducerType, taskListType} from "../global/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import API from "../global/API";
+import ConnectToAPI from "../global/connectToAPI";
 import {isError} from "../global/constants";
 import {setDaysFormT} from "../components/Main/main";
-import {convertPromise, createDateData, formatMonth, normalizeNumber, stringToTime} from "../global/tools";
+import {convertPromise, createDateData, formatMonth, formatNum, stringToTime} from "../global/tools";
 
 const initialState: taskListReducerType = {
     daysData: [],
@@ -16,9 +16,9 @@ const initialState: taskListReducerType = {
         tasklist: [],
         weekDay: null,
     },
-    year: normalizeNumber(new Date().getFullYear()),
+    year: formatNum(new Date().getFullYear()),
     month: formatMonth(),
-    date : normalizeNumber(new Date().getDate())
+    date : formatNum(new Date().getDate())
 
 }
 type setDaysDataT = {
@@ -60,7 +60,7 @@ export const {setDaysData, setCurrentData, clearCurrentData} = taskListReducer.a
 
 export const setUserDays = createAsyncThunk('SET_USER_DAYS',
     async (data: setDaysFormT, {dispatch}) => {
-        const {data: response} = await API.getUserDays(data)
+        const {data: response} = await ConnectToAPI.getUserDays(data)
         if (isError(response)) return
         const payload: Array<taskListType> = response.data
         const currentIndex = payload.findIndex((day => day.date == stringToTime(data.fulldate)[2]))

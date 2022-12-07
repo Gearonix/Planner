@@ -11,7 +11,7 @@ const instance = axios.create({
 })
 
 
-const API = {
+const ConnectToAPI = {
     loginUser(data : loginFormValues){
         return instance.put('/user/login',data)
     },
@@ -43,4 +43,4 @@ const API = {
 
 
 
-export default API
+export default ConnectToAPI

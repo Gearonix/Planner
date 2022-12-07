@@ -1,23 +1,17 @@
 import {capitalizeFirstLetter, createDaysAmount, generateCalendarArray, getArrayByC, normalizeWeekDay, toMonthName} from "../../../../global/tools";
 import React from "react";
 import {taskColors, WEEKDAYS} from "../../../../global/constants";
-import {ArrowDownWrap,
+import {
     CalendarCell,
     CalendarTable,
     CalenRow,
     CellTask,
      CellTitle,
-    CelTasks, CurrentDate, Grey, HeaderInfoWrapper, MonthArrow, MonthBlock, MonthHeader, SortText, TodayButton, WekkendRow } from "./CalendarModule.styles";
-import {BsArrowLeftSquare,BsArrowRightSquare
-    ,BsSearch} from 'react-icons/bs'
-import {
-    IoIosArrowBack, IoIosArrowForward,
-    IoIosArrowDown, IoIosArrowUp
-} from "react-icons/io";
+    CelTasks,  MonthBlock, WekkendRow } from "./CalendarModule.styles";
 import {useSelector} from "react-redux";
 import {StateType} from "../../../../global/store";
 import {taskListType, taskType} from "../../../../global/types";
-import { CalendarHeaderC } from "../../main";
+import CalendarHeader from "../../CalendarHeader/CalendarHeader";
 
 type calendarProps = {
     clickHandler: (n: number) => void,
@@ -37,7 +31,7 @@ const CalendarModule = ({ clickHandler: handle,toToday}: calendarProps) => {
    title={capitalizeFirstLetter(WEEKDAYS[i])}/>)}</WekkendRow>
 
     return <MonthBlock>
-        <CalendarHeaderC close={() => handle(+currentDate)} toToday={toToday}/>
+        <CalendarHeader close={() => handle(+currentDate)} toToday={toToday}/>
         <CalendarTable>
             <tbody>
             {calendarHead}
