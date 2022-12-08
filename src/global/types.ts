@@ -20,7 +20,8 @@ export type taskType = {
     date : string,
     color: string,
     description : nor,
-    repetitionDelay : string
+    repetitionDelay : string,
+    isTask ?: boolean
 }
 
 
@@ -33,7 +34,6 @@ export type taskListType = {
     month : nor,
     _id : nor,
     tasklist : Array<taskType>,
-    weekDay : nor,
 }
 
 export type taskListReducerType = {

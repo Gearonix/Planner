@@ -1,37 +1,32 @@
 import Button from '@mui/material/Button/Button'
 import React, {useState} from 'react'
-import {ButtonsContainer, ModalInput, ModalElement, TimeWrapper, ModalWrapper
-    , TaskImage, SendButtonsWrapper, ModalDraggable } from './Modal.styles'
+import {ButtonsContainer, ModalElement, TimeWrapper, ModalWrapper, TaskImage, SendButtonsWrapper, ModalDraggable, ColorWrapper, ComponentError } from './Modal.styles'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import  dayjs,{ Dayjs } from 'dayjs';
-import { SelectChangeEvent } from '@mui/material/Select';
 import {BiCloudUpload} from 'react-icons/bi'
 import {DatePicker, DropDownC, TextArea} from '../../../others/components';
 import Draggable from "react-draggable";
-import {FaRegHandPaper} from 'react-icons/fa'
 import {AiOutlineClose} from 'react-icons/ai'
-import {refType, taskType} from "../../../../global/types";
-import { modalCoordsType } from '../dayCalendar';
 import {useFormik} from "formik";
-import {
-    capitalizeFirstLetter,
-    formatMonth,
-    formatNum,
-    getArrayByC,
-    numberTimeToStr,
-    strTimeToNumber,
-    timeToString
-} from "../../../../global/tools";
-import {repetitionDelays} from "../../../../global/constants";
-
+import {capitalizeFirstLetter, convertHexToAppColor, getArrayByC, numberTimeToStr, timeToString} from "../../../../global/tools";
+import {repetitionDelays, taskColors} from "../../../../global/constants";
+import {isFileImage, modalValidator } from '../../../../global/validate';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import TextField from '@mui/material/TextField';
+import {useDispatch, useSelector} from "react-redux";
+import {StateType} from "../../../../global/store";
+import { TwitterPicker } from 'react-color';
+import {FaGripLines} from 'react-icons/fa'
+import {taskType} from "../../../../global/types";
+import { createTask } from '../../../../reducers/tasksListReducer';
 
 type dayModalProps = {
     close : Function,
-    coords : modalCoordsType
+    index : number | null
 }
 
-type modalFormType = {
+export type modalFormType = {
     title : string,
     starts : number,
     ends : number,
@@ -42,64 +37,72 @@ type modalFormType = {
     repetitionDelay : number
 }
 
+export type taskToServerType = {
+    data : taskType,
+    user_id : string
+}
 
 
-const DayModal = ({close,coords} : dayModalProps) => {
+
+dayjs.extend(customParseFormat)
+
+
+const DayModal = ({close,index} : dayModalProps) => {
+    const {date, year,month} = useSelector((state: StateType) => state.taskLists.current)
+    const user_id  = useSelector((state : StateType) => state.userData.user_id)
+    const fulldate = timeToString(year as string,month as string,date as string)
+    index = index || 0
     const [isTask,setIsTask] = useState<boolean>(true)
     const [dayjsDate,setDate] = useState<Dayjs>(dayjs())
     const [background,setBackground] = useState<any>(null)
-
-    const modalRef : refType = React.createRef()
-
-    const taskData = coords.taskData
-
-    const createTask = (data : modalFormType) => {
-        const fulldate = timeToString(formatNum(dayjsDate.get('year')),
-        formatMonth(dayjsDate.get('month')),formatNum(dayjsDate.get('date')))
-
-        const submitData = {
-            ...data,
-            taskBackground : background,
-            date : fulldate, isTask,
-            starts : numberTimeToStr(data.starts),
-            ends : numberTimeToStr(data.ends),
-            repetitionDelay : repetitionDelays[+data.repetitionDelay]
-        }
-
-        console.log(submitData)
-    }
-
-    const initialValues : modalFormType  = {
-        title : '', starts : strTimeToNumber(taskData.starts), ends : strTimeToNumber(taskData.ends),
-        taskBackground : null, date : taskData.date, color: 'blue', description : '',
-        repetitionDelay : 1
-    }
+    const [componentError,setCompError] = useState<string | null>(null)
+    const [taskColor,setColor] = useState<string>('blue')
+    const startHoursArray = getArrayByC(24).map(numberTimeToStr)
+    const [endsHoursArray,setHoursArray] = useState<Array<string>>(startHoursArray.slice(index + 1 == 24 ? 0 : index + 1))
+    const dispatch = useDispatch()
 
 
-    const {values,handleChange,handleSubmit} = useFormik({initialValues,onSubmit : createTask})
-
-
-    const handleDate = (date : Dayjs) => {
-        if (isNaN(date.get('year'))) {
-            //error
+    const submitTask = (data : modalFormType) => {
+        if (!dayjsDate.isValid()){
+            setCompError('Invalid date')
             return
         }
-        setDate(date)
-    }
+        if (background && !isFileImage(background)){
+            setCompError('Invalid background')
+            debugger
+            return
+        }
 
+        const submitData : taskType = {...data, taskBackground : 'test', isTask,
+            starts : numberTimeToStr(data.starts), date : dayjsDate.format('YYYY-MM-DD'),
+            ends : endsHoursArray[+data.ends], repetitionDelay : repetitionDelays[+data.repetitionDelay],
+            color: taskColor,task_id : null}
+        // @ts-ignore
+        dispatch(createTask({user_id,data : submitData}))
+
+    }
+    const initialValues : modalFormType  = {
+        title : '', starts : index, ends : 0, taskBackground : null, date : fulldate,
+        color: 'blue', description : '',
+        repetitionDelay : 1}
+    const {values,handleChange,handleSubmit,errors} =
+        useFormik({initialValues,onSubmit : submitTask,
+    validate: modalValidator})
 
     return <Draggable handle={'.draggableModalHandler'} bounds={'.dragableMain'}
-                      defaultPosition={{x : Number(coords.x) - 230 || 0, y : Number(coords.y) - 350 || 0}}>
+                      defaultPosition={{x : 500, y : 100 }}>
         <ModalElement isBackground={!!background}>
-            <ModalDraggable className={'draggableModalHandler'} ref={modalRef}>
-                <FaRegHandPaper style={{color: '#CECECE'}}/>
+            <ModalDraggable className={'draggableModalHandler'}>
+                <FaGripLines style={{color: '#CECECE'}}/>
                 {/*@ts-ignore*/}
                 <AiOutlineClose style={{cursor: "pointer"}} onClick={close}/>
             </ModalDraggable>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <ModalWrapper w={80}>
-                    <ModalInput isPassword={false} placeholder={'Add Title'} name={'title'} onChange={handleChange('title')}
-                    value={values.title} autoComplete={'off'} />
+                    <TextField error={!!errors.title}
+                        id="standard-basic" label="Add Title" variant="standard"
+                        size={'small'} sx={{width: '80%',marginTop: '15px',marginBottom: '5px'}}
+                        placeholder={'Add Title'} autoComplete={'off'} value={values.title} onChange={handleChange('title')}/>
 
                     <ButtonsContainer>
                         <Button variant={isTask ? "contained" : "text"} size={'small'}
@@ -108,13 +111,17 @@ const DayModal = ({close,coords} : dayModalProps) => {
                     </ButtonsContainer>
 
                     <TimeWrapper>
-                        <DatePicker date={dayjsDate} handleDate={handleDate} />
+                        <DatePicker date={dayjsDate} handleDate={(date : Dayjs) => setDate(date)}/>
 
                         <ButtonsContainer w={120}>
-                            <DropDownC  handler={handleChange('starts')} value={values.starts}
+                            <DropDownC  handler={(e : any) => {
+                                const value : string = e.target.value
+                                handleChange('starts')(value)
+                                setHoursArray(startHoursArray.slice(+value + 1))
+                            }} value={values.starts}
                                         names={getArrayByC(24).map(numberTimeToStr)}/>
                             <DropDownC handler={handleChange('ends')} value={values.ends}
-                                       names={getArrayByC(24).map(numberTimeToStr)}/>
+                                       names={endsHoursArray}/>
                         </ButtonsContainer>
 
                         <ButtonsContainer w={120}>
@@ -132,7 +139,13 @@ const DayModal = ({close,coords} : dayModalProps) => {
 
                         {background && <TaskImage src={URL.createObjectURL(background)}/>}
 
-                        <SendButtonsWrapper>
+                        <ColorWrapper>
+                            <TwitterPicker colors={Object.values(taskColors).map(({color}) => color)}
+                               onChangeComplete={({hex} : any)  =>  setColor(convertHexToAppColor(hex))}/>
+                        </ColorWrapper>
+
+                        <ComponentError>{componentError}</ComponentError>
+                            <SendButtonsWrapper>
                             <ButtonsContainer w={80} jc={'flex-end'}>
                                 {/*@ts-ignore*/}
                                 <Button  onClick={close}
@@ -153,7 +166,5 @@ const DayModal = ({close,coords} : dayModalProps) => {
     </ModalElement>
     </Draggable>
 }
-
-
 
 export default DayModal

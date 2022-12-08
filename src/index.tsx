@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import store from './global/store';
+import dayjs from "dayjs";
 
 
 
@@ -20,5 +21,7 @@ root.render(
     </Provider>
 
 );
+
+
 
 reportWebVitals();

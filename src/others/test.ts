@@ -64,3 +64,15 @@ const normalizeNumberFormat = (number : number) => {
 //         rowsCount++
 //     }
 // }
+
+const obj = {
+    "title": "yoTitle",
+    "starts": "02:00",
+    "ends": "03:00",
+    "taskBackground": {},
+    "date": "2022-12-08",
+    "color": "red",
+    "description": "descriptn",
+    "repetitionDelay": "daily",
+    "isTask": true
+}

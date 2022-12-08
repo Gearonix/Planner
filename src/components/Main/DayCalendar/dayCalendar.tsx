@@ -6,24 +6,14 @@ import { clearCurrentData } from "../../../reducers/tasksListReducer";
 import { DayCalendarMain, DayList, DayTask,
     DayTaskImage,
     DayTaskTimeRange, DayTaskTitle, HourBlock, HoursContainer, HourTime } from "./dayCalendar.styles";
-import {getArrayByC, getInitialTaskType, timeToString} from "../../../global/tools";
+import {getArrayByC} from "../../../global/tools";
 import { taskColors } from "../../../global/constants";
 import CalendarHeader from "../CalendarHeader/CalendarHeader";
 import DayModal from "./Modal/Modal";
-import {MainElement} from "../main.styles";
-import {refType, taskListType, taskType} from "../../../global/types";
-
-export type modalCoordsType = {
-    x : number | null,
-    y : number | null,
-    index : number | null,
-    taskData : taskType
-}
-
+import { taskType} from "../../../global/types";
 
 const DayCalendar = ({toToday} : {toToday : Function}) => {
-    const {date,  tasklist,year,month} = useSelector((state: StateType) => state.taskLists.current)
-    const fulldate = timeToString(year as string,month as string,date as string)
+    const {date,  tasklist} = useSelector((state: StateType) => state.taskLists.current)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const RedirectToMonth  = () => {
@@ -32,25 +22,18 @@ const DayCalendar = ({toToday} : {toToday : Function}) => {
     if (!date){
         navigate('/month')
     }
-    const initialModalCoords = {x : null, y : null, index: null ,taskData : getInitialTaskType(0,fulldate)}
 
-    const [modalCoords,setModalCoords] = useState<modalCoordsType>(initialModalCoords)
-
-    const openModal = (index : number) => ({clientX : x, clientY : y} : React.MouseEvent) => {
-        setModalCoords({x,y,index,taskData : getInitialTaskType(index,fulldate)})
-    }
+    const [modalIndex,setModalIndex] = useState<number | null>(null)
 
     const Hours = getArrayByC(24).map((i,idx) => {
-        return <HourBlock key={idx} onClick={openModal(i)}>
+        return <HourBlock key={idx} onClick={() => setModalIndex(i)}>
             <HourTime>{i}:00</HourTime>
         </HourBlock>
     })
 
     const createTask = (task : taskType,idx : number) => {
-
         const [startTime,endTime] = [+task.starts.split(':')[0], +task.ends.split(':')[0] || 24]
-        // @ts-ignore
-
+        //@ts-ignore
         return  <DayTask color={taskColors[task.color]} length={endTime - startTime} top={startTime} key={idx}>
                 <DayTaskTitle>{task.title}</DayTaskTitle>
         <DayTaskTimeRange>{task.starts}-{task.ends}</DayTaskTimeRange>
@@ -58,16 +41,17 @@ const DayCalendar = ({toToday} : {toToday : Function}) => {
         </DayTask>
     }
 
-
     const DayTasks = <>
         {tasklist.map(createTask)}
-        {modalCoords.index!==null && createTask(modalCoords.taskData,0)}
+        {/*@ts-ignore*/}
+        {modalIndex!==null && <DayTask color={taskColors.blue} length={1} top={modalIndex.index}>
+            <DayTaskTitle>(No Title)</DayTaskTitle></DayTask>
+        }
     </>
 
-
-
     return <DayCalendarMain className={'dragableMain'}>
-        {modalCoords.index!==null && <DayModal close={() => setModalCoords(initialModalCoords)} coords={modalCoords}/>}
+        {modalIndex!==null && <DayModal close={() => setModalIndex(null)}
+                                               index={modalIndex}/>}
         <CalendarHeader isDay={true} close={RedirectToMonth} toToday={toToday}/>
         <DayList>
             <HoursContainer>

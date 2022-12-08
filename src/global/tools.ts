@@ -1,4 +1,4 @@
-import { MONTHS, WEEKDAYS } from "./constants"
+import {MONTHS, taskColors, WEEKDAYS} from "./constants"
 import {taskType} from "./types";
 
 export const capitalizeFirstLetter = (word : string) => word[0].toUpperCase() + word.slice(1)
@@ -81,20 +81,15 @@ export const ValidateMonthChange = (year : number,month : number) => {
     return arr.map(i => formatNum(i))
 }
 
-export const numberTimeToStr = (time : number | string) => formatNum(+time) + ':00'
+export const numberTimeToStr = (time : number | string) : string => formatNum(+time) + ':00'
 
-export const strTimeToNumber = (time : string) => +time.split(':')[0]
-
-export const getInitialTaskType = (starts : number,date : string) : taskType => ({
-    title : '(No Title)',
-    task_id : null,
-    starts : numberTimeToStr(starts),
-    ends : numberTimeToStr(starts==23 ? 0 : starts + 1),
-    taskBackground: null,
-    date,
-    color: 'blue',
-    description : null,
-    repetitionDelay: 'one'
-})
+export const strTimeToNumber = (time : string) : number=> +time.split(':')[0]
 
 
+
+
+export const convertHexToAppColor = (hex : string)  => {
+    const color = Object.entries(taskColors).find(item => item[1].color.toLowerCase() == hex)
+    if (color) return color[0]
+    return ''
+}

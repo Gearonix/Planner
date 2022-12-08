@@ -20,7 +20,7 @@ import React from "react";
 
 const CalendarHeaderC = ({isDay,close,toToday} : { isDay ?: boolean ,close: Function,toToday: Function}) => {
     const {month,year} = useSelector((state : StateType) => state.taskLists)
-    const {weekDay,date
+    const {date
         :currentDate} = useSelector((state : StateType) => state.taskLists.current)
     const dispatch = useDispatch()
     const user_id  = useSelector((state : StateType) => state.userData.user_id) || ''
@@ -42,7 +42,7 @@ const CalendarHeaderC = ({isDay,close,toToday} : { isDay ?: boolean ,close: Func
     return <MonthHeader width={isDay ? 25 : 17}>
     <HeaderInfoWrapper>
         <CurrentDate width={!isDay ? 160 : 100}>
-    {currentDate ? normalizeWeekDay(weekDay || '')
+    {currentDate ? normalizeWeekDay('tue' || '')
         + ' ' + +currentDate :
         toMonthName(month) + ' ' + year}
     </CurrentDate>

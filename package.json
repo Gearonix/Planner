@@ -34,6 +34,7 @@
     "npm": "^9.1.2",
     "react": "^18.2.0",
     "react-calendar": "^4.0.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
     "react-icons": "^4.7.1",
@@ -71,6 +72,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-color": "^3.0.6",
     "@types/styled-components": "^5.1.26"
   }
 }

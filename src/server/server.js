@@ -155,5 +155,30 @@ app.get('/planner/month', (req, res) => {
     })
 })
 
+app.post('/planner/task/create',(req, res) => {
+    const {user_id, data} = req.body
+    const [year, month,date]= data.date.split('-')
+    const insertData = {...data, task_id : new ObjectId()}
+    db.collection('tasklists').find({year,month,date,user_id}).toArray((err, [result]) => {
+        if (err) {
+            console.log(err)
+            return res.json(error(err))
+        }
+        if (result) {
+            db.collection('tasklists').updateOne({_id : new ObjectId(result._id)},
+                {$push : {tasklist: insertData}})
+            return res.json(ok({result,insertData,wasExisted : true}))
+        }
+        const newTaskList = {user_id, year, month, date, tasklist: [insertData]}
+        db.collection('tasklists').insertOne(newTaskList)
+        res.json(ok({
+            result: newTaskList,
+            insertData,
+            wasExisted: false
+        }))
+
+    })
+})
+
 
 server.listen(PORT, () => console.log(`server listening at ${PORT}`))

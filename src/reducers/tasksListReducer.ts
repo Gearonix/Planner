@@ -1,9 +1,10 @@
-import {taskListReducerType, taskListType} from "../global/types";
+import {taskListReducerType, taskListType, taskType} from "../global/types";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import ConnectToAPI from "../global/connectToAPI";
 import {isError} from "../global/constants";
 import {setDaysFormT} from "../components/Main/main";
 import {convertPromise, createDateData, formatMonth, formatNum, stringToTime} from "../global/tools";
+import {taskToServerType} from "../components/Main/DayCalendar/Modal/Modal";
 
 const initialState: taskListReducerType = {
     daysData: [],
@@ -14,7 +15,6 @@ const initialState: taskListReducerType = {
         month: null,
         _id: null,
         tasklist: [],
-        weekDay: null,
     },
     year: formatNum(new Date().getFullYear()),
     month: formatMonth(),
@@ -70,6 +70,15 @@ export const setUserDays = createAsyncThunk('SET_USER_DAYS',
             sendToCurrent: data.noCurrent
         }
         dispatch(setDaysData(actionProps))
-    })
+})
+
+export const createTask = createAsyncThunk('CREATE_TASK',
+    async (data: taskToServerType, {dispatch}) => {
+        const {data : response} = await ConnectToAPI.createTask(data)
+        if (isError(response)) return
+        console.log(response)
+})
+
+
 
 export default taskListReducer.reducer

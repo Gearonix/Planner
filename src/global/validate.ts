@@ -1,4 +1,5 @@
 import {loginFormValues as loginValues} from '../components/Login/login'
+import { modalFormType } from '../components/Main/DayCalendar/Modal/Modal'
 import {changePassFormType, profileFormWithID } from '../components/Profile/profile'
 import { nor } from './types'
 
@@ -50,4 +51,23 @@ export const changePasswordValidator = (values : changePassFormType) => {
         errors.repeatPassword = 'Passwords do not match'
     }
     return errors
+}
+
+
+
+
+export const modalValidator = (values : modalFormType) => {
+    const errors : any = {}
+    if (!values.title){
+        errors.title = 'Title is required'
+    }
+
+    return errors
+}
+
+
+export function isFileImage(file : any) {
+    const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+
+    return file && acceptedImageTypes.includes(file['type'])
 }

@@ -4,13 +4,15 @@ import {InputElement} from '../../../Login/login.styles'
 
 export const ModalElement=styled.div`
   width: 400px;
-  height: ${({isBackground} : {isBackground ?: boolean}) => isBackground ? 650 : 500}px;
+  height: ${({isBackground} : {isBackground ?: boolean}) => isBackground ? 770 : 620}px;
   border-radius: 14px;
   background: white;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   position: absolute;
   z-index: 1;
 `
+
+
 
 export const ModalDraggable = styled.div`
   border-bottom: 2px solid #a6a6a6;
@@ -82,4 +84,20 @@ export const SendButtonsWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 
+`
+export const ComponentError = styled.h2`
+  color: #ef5350;
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: normal;
+
+`
+export const ColorWrapper = styled.div`
+  transform: translate(0.8);
+  height: 56px;
+  overflow: hidden;
+  & > .twitter-picker  > div{
+    padding-left: 0 !important;
+  }
+    
 `
