@@ -1,4 +1,4 @@
-import {configureStore} from "@reduxjs/toolkit";
+import {configureStore, createAsyncThunk} from "@reduxjs/toolkit";
 import userDataReducer from "../reducers/userDataReducer";
 import tasksListReducer from "../reducers/tasksListReducer";
 
@@ -15,6 +15,7 @@ window.s = store.getState
 export type StateType = ReturnType<typeof store.getState>
 
 export type globalDispatch = typeof store.dispatch
+
 
 
 export default store

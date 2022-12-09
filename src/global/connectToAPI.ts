@@ -2,7 +2,6 @@ import axios from 'axios'
 import { loginFormValues } from '../components/Login/login';
 import {passwordFormType, profileFormWithID, setUserImageType} from "../components/Profile/profile";
 import {setDaysFormT} from "../components/Main/main";
-import {taskType} from "./types";
 import { taskToServerType } from '../components/Main/DayCalendar/Modal/Modal';
 
 
@@ -23,8 +22,8 @@ const ConnectToAPI = {
     changeUserData(data : profileFormWithID){
         return instance.put('/user/change/username',data)
     },
-    uploadFile(data : any){
-        return instance.put('/user/upload/image',data)
+    uploadFile(data : { formData : any,name : string }){
+        return instance.put(`/user/upload/image?dir=${data.name}`,data.formData)
     },
     setUserImage(data : setUserImageType){
         return instance.put('/user/set/image',data)
@@ -43,6 +42,9 @@ const ConnectToAPI = {
     },
     createTask(data : taskToServerType){
         return instance.post('/planner/task/create',data)
+    },
+    deleteTask(task_id: string){
+        return instance.delete('/planner/task/delete', {data : {task_id}})
     }
 }
 

@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import {CellTask, CurrentDate, MonthBlock } from "../MonthCalendar/CalendarModule/CalendarModule.styles";
-import {StyleProps} from "../../../global/tools";
+import {CellTask, MonthBlock } from "../MonthCalendar/CalendarModule/CalendarModule.styles";
 
 export const DayCalendarMain = styled(MonthBlock)`
   width: 60%;
@@ -78,10 +77,11 @@ export const DayTaskTimeRange =  styled.h3`
 `
 export const DayTaskImage = styled.img`
   width: 75%;
-  height: 150px;
+  height: 70%;
   right: 0;
   top: 0;
   position: absolute;
+  object-fit: cover;
   border-radius: 20px;
   
 `

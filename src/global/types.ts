@@ -34,6 +34,7 @@ export type taskListType = {
     month : nor,
     _id : nor,
     tasklist : Array<taskType>,
+    weekDay ?: nor
 }
 
 export type taskListReducerType = {

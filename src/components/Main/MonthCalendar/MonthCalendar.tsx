@@ -18,7 +18,6 @@ const MonthCalendar = ({toToday} : {toToday : Function}) => {
         dispatch(setCurrentData(submitData))
     }
     if (currentDate) navigate('/day')
-
     return <div>
     <CalendarModule clickHandler={clickToDay} toToday={toToday}/>
     </div>

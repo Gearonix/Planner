@@ -68,7 +68,8 @@ const Profile = () => {
 
         if (e.target.files.length>0) {
             // @ts-ignore
-            const {payload : filename} = await dispatch(uploadFile(e.target.files[0]))
+            const {payload : filename} = await dispatch(uploadFile(
+                {file : e.target.files[0], name : 'user_avatars'}))
             if (!filename) return
             // @ts-ignore
             dispatch(updateUserImage({user_id,filename}))
@@ -193,7 +194,7 @@ type userImageProps = {
 export const UserImage = ({size,fontSize} : userImageProps) => {
     const {userName,userImage} = useSelector((state : StateType) => state.userData)
     return userImage ?
-        <UserImageElement src={FILES_LOCATION +  userImage} size={size}/> :
+        <UserImageElement src={FILES_LOCATION + '/user_avatars/' +  userImage} size={size}/> :
         <EmptyAvatar color={localStorage.getItem('defaultAvatarColor') || ''} size={size}>
             <EmptyAvatarTitle fontSize={fontSize}>{userName ? userName[0].toUpperCase() : ''}</EmptyAvatarTitle></EmptyAvatar>
 

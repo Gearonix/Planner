@@ -1,4 +1,10 @@
-import {capitalizeFirstLetter, createDaysAmount, generateCalendarArray, getArrayByC, normalizeWeekDay, toMonthName} from "../../../../global/tools";
+import {
+    capitalizeFirstLetter,
+    createDaysAmount,
+    cutString,
+    generateCalendarArray,
+    getArrayByC
+} from "../../../../global/tools";
 import React from "react";
 import {taskColors, WEEKDAYS} from "../../../../global/constants";
 import {
@@ -43,7 +49,7 @@ const CalendarModule = ({ clickHandler: handle,toToday}: calendarProps) => {
                         />
             </CalenRow>
             <OtherRows calendarArray={calendarArray} numbers={numbers} firstWeekDay={firstWeekDay}
-                       handle={handle}/>
+                       handle={handle} daysData={daysData}/>
             </tbody>
         </CalendarTable>
     </MonthBlock>
@@ -66,8 +72,7 @@ const FirstRow = ({firstWeekDay, numbers, handle,
         })}
 
         {getArrayByC(7 - firstWeekDay).map((i, idx) => {
-            // @ts-ignore
-            const tasklist = daysData.find(({date}) => +date==numbers[idx])
+            const tasklist = daysData.find(({date}) => Number(date)==numbers[idx])
                 ?.tasklist || []
             return <Cell key={idx} handler={() => handle(numbers[idx])}
                          title={numbers[idx]} tasklist={tasklist}/>
@@ -81,17 +86,22 @@ type otherRowsType =
         calendarArray: Array<number>,
         firstWeekDay: number
         numbers: Array<number>,
-        handle: (n: number) => void
+        handle: (n: number) => void,
+        daysData : Array<taskListType>
     }
 
 
-const OtherRows = ({calendarArray, numbers, firstWeekDay, handle}: otherRowsType) => <>
+const OtherRows = ({calendarArray, numbers, firstWeekDay, handle,daysData}: otherRowsType) => <>
     {calendarArray.slice(1).map((item: number, globIdx) => {
         return <CalenRow key={globIdx}>
             {getArrayByC(item).map((item, idx) => {
                     const num = numbers[(idx + (7 - firstWeekDay)) + 7 * globIdx]
+
+                    const tasklist = daysData.find(({date}) => Number(date)==num)
+                    ?.tasklist || []
+
                     return <Cell
-                        key={idx} handler={() => handle(num)} title={num}/>
+                        key={idx} handler={() => handle(num)} title={num} tasklist={tasklist}/>
                 }
             )}
             {getArrayByC(7 - item).map((i, idx) => <Cell key={idx} title={idx + 1} dis={true}/>)}
@@ -116,7 +126,7 @@ const Cell = ({title,handler ,dis,tasklist = []} : cellType) => {
         {tasklist.length>0 && <CelTasks>
             {/*@ts-ignore*/}
             {tasklist.map((task,idx) => <CellTask color={taskColors[task.color]} key={idx}>
-                {task.starts} - {task.title}
+                {task.starts} - {cutString(task.title)}
             </CellTask>)}
         </CelTasks>
         }

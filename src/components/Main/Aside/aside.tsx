@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
-import {AddButton, AddButtonBlock, AddButtonText, AsideElement, HiddenCheckBox, DropDownBody, DropDownHeader, DropDownText, CheckBox, DropDownBodyT, CalendarWrapper} from './aside.styles'
+import {AddButton, AddButtonBlock, AddButtonText, AsideElement, HiddenCheckBox, DropDownBody,
+    DropDownHeader, DropDownText, CheckBox, DropDownBodyT, CalendarWrapper} from './aside.styles'
 // @ts-ignore
 import Calendar from 'react-calendar';
 import {useDispatch, useSelector} from "react-redux";
@@ -10,8 +11,11 @@ import { PasswordButton } from '../../Profile/profile.styles';
 import {BsFillPlusCircleFill} from 'react-icons/bs'
 import {AiOutlineArrowUp,AiOutlineArrowDown} from 'react-icons/ai'
 import './CalendarComp/calendar.css'
+import {HiOutlinePlus} from 'react-icons/hi'
+import {ButtonInner, ButtonTitle} from "../../Login/login.styles";
+import Button from '@mui/material/Button';
 
-const Aside = ({isHide} : {isHide : boolean}) => {
+const Aside = ({isHide,setModalIndex} : {isHide : boolean,setModalIndex : any}) => {
     const dispatch = useDispatch()
     const {month: stateMonth,year: stateYear,date} = useSelector((state : StateType) => state.taskLists)
     const [calendarDate,setCalendarDate] = useState(new Date(+stateYear,+stateMonth - 1,+date))
@@ -33,16 +37,12 @@ const Aside = ({isHide} : {isHide : boolean}) => {
     const maxDate = new Date(+stateYear + 8,+stateMonth - 1)
 
 
+
     return  <AsideElement isHide={isHide}>
         <AddButtonBlock>
-            <AddButton>
-                <BsFillPlusCircleFill
-                    style={{color : '#444444'
-                        ,width : 20,height: 20}} />
-                <AddButtonText>
-                    Add Task
-                </AddButtonText>
-            </AddButton>
+            <Button variant="outlined" size={'large'}
+            startIcon={<HiOutlinePlus style={{color : '#1976d2'}}/>}
+                    sx={{marginLeft: '10px'}} onClick={() => setModalIndex(8)}>Add Title</Button>
         </AddButtonBlock>
         <CalendarWrapper>
             <Calendar onChange={setAnotherMonth}

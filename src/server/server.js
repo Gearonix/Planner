@@ -110,7 +110,7 @@ app.put('/user/change/password', (req, res) => {
 })
 
 app.put('/user/upload/image', (req, res) => {
-    const upload = multer({storage: userImageStorage, fileFilter}).single('avatar')
+    const upload = multer({storage: userImageStorage, fileFilter}).single(req.query.dir)
     upload(req, res, (err) => {
         if (err) {
             console.log(err)
@@ -130,7 +130,7 @@ app.put('/user/set/image', (req, res) => {
 
 const userImageStorage = multer.diskStorage({
     destination(req, file, cb) {
-        cb(null, 'static')
+        cb(null, `static/${req.query.dir}`)
     },
     filename(req, file, cb) {
         cb(null, file.originalname)
@@ -144,8 +144,8 @@ const fileFilter = (req, file, cb) => cb(null, true)
 
 app.get('/planner/month', (req, res) => {
     const {user_id, fulldate} = req.query
-    const [year,month] = fulldate.split('-')
-    db.collection('tasklists').find({user_id, month,year}).toArray((err, result) => {
+    const [year, month] = fulldate.split('-')
+    db.collection('tasklists').find({user_id, month, year}).toArray((err, result) => {
         if (err) {
             console.log(err)
             res.json(error(err))
@@ -155,19 +155,19 @@ app.get('/planner/month', (req, res) => {
     })
 })
 
-app.post('/planner/task/create',(req, res) => {
+app.post('/planner/task/create', (req, res) => {
     const {user_id, data} = req.body
-    const [year, month,date]= data.date.split('-')
-    const insertData = {...data, task_id : new ObjectId()}
-    db.collection('tasklists').find({year,month,date,user_id}).toArray((err, [result]) => {
+    const [year, month, date] = data.date.split('-')
+    const insertData = {...data, task_id: new ObjectId()}
+    db.collection('tasklists').find({year, month, date, user_id}).toArray((err, [result]) => {
         if (err) {
             console.log(err)
             return res.json(error(err))
         }
         if (result) {
-            db.collection('tasklists').updateOne({_id : new ObjectId(result._id)},
-                {$push : {tasklist: insertData}})
-            return res.json(ok({result,insertData,wasExisted : true}))
+            db.collection('tasklists').updateOne({_id: new ObjectId(result._id)},
+                {$push: {tasklist: insertData}})
+            return res.json(ok({result, insertData, wasExisted: true}))
         }
         const newTaskList = {user_id, year, month, date, tasklist: [insertData]}
         db.collection('tasklists').insertOne(newTaskList)
@@ -178,6 +178,16 @@ app.post('/planner/task/create',(req, res) => {
         }))
 
     })
+})
+
+app.delete('/planner/task/delete', (req, res) => {
+    const {task_id} = req.body
+    db.collection('tasklists').updateOne({tasklist: {$elemMatch: {task_id: new ObjectId(task_id)}}},
+        {$pull: {tasklist: {task_id: new ObjectId(task_id)}}}, (err, result) => {
+            if (err) return res.json(error(err))
+            res.json(ok(result))
+        })
+
 })
 
 

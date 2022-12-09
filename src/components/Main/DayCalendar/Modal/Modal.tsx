@@ -20,6 +20,7 @@ import { TwitterPicker } from 'react-color';
 import {FaGripLines} from 'react-icons/fa'
 import {taskType} from "../../../../global/types";
 import { createTask } from '../../../../reducers/tasksListReducer';
+import {uploadFile} from "../../../../reducers/userDataReducer";
 
 type dayModalProps = {
     close : Function,
@@ -53,32 +54,35 @@ const DayModal = ({close,index} : dayModalProps) => {
     const fulldate = timeToString(year as string,month as string,date as string)
     index = index || 0
     const [isTask,setIsTask] = useState<boolean>(true)
-    const [dayjsDate,setDate] = useState<Dayjs>(dayjs())
+    const [dayjsDate,setDate] = useState<Dayjs>(dayjs(year+'-'+month+'-'+date))
     const [background,setBackground] = useState<any>(null)
     const [componentError,setCompError] = useState<string | null>(null)
     const [taskColor,setColor] = useState<string>('blue')
-    const startHoursArray = getArrayByC(24).map(numberTimeToStr)
-    const [endsHoursArray,setHoursArray] = useState<Array<string>>(startHoursArray.slice(index + 1 == 24 ? 0 : index + 1))
+    const startHoursArray : Array<any> = [...getArrayByC(24).map(numberTimeToStr),'0:00']
+    const [endsHoursArray,setHoursArray] = useState<Array<string>>(
+        startHoursArray.slice(index + 1))
     const dispatch = useDispatch()
 
 
-    const submitTask = (data : modalFormType) => {
-        if (!dayjsDate.isValid()){
-            setCompError('Invalid date')
-            return
-        }
-        if (background && !isFileImage(background)){
-            setCompError('Invalid background')
-            debugger
-            return
-        }
+    const submitTask = async (data : modalFormType) => {
+        if (!dayjsDate.isValid())  return  setCompError('Invalid date')
 
-        const submitData : taskType = {...data, taskBackground : 'test', isTask,
+        let filename = null
+        if (background){
+            isFileImage(background)
+
+            if (!isFileImage(background)) return  setCompError('Invalid background')
+            // @ts-ignore
+            const {payload} = await dispatch(uploadFile({file : background,name : 'task_backgrounds'}))
+            filename = payload
+        }
+        const submitData : taskType = {...data, taskBackground : filename, isTask,
             starts : numberTimeToStr(data.starts), date : dayjsDate.format('YYYY-MM-DD'),
             ends : endsHoursArray[+data.ends], repetitionDelay : repetitionDelays[+data.repetitionDelay],
             color: taskColor,task_id : null}
         // @ts-ignore
         dispatch(createTask({user_id,data : submitData}))
+        close()
 
     }
     const initialValues : modalFormType  = {

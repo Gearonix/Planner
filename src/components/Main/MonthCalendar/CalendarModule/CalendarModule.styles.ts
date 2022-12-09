@@ -105,6 +105,7 @@ export const CellTitle = styled.h2`
   margin-top: 10px;
   margin-left: 10px;
   width: 20px;
+  margin-bottom: 0px;
   cursor: pointer;
 `
 export const CalenRow = styled.tr`
@@ -125,7 +126,7 @@ export const WekkendRow = styled(CalenRow)`
 `
 export const CelTasks = styled.div`
   width: 100%;
-  height: 100px;
+  height: 90px;
   &::-webkit-scrollbar{
     opacity: 0;
   }
@@ -137,16 +138,17 @@ export const CelTasks = styled.div`
 export const CellTask = styled.div`
   background: ${(props : any) => props.color.background};
   color: ${(props : any) => props.color.color};
-  width: 95%;
+  width: 93%;
   height: 30px;
   border-radius: 2px;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left: 5px;
+  margin-left: 3px;
   align-items: center;
   font-weight: normal;
   margin-top: 7px;
-  margin-left: 3px;
   border: 1px solid ${(props : any) => props.color.color};
   cursor: pointer;
 `

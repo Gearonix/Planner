@@ -13,7 +13,6 @@ import {
 import Aside from './Aside/aside';
 import { MainElement, MainPage } from './main.styles';
 import Header from './Header/header';
-import DayModal from "./DayCalendar/Modal/Modal";
 
 export type setDaysFormT = {
     user_id: string,
@@ -27,6 +26,7 @@ const Main = () => {
     const {month: currentMonth,year: currentYear,date} = useSelector((state : StateType) => state.taskLists)
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const [modalIndex,setModalIndex] = useState<number | null>(null)
 
     const [isAsideOpened,closeAside] = useState<boolean>(false)
 
@@ -49,13 +49,13 @@ const Main = () => {
     const uriPath = currentDate ? '/day' : '/month'
 
 
-    return  <MainPage >
+    return  <MainPage className={'dragableMain'}>
         <Header closeAside={() => closeAside(!isAsideOpened)} toToday={toToday}/>
         <MainElement>
-            <Aside isHide={isAsideOpened}/>
-            {uriPath == '/day' && <DayCalendar toToday={toToday}/>}
+            <Aside isHide={isAsideOpened} setModalIndex={setModalIndex}/>
+            {uriPath == '/day' && <DayCalendar toToday={toToday} modalIndex={modalIndex}
+            setModalIndex={setModalIndex}/>}
             {uriPath == '/month' && <MonthCalendar toToday={toToday}/>}
-
         </MainElement>
 
 
