@@ -50,11 +50,10 @@ const Main = () => {
 
 
     return  <MainPage className={'dragableMain'}>
-        <Header closeAside={() => closeAside(!isAsideOpened)} toToday={toToday}/>
+        <Header closeAside={() => closeAside(!isAsideOpened)} />
         <MainElement>
             <Aside isHide={isAsideOpened} setModalIndex={setModalIndex}/>
-            {uriPath == '/day' && <DayCalendar toToday={toToday} modalIndex={modalIndex}
-            setModalIndex={setModalIndex}/>}
+            {uriPath == '/day' && <DayCalendar toToday={toToday}/>}
             {uriPath == '/month' && <MonthCalendar toToday={toToday}/>}
         </MainElement>
 

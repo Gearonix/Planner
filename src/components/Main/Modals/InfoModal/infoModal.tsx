@@ -1,20 +1,18 @@
 import React from 'react';
 import { ChangeModalElement, CircleButton, CircleButtonBlock,
-    Color, ColorBlock, Description, ImageBlock, InfoBlock, InfoIcon, MainBlock, ModalImage, Title } from './infoModal.styles';
+    Color, ColorBlock, Description, ImageBlock, InfoBlock, InfoIcon, MainBlock, Title } from './infoModal.styles';
 import {AiOutlineClose} from 'react-icons/ai'
 import {BsPen,BsTrash,BsCalendarEvent
 } from 'react-icons/bs';
-import {FaGripLines} from 'react-icons/fa'
 import {TfiBell} from 'react-icons/tfi'
 import Draggable from "react-draggable";
 import {taskType} from "../../../../global/types";
-import {FILES_LOCATION, taskColors} from '../../../../global/constants';
+import { taskColors} from '../../../../global/constants';
 import {StateType} from "../../../../global/store";
 import {useDispatch, useSelector} from "react-redux";
 import {capitalizeFirstLetter, stringToTime, toMonthName} from "../../../../global/tools";
-import {UserImageElement} from "../../../Profile/profile.styles";
 import {deleteTask} from "../../../../reducers/tasksListReducer";
-const InfoModal = ({task,close} : {task : taskType,close : Function}) => {
+const InfoModal = ({task,close,editTask} : {task : taskType,close : Function,editTask : Function}) => {
     const weekDay = useSelector((state : StateType) => state.taskLists.current.weekDay)
     const userName = useSelector((state : StateType) => state.userData.userName)
     const [year,month,date] = stringToTime(task.date)
@@ -28,9 +26,10 @@ const InfoModal = ({task,close} : {task : taskType,close : Function}) => {
         <Draggable  bounds={'.dragableMain'}
                    defaultPosition={{x : 500, y : 100 }}>
         <ChangeModalElement>
-            <ImageBlock >
+            <ImageBlock>
                 <CircleButtonBlock>
-                    <CircleButton>
+                    {/*@ts-ignore*/}
+                    <CircleButton onClick={editTask}>
                         <BsPen/>
                     </CircleButton>
                     {/*@ts-ignore*/}

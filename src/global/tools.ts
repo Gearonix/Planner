@@ -76,6 +76,8 @@ export const ValidateMonthChange = (year: number, month: number) => {
 
 export const numberTimeToStr = (time: number | string): string => formatNum(+time) + ':00'
 
+export const strToTimeNumber = (time: string): number => +time.split(':')
+
 export const convertHexToAppColor = (hex: string) => {
     const color = Object.entries(taskColors).find(item => item[1].color.toLowerCase() == hex)
     if (color) return color[0]

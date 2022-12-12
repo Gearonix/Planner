@@ -2,7 +2,8 @@ import axios from 'axios'
 import { loginFormValues } from '../components/Login/login';
 import {passwordFormType, profileFormWithID, setUserImageType} from "../components/Profile/profile";
 import {setDaysFormT} from "../components/Main/main";
-import { taskToServerType } from '../components/Main/DayCalendar/Modal/Modal';
+import { taskToServerType } from '../components/Main/Modals/CreateTaskModal/CreateModal';
+import {taskType} from "./types";
 
 
 const instance = axios.create({
@@ -40,7 +41,7 @@ const ConnectToAPI = {
     getUserDays({user_id,fulldate} : setDaysFormT){
         return instance.get(`/planner/month?user_id=${user_id}&fulldate=${fulldate}`)
     },
-    createTask(data : taskToServerType){
+    createTask(data : { data: taskType, user_id: string }){
         return instance.post('/planner/task/create',data)
     },
     deleteTask(task_id: string){

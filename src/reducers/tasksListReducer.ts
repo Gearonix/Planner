@@ -4,7 +4,7 @@ import ConnectToAPI from "../global/connectToAPI";
 import {isError} from "../global/constants";
 import {setDaysFormT} from "../components/Main/main";
 import {convertPromise, createDateData, formatMonth, formatNum, formatWeekDay, stringToTime} from "../global/tools";
-import {taskToServerType} from "../components/Main/DayCalendar/Modal/Modal";
+import {taskToServerType} from "../components/Main/Modals/CreateTaskModal/CreateModal";
 import {globalDispatch, StateType } from "../global/store";
 import {createThunk} from "../global/tools";
 import dayjs from "dayjs";
@@ -112,7 +112,7 @@ type createTaskResT = {
 }
 
 export const createTask = createThunk('CREATE_TASK',
-    async (data: taskToServerType, {dispatch} ) => {
+    async (data: { data: taskType, user_id: string }, {dispatch} ) => {
         const {data : response} = await ConnectToAPI.createTask(data)
         if (isError(response)) return
         const {insertData,result,wasExisted} : createTaskResT = response.data

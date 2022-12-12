@@ -1,5 +1,5 @@
 import {loginFormValues as loginValues} from '../components/Login/login'
-import { modalFormType } from '../components/Main/DayCalendar/Modal/Modal'
+import { modalFormType } from '../components/Main/Modals/CreateTaskModal/CreateModal'
 import {changePassFormType, profileFormWithID } from '../components/Profile/profile'
 import { nor } from './types'
 

@@ -13,12 +13,14 @@ export const MONTHS = ['January', 'February', 'March', 'April', 'May',
     'October', 'November', 'December']
 
 export const taskColors = {
-    yellow : {background : '#FEF9C3', color : '#CA8A04'},
-    green : {background : '#DCFCE7', color : '#16A34A'},
-    blue : {background : '#DBEAFE', color : '#2563EB'},
-    red : {background : '#FEE2E2', color : '#DC2626'},
-    grey : {background : '#F3F4F6', color : '#475569'},
+    yellow : {background : '#FEF9C3', color : '#CA8A04',muiColor: 'warning'},
+    green : {background : '#DCFCE7', color : '#16A34A',muiColor : 'success'},
+    blue : {background : '#DBEAFE', color : '#2563EB',muiColor : 'info'},
+    red : {background : '#FEE2E2', color : '#DC2626',muiColor: 'error'},
+    grey : {background : '#F3F4F6', color : '#475569',muiColor : 'inherit'},
 }
+
+export const DATE_FORMAT = 'YYYY-MM-DD'
 
 
 

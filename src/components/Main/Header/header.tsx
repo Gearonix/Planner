@@ -16,11 +16,10 @@ import {setCurrentData, setUserDays} from "../../../reducers/tasksListReducer";
 
 type headerProps = {
     closeAside : () => void,
-    toToday : () => void
 }
 
 
-const Header = ({closeAside,toToday} : headerProps) => {
+const Header = ({closeAside} : headerProps) => {
     const {year,month,date} =
     useSelector((state : StateType) => state.taskLists.current)
     const user_id = useSelector((state: StateType) => state.userData.user_id) || ''
@@ -33,7 +32,7 @@ const Header = ({closeAside,toToday} : headerProps) => {
                 <RxHamburgerMenu/>
             </BurgerIconWrapper>
         </BurgerWrapper>
-        <TodayButton onClick={toToday}>
+        <TodayButton>
             Today
         </TodayButton>
         <TodayTitle>

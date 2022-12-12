@@ -94,10 +94,11 @@ export const ComponentError = styled.h2`
 `
 export const ColorWrapper = styled.div`
   transform: translate(0.8);
-  height: 56px;
+  height: 50px;
   overflow: hidden;
   & > .twitter-picker  > div{
     padding-left: 0 !important;
   }
+  width: 270px;
     
 `

@@ -9,36 +9,34 @@ import { DayCalendarMain, DayList, DayTask,
 import {getArrayByC} from "../../../global/tools";
 import {FILES_LOCATION, taskColors} from "../../../global/constants";
 import CalendarHeader from "../CalendarHeader/CalendarHeader";
-import DayModal from "./Modal/Modal";
+import CreateTaskModal from "../Modals/CreateTaskModal/CreateModal";
 import { taskType} from "../../../global/types";
-import InfoModal from "./InfoModal/infoModal";
+import InfoModal from "../Modals/InfoModal/infoModal";
+import EditTask from "../EditTask/editTask";
 
 type dayCalendarProps = {
-    toToday : Function,
-    modalIndex : number | null,
-    setModalIndex : Function
+    toToday : Function
 }
 
 
-const DayCalendar = ({toToday,modalIndex,setModalIndex} : dayCalendarProps) => {
+const DayCalendar = ({toToday} : dayCalendarProps) => {
     const {date,  tasklist} = useSelector((state: StateType) => state.taskLists.current)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [infoModalIdx, setInfoModal] = useState<number | null>(null)
-    const RedirectToMonth  = () => {
-        dispatch(clearCurrentData())
-    }
-    if (!date){
-        navigate('/month')
-    }
-    const isModalOpened = modalIndex!==null && infoModalIdx==null
-    const isInfoModalOpened = modalIndex==null && infoModalIdx!=null
+    const RedirectToMonth  = () => {dispatch(clearCurrentData())}
 
+    type compValueType = 'createModal' | 'infoModal' | 'editPage' | null
+    const [componentName,openComponent] = useState<compValueType>(null)
+    const [componentIndex,setIndex] = useState<number | null>(null)
 
+    if (!date) navigate('/month')
 
     const Hours = getArrayByC(24).map((i,idx) => {
         return <HourBlock key={idx} onClick={() => {
-            if (!isModalOpened && !isInfoModalOpened) setModalIndex(i)
+            if (!componentName){
+                openComponent('createModal')
+                setIndex(i)
+            }
 
         }}>
             <HourTime>{i}:00</HourTime>
@@ -50,7 +48,10 @@ const DayCalendar = ({toToday,modalIndex,setModalIndex} : dayCalendarProps) => {
         //@ts-ignore
         return  <DayTask color={taskColors[task.color]} length={endTime - startTime} top={startTime}
                          key={idx} onClick={() => {
-            if (!isModalOpened && !isInfoModalOpened) setInfoModal(idx)
+            if (!componentName) {
+                openComponent('infoModal')
+                setIndex(idx)
+            }
         }}>
                 <DayTaskTitle>{task.title}</DayTaskTitle>
         <DayTaskTimeRange>{task.starts}-{task.ends}</DayTaskTimeRange>
@@ -61,15 +62,22 @@ const DayCalendar = ({toToday,modalIndex,setModalIndex} : dayCalendarProps) => {
     const DayTasks = <>
         {tasklist.map(createTask)}
         {/*@ts-ignore*/}
-        {isModalOpened && <DayTask color={taskColors.blue} length={1} top={modalIndex}>
+        {componentName == 'createModal' && <DayTask color={taskColors.blue} length={1} top={componentIndex}>
             <DayTaskTitle>(No Title)</DayTaskTitle></DayTask>
         }
     </>
+    const closeComponent = () => openComponent(null)
 
     return <DayCalendarMain className={'dragableMain'}>
-        {isModalOpened && <DayModal close={() => setModalIndex(null)}
-                                               index={modalIndex}/>}
-        {isInfoModalOpened && <InfoModal task={tasklist[infoModalIdx]} close={() => setInfoModal(null)}/>}
+
+        {componentName == 'createModal' && <CreateTaskModal close={closeComponent}
+                                           index={componentIndex}/>}
+
+        {componentName == 'infoModal' && <InfoModal task={tasklist[componentIndex || 0]}
+                                                    close={closeComponent}
+        editTask={() => {openComponent('editPage')}}/>}
+        {componentName == 'editPage' && <CreateTaskModal close={closeComponent}
+                                                         index={componentIndex}/>}
         <CalendarHeader isDay={true} close={RedirectToMonth} toToday={toToday}/>
         <DayList>
             <HoursContainer>
