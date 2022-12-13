@@ -1,37 +1,46 @@
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../global/store";
-import React, {useState} from "react";
+import React from "react";
 import {useNavigate} from "react-router-dom";
-import { clearCurrentData } from "../../../reducers/tasksListReducer";
-import { DayCalendarMain, DayList, DayTask,
+import {clearCurrentData} from "../../../reducers/tasksListReducer";
+import {
+    DayCalendarMain,
+    DayList,
+    DayTask,
     DayTaskImage,
-    DayTaskTimeRange, DayTaskTitle, HourBlock, HoursContainer, HourTime } from "./dayCalendar.styles";
-import {getArrayByC} from "../../../global/tools";
+    DayTaskTimeRange,
+    DayTaskTitle,
+    HourBlock,
+    HoursContainer,
+    HourTime
+} from "./dayCalendar.styles";
+import {getArrayByC} from "../../../helpers/tools";
 import {FILES_LOCATION, taskColors} from "../../../global/constants";
-import CalendarHeader from "../CalendarHeader/CalendarHeader";
-import CreateTaskModal from "../Modals/CreateTaskModal/CreateModal";
-import { taskType} from "../../../global/types";
-import InfoModal from "../Modals/InfoModal/infoModal";
-import EditTask from "../EditTask/editTask";
+import CalendarHeader from "../../others/CalendarHeader/CalendarHeader";
+import ModalWrapper from "../../others/Modals/modalWrapper/modalWrapper";
+import {taskType} from "../../../global/types";
+import InfoModal from "../../others/Modals/InfoModal/infoModal";
+import {mainStatesT} from "../main";
+
 
 type dayCalendarProps = {
-    toToday : Function
+    toToday: Function,
+    states: mainStatesT
 }
 
 
-const DayCalendar = ({toToday} : dayCalendarProps) => {
-    const {date,  tasklist} = useSelector((state: StateType) => state.taskLists.current)
+const DayCalendar = ({toToday, states}: dayCalendarProps) => {
+    const {date, tasklist} = useSelector((state: StateType) => state.taskLists.current)
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const RedirectToMonth  = () => {dispatch(clearCurrentData())}
-
-    type compValueType = 'createModal' | 'infoModal' | 'editPage' | null
-    const [componentName,openComponent] = useState<compValueType>(null)
-    const [componentIndex,setIndex] = useState<number | null>(null)
+    const RedirectToMonth = () => {
+        dispatch(clearCurrentData())
+    }
+    const {component: [componentName, openComponent], index: [componentIndex, setIndex]} = states
 
     if (!date) navigate('/month')
 
-    const Hours = getArrayByC(24).map((i,idx) => {
+    const Hours = getArrayByC(24).map((i, idx) => {
         return <HourBlock key={idx} onClick={() => {
             if (!componentName){
                 openComponent('createModal')
@@ -70,14 +79,16 @@ const DayCalendar = ({toToday} : dayCalendarProps) => {
 
     return <DayCalendarMain className={'dragableMain'}>
 
-        {componentName == 'createModal' && <CreateTaskModal close={closeComponent}
-                                           index={componentIndex}/>}
+        {componentName == 'createModal' && <ModalWrapper close={closeComponent}
+                                                         index={componentIndex}/>}
 
         {componentName == 'infoModal' && <InfoModal task={tasklist[componentIndex || 0]}
                                                     close={closeComponent}
-        editTask={() => {openComponent('editPage')}}/>}
-        {componentName == 'editPage' && <CreateTaskModal close={closeComponent}
-                                                         index={componentIndex}/>}
+                                                    editTask={() => {
+                                                        openComponent('editPage')
+                                                    }}/>}
+        {componentName == 'editPage' && <ModalWrapper close={closeComponent}
+                                                      index={componentIndex} taskData={tasklist[componentIndex || 0]}/>}
         <CalendarHeader isDay={true} close={RedirectToMonth} toToday={toToday}/>
         <DayList>
             <HoursContainer>

@@ -1,13 +1,19 @@
 import {taskListReducerType, taskListType, taskType} from "../global/types";
-import { createSlice, PayloadAction} from "@reduxjs/toolkit";
-import ConnectToAPI from "../global/connectToAPI";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import API from "../global/API";
 import {isError} from "../global/constants";
 import {setDaysFormT} from "../components/Main/main";
-import {convertPromise, createDateData, formatMonth, formatNum, formatWeekDay, stringToTime} from "../global/tools";
-import {taskToServerType} from "../components/Main/Modals/CreateTaskModal/CreateModal";
-import {globalDispatch, StateType } from "../global/store";
-import {createThunk} from "../global/tools";
+import {
+    convertPromise,
+    createDateData,
+    createThunk,
+    formatMonth,
+    formatNum,
+    formatWeekDay,
+    stringToTime
+} from "../helpers/tools";
 import dayjs from "dayjs";
+import {taskToServerT} from "../components/others/Modals/modalWrapper/modalWrapper";
 
 
 const initialState: taskListReducerType = {
@@ -19,21 +25,20 @@ const initialState: taskListReducerType = {
         month: null,
         _id: null,
         tasklist: [],
-        weekDay : null
+        weekDay: null
     },
     year: formatNum(new Date().getFullYear()),
     month: formatMonth(),
-    date : formatNum(new Date().getDate())
+    date: formatNum(new Date().getDate())
 
 }
 type setDaysDataT = {
     data: Array<taskListType>,
     index: number,
     user_id: string,
-    fulldate : string,
-    sendToCurrent : boolean | void
+    fulldate: string,
+    sendToCurrent: boolean | void
 }
-
 
 
 const taskListReducer = createSlice({
@@ -41,10 +46,10 @@ const taskListReducer = createSlice({
     initialState,
     reducers: {
         setDaysData(state, {payload}: PayloadAction<setDaysDataT>) {
-            const [year,month] = stringToTime(payload.fulldate)
+            const [year, month] = stringToTime(payload.fulldate)
             state.daysData = payload.data
-            if (!payload.sendToCurrent){
-                state.current = payload.data[payload.index] || createDateData(payload.user_id,payload.fulldate)
+            if (!payload.sendToCurrent) {
+                state.current = payload.data[payload.index] || createDateData(payload.user_id, payload.fulldate)
                 state.current.weekDay = formatWeekDay(dayjs(payload.fulldate).get('day'))
             }
             state.year = year
@@ -55,54 +60,78 @@ const taskListReducer = createSlice({
             const [month, date] = stringToTime(payload.fulldate).slice(1)
 
             const index = currentState.daysData.findIndex(i => i.date == date && i.month == month)
-            state.current =  currentState.daysData[index] || createDateData(payload.user_id, payload.fulldate)
+            state.current = currentState.daysData[index] || createDateData(payload.user_id, payload.fulldate)
             state.current.weekDay = formatWeekDay(dayjs(payload.fulldate).get('day'))
 
         },
         clearCurrentData(state) {
             state.current = initialState.current
         },
-        addTaskToList(state,{payload} : PayloadAction<{id : string,taskData : taskType}>){
+        addTaskToList(state, {payload}: PayloadAction<{ id: string, taskData: taskType }>) {
             state.daysData = state.daysData.map(item => item._id == payload.id ?
-                {...item,tasklist: [...item.tasklist,payload.taskData]} : item)
-            state.current.tasklist.push(payload.taskData)
+                {...item, tasklist: [...item.tasklist, payload.taskData]} : item)
+            if (payload.taskData.date === convertPromise(state).current.date) {
+                state.current.tasklist.push(payload.taskData)
+            }
         },
-        addTaskList(state,{payload} : PayloadAction<taskListType>){
-            state.daysData.push(payload)
-            state.current.tasklist.push(payload.tasklist[0])
+        addTaskList(state, {payload}: PayloadAction<taskListType>) {
+            const currentState = convertPromise(state)
+            if (payload.month == currentState.month
+                && payload.year == currentState.year) {
+                state.daysData.push(payload)
+            }
+            if (payload.date === currentState.current.date) {
+                state.current.tasklist.push(payload.tasklist[0])
+            }
+
         },
-        deleteTaskList(state,{payload} : PayloadAction<string>){
+        deleteTaskList(state, {payload}: PayloadAction<string>) {
             const currentState: taskListReducerType = convertPromise(state)
             state.daysData = currentState.daysData.map(day => {
                 const index = day.tasklist.findIndex(i => i.task_id == payload)
-                console.log(index)
                 if (index != -1) {
-                    day.tasklist.splice(index,1)
-                    state.current.tasklist.splice(index,1)
+                    day.tasklist.splice(index, 1)
+                    state.current.tasklist.splice(index, 1)
                 }
                 return day
-            } )
+            })
+        },
+        updateTaskList(state, {payload}: PayloadAction<taskType>) {
+            const currentState: taskListReducerType = convertPromise(state)
+            // @ts-ignore
+            state.daysData = currentState.daysData.map(day => {
+                const index = day.tasklist.findIndex(i => i.task_id == payload.task_id)
+                if (index != -1) {
+                    day.tasklist[index] = payload
+                    state.current.tasklist[index] = payload
+                    return day
+                }
+            })
         }
     }
 })
 
-export const {setDaysData, setCurrentData, clearCurrentData,
-    addTaskToList,addTaskList,deleteTaskList} = taskListReducer.actions
+
+export const {
+    setDaysData, setCurrentData, clearCurrentData,
+    addTaskToList, addTaskList, deleteTaskList,
+    updateTaskList
+} = taskListReducer.actions
 
 
 export const setUserDays = createThunk('SET_USER_DAYS',
     async (data: setDaysFormT, {dispatch}) => {
-        const {data: response} = await ConnectToAPI.getUserDays(data)
+        const {data: response} = await API.getUserDays(data)
         if (isError(response)) return
         const payload: Array<taskListType> = response.data
         const currentIndex = payload.findIndex((day => day.date == stringToTime(data.fulldate)[2]))
         const actionProps = {
             data: response.data, index: currentIndex,
-            user_id: data.user_id, fulldate : data.fulldate,
+            user_id: data.user_id, fulldate: data.fulldate,
             sendToCurrent: data.noCurrent
         }
         dispatch(setDaysData(actionProps))
-})
+    })
 
 
 type createTaskResT = {
@@ -112,29 +141,40 @@ type createTaskResT = {
 }
 
 export const createTask = createThunk('CREATE_TASK',
-    async (data: { data: taskType, user_id: string }, {dispatch} ) => {
-        const {data : response} = await ConnectToAPI.createTask(data)
+    async (data: taskToServerT, {dispatch}) => {
+        const {data: response} = await API.createTask(data)
         if (isError(response)) return
-        const {insertData,result,wasExisted} : createTaskResT = response.data
-        if (wasExisted)  {
-            dispatch(addTaskToList({id: result._id || '' , taskData : insertData}))
+        const {insertData, result, wasExisted}: createTaskResT = response.data
+        if (wasExisted) {
+            console.log(result)
+            dispatch(addTaskToList({id: result._id || '', taskData: insertData}))
             return
         }
         dispatch(addTaskList(result))
 
-})
+    })
 
 export const deleteTask = createThunk('DELETE_TASK',
     async (task_id: string, {dispatch}) => {
-        const {data : response} = await ConnectToAPI.deleteTask(task_id)
-        if (isError(response) || response?.modifiedCount == 0){
-            console.log('DELETE_TASK_ERROR')
-            return
+        const {data: response} = await API.deleteTask(task_id)
+        if (isError(response) || response.data.modifiedCount == 0) {
+            return console.log('DELETE_TASK_ERROR')
         }
         console.log(response)
         dispatch(deleteTaskList(task_id))
-})
+    })
 
+export const updateTask = createThunk('UPDATE_TASK',
+    async (data: taskToServerT, {dispatch}) => {
+        const {data: response} = await API.updateTask(data)
+        console.log(response)
+        if (isError(response) || response.data.modifiedCount == 0) {
+            return console.log('UPDATE_TASK_ERROR')
+        }
+
+        dispatch(updateTaskList(data.data))
+        console.log(response)
+    })
 
 
 export default taskListReducer.reducer

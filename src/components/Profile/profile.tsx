@@ -1,36 +1,40 @@
 import React, {useEffect, useState} from 'react';
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import { StateType } from '../../global/store';
+import {StateType} from '../../global/store';
 import {
     AvatarButton,
     AvatarButtonTitle,
     ChangePasswordBlock,
+    EmptyAvatar,
+    EmptyAvatarTitle,
     FieldBlock,
     FieldInput,
     FieldsContainer,
     FieldTitle,
     GreyLine,
     InnerContainer,
-    Input,
     MainContent,
     PasswordBlock,
     PasswordButton,
     PasswordButtons,
     PasswordInput,
-    PasswordInputChange,
     PasswordInputsBlock,
     ProfileTitle,
     ProfileWrapper,
     SmallerTitle,
-    UserImageElement,
     UserAvatarBlock,
-    EmptyAvatar,
-    EmptyAvatarTitle
+    UserImageElement
 } from './profile.styles';
-import {changePasswordValidator, profileValidator } from '../../global/validate';
+import {changePasswordValidator, profileValidator} from '../../helpers/validate';
 import {useNavigate} from "react-router-dom";
-import {changeUserName, changeUserPassword, logoutUser, updateUserImage, uploadFile} from "../../reducers/userDataReducer";
+import {
+    changeUserName,
+    changeUserPassword,
+    logoutUser,
+    updateUserImage,
+    uploadFile
+} from "../../reducers/userDataReducer";
 import {FILES_LOCATION} from "../../global/constants";
 
 

@@ -1,8 +1,8 @@
 import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import {capitalizeFirstLetter, convertHexToAppColor, getArrayByC} from "../../global/tools";
+import Select, {SelectChangeEvent} from "@mui/material/Select";
+import {capitalizeFirstLetter, convertHexToAppColor} from "../../helpers/tools";
 import MenuItem from "@mui/material/MenuItem";
-import React, {SyntheticEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
 import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 import {Dayjs} from "dayjs";
@@ -11,13 +11,12 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CheckboxMui from "@mui/material/Checkbox";
-import {EditTaskPage, TitleContainer} from "../Main/EditTask/editTask.styles";
 import {LinearProgress, LinearProgressProps} from "@mui/material";
 import Button from "@mui/material/Button";
 import {BiCloudUpload} from "react-icons/bi";
 import {TwitterPicker} from "react-color";
 import {taskColors} from "../../global/constants";
-import {ColorWrapper} from "../Main/Modals/CreateTaskModal/CreateModal.styles";
+import {ColorWrapper} from "./Modals/modalWrapper/createTaskModal/CreateModal.styles";
 
 
 type dropDownType = {
@@ -56,11 +55,14 @@ export const DropDownC = ({handler, minWidth = 120, value, names,formVariant,
 type datePickerType = {
     date: Dayjs,
     handleDate: any,
+    disabled?: boolean
 }
-export const DatePicker = ({date, handleDate}: datePickerType) => <LocalizationProvider dateAdapter={AdapterDayjs}><DesktopDatePicker
+export const DatePicker = ({date, handleDate, disabled}: datePickerType) => <LocalizationProvider
+    dateAdapter={AdapterDayjs}><DesktopDatePicker
     label="Choose date"
     inputFormat="DD/MM/YYYY"
     value={date} onChange={handleDate}
+    disabled={disabled}
 
     renderInput={(params) => <TextField size={'small'} {...params}
     />}/>
@@ -94,33 +96,35 @@ type CheckBoxProps = {
 
 export const CheckBox = ({title,handler,checked} : CheckBoxProps) => {
     return <FormControlLabel control={<CheckboxMui onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.checked)
+        handler(e.target.checked)
     }} checked={checked}/>} label={title} sx={{marginLeft: '5px'}} />
 }
 
 type InputProps = {
-    id : string,
-    label : string,
-    css ?: any,
-    variant ? : 'standard',
-    fw ?: boolean,
+    id: string,
+    label: string,
+    css?: any,
+    variant?: 'standard',
+    fw?: boolean,
     onChange: Function,
-    value : string
+    value: string,
+    error?: string
 }
 
 
 export const Input = (props : InputProps) => {
     // @ts-ignore
     return  <TextField onChange={props.onChange}
-        id={props.id}
-        label={props.label}
-        type="text"
-        autoComplete="off"
-        variant={props.variant}
-        fullWidth={props.fw}
-        InputProps={{style : props.css}}
-        InputLabelProps={{style: props.css}}
-        value={props.value}
+                       id={props.id}
+                       label={props.label}
+                       type="text"
+                       autoComplete="off"
+                       variant={props.variant}
+                       fullWidth={props.fw}
+                       InputProps={{style : props.css}}
+                       InputLabelProps={{style: props.css}}
+                       value={props.value}
+                       error={!!props.error}
     />
 }
 

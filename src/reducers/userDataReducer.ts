@@ -1,18 +1,17 @@
-import { createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {changeUserResponseType, loginResponseType, loginType} from "../global/types";
-import ConnectToAPI from "../global/connectToAPI";
+import API from "../global/API";
 import {isError} from "../global/constants";
-import {passwordFormType, profileFormWithID, setUserImageType } from "../components/Profile/profile";
-import { randomizeColors } from "../global/tools";
-import {createThunk} from "../global/tools";
+import {passwordFormType, profileFormWithID, setUserImageType} from "../components/Profile/profile";
+import {createThunk, randomizeColors} from "../helpers/tools";
 
 
-const initialState : loginType= {
-    user_id : null,
-    email : null,
-    password : null,
-    userImage : null,
-    userName : null
+const initialState: loginType = {
+    user_id: null,
+    email: null,
+    password: null,
+    userImage: null,
+    userName: null
 }
 
 
@@ -59,7 +58,7 @@ type getOrCreateUserType = {
 export const getOrCreateUser = createThunk('GET_OR_CREATE_USER',
     async (data : getOrCreateUserType, {dispatch}) => {
     // @ts-ignore
-    const callback = data.isRegistration ? ConnectToAPI.createUser : ConnectToAPI.loginUser
+        const callback = data.isRegistration ? API.createUser : API.loginUser
 
     const {data : userData} = await callback(data)
     if (isError(userData)) return userData.message
@@ -69,14 +68,14 @@ export const getOrCreateUser = createThunk('GET_OR_CREATE_USER',
 
 export const changeUserName = createThunk('CHANGE_USER_NAME',
     async (data : profileFormWithID, {dispatch}) => {
-        const {data : userData} = await ConnectToAPI.changeUserData(data)
+        const {data: userData} = await API.changeUserData(data)
         if (isError(userData)) return
         dispatch(changeUserValues(userData.data))
 })
 
 export const changeUserPassword = createThunk('CHANGE_USER_PASSWORD',
     async (data : passwordFormType,{dispatch}) => {
-        const {data : userData} = await ConnectToAPI.changeUserPassword(data)
+        const {data: userData} = await API.changeUserPassword(data)
         if (isError(userData)) return
         dispatch(updateUserPassword(userData.data.password))
     })
@@ -86,7 +85,7 @@ export const uploadFile = createThunk('UPLOAD_FILE',
     async ({file,name} : {file : any,name : string}) => {
         const formData = new FormData()
         formData.append(name, file)
-        const {data: userData} = await ConnectToAPI.uploadFile({formData,name})
+        const {data: userData} = await API.uploadFile({formData, name})
         if (isError(userData)) return console.log('upload failed')
         return userData.data
 })
@@ -94,7 +93,7 @@ export const uploadFile = createThunk('UPLOAD_FILE',
 
 export const updateUserImage = createThunk('UPDATE_USER_IMAGE',
     async (data : setUserImageType,{dispatch}) => {
-        const response = await ConnectToAPI.setUserImage(data)
+        const response = await API.setUserImage(data)
         if (isError(response.data)) return
         dispatch(setUserImage(data.filename))
 })
@@ -103,7 +102,7 @@ export const updateUserImage = createThunk('UPDATE_USER_IMAGE',
 export const getAuth = createThunk('GET_AUTH',
     async (data : void,{dispatch}) => {
 
-        const {data : response} = await ConnectToAPI.getAuth()
+        const {data: response} = await API.getAuth()
         if (isError(response)) return true
         if (!localStorage.getItem('defaultAvatarColor')) localStorage.setItem('defaultAvatarColor',randomizeColors())
         dispatch(setUserValues(response.data))
@@ -111,8 +110,8 @@ export const getAuth = createThunk('GET_AUTH',
 
 export const logoutUser = createThunk('LOGOUT_USER',
     async (data : void,{dispatch}) => {
-    await ConnectToAPI.logoutUser()
-    dispatch(clearUserData())
+        await API.logoutUser()
+        dispatch(clearUserData())
 })
 
 

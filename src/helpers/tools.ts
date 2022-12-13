@@ -1,6 +1,5 @@
-import {MONTHS, taskColors, WEEKDAYS} from "./constants"
-import {taskType} from "./types";
-import {globalDispatch, StateType} from "./store";
+import {MONTHS, taskColors} from "../global/constants"
+import {globalDispatch, StateType} from "../global/store";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
 export const capitalizeFirstLetter = (word: string) => word[0].toUpperCase() + word.slice(1)
@@ -76,7 +75,7 @@ export const ValidateMonthChange = (year: number, month: number) => {
 
 export const numberTimeToStr = (time: number | string): string => formatNum(+time) + ':00'
 
-export const strToTimeNumber = (time: string): number => +time.split(':')
+export const strToTimeNumber = (time: string): number => +(time.split(':')[0])
 
 export const convertHexToAppColor = (hex: string) => {
     const color = Object.entries(taskColors).find(item => item[1].color.toLowerCase() == hex)

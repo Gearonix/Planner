@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { styled as mui} from '@mui/material/styles';
+import {styled as mui} from '@mui/material/styles';
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
 
@@ -44,8 +44,8 @@ export const SaveButtonsContainer = styled.div`
 `
 
 export const SaveButton = mui(Button)`
-    width: 121px;
-    height: 40px;
+    width: 140px;
+    height: 37px;
     margin-top: 16px;
     margin-right: 16px;
 `

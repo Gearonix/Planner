@@ -4,7 +4,7 @@ import {
     cutString,
     generateCalendarArray,
     getArrayByC
-} from "../../../../global/tools";
+} from "../../../../helpers/tools";
 import React from "react";
 import {taskColors, WEEKDAYS} from "../../../../global/constants";
 import {
@@ -12,31 +12,39 @@ import {
     CalendarTable,
     CalenRow,
     CellTask,
-     CellTitle,
-    CelTasks,  MonthBlock, WekkendRow } from "./CalendarModule.styles";
+    CellTitle,
+    CelTasks,
+    MonthBlock,
+    WekkendRow
+} from "./CalendarModule.styles";
 import {useSelector} from "react-redux";
 import {StateType} from "../../../../global/store";
 import {taskListType, taskType} from "../../../../global/types";
-import CalendarHeader from "../../CalendarHeader/CalendarHeader";
+import CalendarHeader from "../../../others/CalendarHeader/CalendarHeader";
+import ModalWrapper from "../../../others/Modals/modalWrapper/modalWrapper";
+import {mainStatesT} from "../../main";
 
 type calendarProps = {
     clickHandler: (n: number) => void,
-    toToday : Function
+    toToday: Function,
+    states: mainStatesT
 }
 
-const CalendarModule = ({ clickHandler: handle,toToday}: calendarProps) => {
-    const {month,year,date : currentDate} = useSelector((state : StateType) => state.taskLists)
-    const daysData = useSelector((state : StateType) => state.taskLists.daysData)
+const CalendarModule = ({clickHandler: handle, toToday, states}: calendarProps) => {
+    const {month, year, date: currentDate} = useSelector((state: StateType) => state.taskLists)
+    const daysData = useSelector((state: StateType) => state.taskLists.daysData)
     const daysAmount = createDaysAmount(year, month)
-    const pastDaysAmount =  createDaysAmount(year, +month-1)
+    const pastDaysAmount = createDaysAmount(year, +month - 1)
     const firstWeekDay = (new Date(+year, (+month) - 1, 1).getDay())
     const calendarArray = generateCalendarArray(firstWeekDay, daysAmount)
     const numbers = getArrayByC(daysAmount).map(i => i + 1)
 
     const calendarHead = <WekkendRow>{getArrayByC(7).map((i, idx) => <Cell key={idx}
-   title={capitalizeFirstLetter(WEEKDAYS[i])}/>)}</WekkendRow>
+                                                                           title={capitalizeFirstLetter(WEEKDAYS[i])}/>)}</WekkendRow>
+    const {component: [componentName, openComponent], index: [componentIndex, setIndex]} = states
 
-    return <MonthBlock>
+    return <MonthBlock className={'dragableMain'}>
+        {componentName == 'createModal' && <ModalWrapper close={() => openComponent(null)} index={12}/>}
         <CalendarHeader close={() => handle(+currentDate)} toToday={toToday}/>
         <CalendarTable>
             <tbody>
@@ -46,7 +54,7 @@ const CalendarModule = ({ clickHandler: handle,toToday}: calendarProps) => {
                           numbers={numbers} handle={handle}
                           daysAmount={pastDaysAmount}
                           daysData={daysData}
-                        />
+                />
             </CalenRow>
             <OtherRows calendarArray={calendarArray} numbers={numbers} firstWeekDay={firstWeekDay}
                        handle={handle} daysData={daysData}/>
@@ -125,7 +133,8 @@ const Cell = ({title,handler ,dis,tasklist = []} : cellType) => {
         </CellTitle>
         {tasklist.length>0 && <CelTasks>
             {/*@ts-ignore*/}
-            {tasklist.map((task,idx) => <CellTask color={taskColors[task.color]} key={idx}>
+            {tasklist.map((task, idx) => <CellTask color={taskColors[task.color]}
+                                                   key={idx}>
                 {task.starts} - {cutString(task.title)}
             </CellTask>)}
         </CelTasks>

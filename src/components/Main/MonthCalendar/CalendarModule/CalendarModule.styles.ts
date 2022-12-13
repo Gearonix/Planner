@@ -1,8 +1,6 @@
 import styled from 'styled-components'
-import { AddButtonText } from '../../Aside/aside.styles'
-import {ArrowIconWrapper} from "../../Header/header.styles";
-
-
+import {AddButtonText} from '../../../Aside/aside.styles'
+import {ArrowIconWrapper} from "../../../Header/header.styles";
 
 
 export const MonthBlock = styled.div`
@@ -11,8 +9,9 @@ export const MonthBlock = styled.div`
   border-radius: 4px;
   margin-left: 15px;
   margin-top: 15px;
-  width: 1550px;
-
+  width: 100%;
+  position: relative;
+  z-index: 0;
 `
 export const MonthHeader = styled.div`
   width: 100%;

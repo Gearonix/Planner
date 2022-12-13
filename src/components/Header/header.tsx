@@ -1,29 +1,39 @@
 import React from 'react'
-import {BurgerWrapper, HeaderElement, BurgerIconWrapper,
-    Logo, TodayButton, TodayTitle, ArrowIconWrapper,
-    SearchInput, SearchInputWrapper, SearchIconWrapper,
-    SettingsBlock, SettingsIconWrapper } from './header.styles'
+import {
+    BurgerIconWrapper,
+    BurgerWrapper,
+    HeaderElement,
+    Logo,
+    SearchIconWrapper,
+    SearchInput,
+    SearchInputWrapper,
+    SettingsBlock,
+    SettingsIconWrapper,
+    TodayButton,
+    TodayTitle
+} from './header.styles'
 import {RxHamburgerMenu} from 'react-icons/rx'
-import {StateType} from "../../../global/store";
+import {StateType} from "../../global/store";
 import {useDispatch, useSelector} from "react-redux";
-import {generateTodayDate, stringToTime, toMonthName} from '../../../global/tools';
-import {BsArrowLeftSquare,BsArrowRightSquare
-,BsSearch} from 'react-icons/bs'
+import {toMonthName} from '../../helpers/tools';
+import {BsSearch} from 'react-icons/bs'
 import {FiSettings} from 'react-icons/fi'
-import {UserImage} from './../../Profile/profile'
+import {UserImage} from '../Profile/profile'
 import {Link} from "react-router-dom";
-import {setCurrentData, setUserDays} from "../../../reducers/tasksListReducer";
+import {mainStatesT} from "../Main/main";
 
 type headerProps = {
-    closeAside : () => void,
+    closeAside: () => void,
+    states: mainStatesT
 }
 
 
-const Header = ({closeAside} : headerProps) => {
-    const {year,month,date} =
-    useSelector((state : StateType) => state.taskLists.current)
+const Header = ({closeAside, states}: headerProps) => {
+    const {year, month, date} =
+        useSelector((state: StateType) => state.taskLists.current)
+    const {component: [componentName, openComponent], index: [componentIndex, setIndex]} = states
     const user_id = useSelector((state: StateType) => state.userData.user_id) || ''
-    const {year : currentYear,month : currentMonth} = useSelector((state: StateType) => state.taskLists)
+    const {year: currentYear, month: currentMonth} = useSelector((state: StateType) => state.taskLists)
     const dispatch = useDispatch()
     return <HeaderElement>
         <Logo>Gearonix</Logo>

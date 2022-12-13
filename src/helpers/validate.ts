@@ -1,17 +1,16 @@
 import {loginFormValues as loginValues} from '../components/Login/login'
-import { modalFormType } from '../components/Main/Modals/CreateTaskModal/CreateModal'
-import {changePassFormType, profileFormWithID } from '../components/Profile/profile'
-import { nor } from './types'
+import {changePassFormType, profileFormWithID} from '../components/Profile/profile'
+import {nor} from '../global/types'
 
 
-type loginErrType = {email : nor,password: nor} | void
+type loginErrType = { email: nor, password: nor } | void
 
-export const loginValidator = ({email,password} : loginValues) : loginErrType  => {
-    const errors  : any = {}
+export const loginValidator = ({email, password}: loginValues): loginErrType => {
+    const errors: any = {}
     if (!email.includes('@')) errors.email = 'Email is not correct'
     if (ValidateEmail(email)) errors.email = 'Email is not correct'
     if (!email) errors.email = 'Email is required'
-    if (!password) errors.password =  'Password is required'
+    if (!password) errors.password = 'Password is required'
     return errors
 }
 export const ValidateEmail = (mail : string) => {
@@ -54,11 +53,9 @@ export const changePasswordValidator = (values : changePassFormType) => {
 }
 
 
-
-
-export const modalValidator = (values : modalFormType) => {
-    const errors : any = {}
-    if (!values.title){
+export const modalValidator = (values: any) => {
+    const errors: any = {}
+    if (!values.title) {
         errors.title = 'Title is required'
     }
 

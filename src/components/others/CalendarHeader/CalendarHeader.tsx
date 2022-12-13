@@ -1,19 +1,17 @@
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../../global/store";
-import {
-    createDaysAmount,
-    formatNum,
-    timeToString, toMonthName,
-    ValidateMonthChange
-} from "../../../global/tools";
+import {createDaysAmount, formatNum, timeToString, toMonthName, ValidateMonthChange} from "../../../helpers/tools";
 import {setCurrentData, setUserDays} from "../../../reducers/tasksListReducer";
 import {
     ArrowDownWrap,
-    CurrentDate, Grey,
+    CurrentDate,
+    Grey,
     HeaderInfoWrapper,
     MonthArrow,
-    MonthHeader, SortText, TodayButton
-} from "../MonthCalendar/CalendarModule/CalendarModule.styles";
+    MonthHeader,
+    SortText,
+    TodayButton
+} from "../../Main/MonthCalendar/CalendarModule/CalendarModule.styles";
 import {IoIosArrowBack, IoIosArrowDown, IoIosArrowForward, IoIosArrowUp} from "react-icons/io";
 import React from "react";
 

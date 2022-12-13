@@ -1,14 +1,14 @@
-import styled,{css, keyframes} from 'styled-components'
-import { PasswordButton } from '../../Profile/profile.styles'
-import { ArrowIconWrapper } from '../Header/header.styles'
+import styled, {keyframes} from 'styled-components'
+import {PasswordButton} from '../Profile/profile.styles'
 
 
 export const AsideElement = styled.aside`
-   width: 13%;
-   height: 100%;
+  width: 13%;
+  height: 100%;
   border-right: 1px solid #d9d9d9;
   background: white;
-  & > *{
+
+  & > * {
     margin-left: 15px;
   }
   position: relative;

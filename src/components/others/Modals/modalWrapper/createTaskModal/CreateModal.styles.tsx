@@ -1,15 +1,23 @@
 import styled from 'styled-components'
-import {InputElement} from '../../../Login/login.styles'
+import {InputElement} from '../../../../Login/login.styles'
 
 
-export const ModalElement=styled.div`
+export const Animated = styled.div`
   width: 400px;
-  height: ${({isBackground} : {isBackground ?: boolean}) => isBackground ? 770 : 620}px;
+  height: ${({isBackground}: { isBackground?: boolean }) => isBackground ? 770 : 620}px;
   border-radius: 14px;
   background: white;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   position: absolute;
   z-index: 1;
+`
+export const DraggableModal = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 1;
+  background: transparent;
+
 `
 
 
