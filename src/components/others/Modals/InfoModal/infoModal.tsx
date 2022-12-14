@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     ChangeModalElement,
     CircleButton,
@@ -8,6 +8,7 @@ import {
     Description,
     ImageBlock,
     InfoBlock,
+    InfoDraggable,
     InfoIcon,
     MainBlock,
     Title
@@ -22,31 +23,57 @@ import {StateType} from "../../../../global/store";
 import {useDispatch, useSelector} from "react-redux";
 import {capitalizeFirstLetter, cutString, stringToTime, toMonthName} from "../../../../helpers/tools";
 import {deleteTask} from "../../../../reducers/tasksListReducer";
+import {animated, useTransition} from "@react-spring/web";
+import Animations from "../../../../helpers/animations";
 
-const InfoModal = ({task,close,editTask} : {task : taskType,close : Function,editTask : Function}) => {
-    const weekDay = useSelector((state : StateType) => state.taskLists.current.weekDay)
-    const userName = useSelector((state : StateType) => state.userData.userName)
-    const [year,month,date] = stringToTime(task.date)
+
+type InfoModalProps = { task: taskType, close: Function, editTask: Function, style?: any }
+
+
+const InfoModalWrapper = (props: InfoModalProps) => {
+    const [isOpen, setIsOpen] = useState(true)
+    const Animated = animated(InfoModal)
+    const transitions = useTransition(isOpen, Animations.infoModal(props.close))
+    return transitions((style, item) => item ? <Animated {...{
+        ...props, close: () => {
+            setIsOpen(false)
+        }
+    }} style={style}/> : null)
+}
+
+
+const InfoModal = ({task, close, editTask, style}: InfoModalProps) => {
+    const weekDay = useSelector((state: StateType) => state.taskLists.current.weekDay)
+    const userName = useSelector((state: StateType) => state.userData.userName)
     const dispatch = useDispatch()
+    if (!task) return null
+
+    const [year, month, date] = stringToTime(task.date)
+
     const delTask = () => {
-        // @ts-ignore
-        dispatch(deleteTask(task.task_id))
         close()
+        setTimeout(() => {
+            // @ts-ignore
+            dispatch(deleteTask(task.task_id))
+        }, 300)
+
     }
+
     return (
-        <Draggable  bounds={'.dragableMain'}
-                   defaultPosition={{x : 500, y : 100 }}>
-        <ChangeModalElement>
-            <ImageBlock>
-                <CircleButtonBlock>
-                    {/*@ts-ignore*/}
-                    <CircleButton onClick={editTask}>
-                        <BsPen/>
-                    </CircleButton>
-                    {/*@ts-ignore*/}
-                    <CircleButton onClick={delTask}>
-                        <BsTrash/>
-                    </CircleButton>
+        <Draggable bounds={'.dragableMain'}
+                   defaultPosition={{x: 500, y: 100}}>
+            <InfoDraggable>
+                <ChangeModalElement style={style}>
+                    <ImageBlock>
+                        <CircleButtonBlock>
+                            {/*@ts-ignore*/}
+                            <CircleButton onClick={editTask}>
+                                <BsPen/>
+                            </CircleButton>
+                            {/*@ts-ignore*/}
+                            <CircleButton onClick={delTask}>
+                                <BsTrash/>
+                            </CircleButton>
                     {/*@ts-ignore*/}
                     <CircleButton onClick={close}>
                         <AiOutlineClose/>
@@ -80,9 +107,10 @@ const InfoModal = ({task,close,editTask} : {task : taskType,close : Function,edi
                     </Description>
                 </InfoBlock>
             </MainBlock>
-        </ChangeModalElement>
+                </ChangeModalElement>
+            </InfoDraggable>
         </Draggable>
     );
 };
 
-export default InfoModal;
+export default InfoModalWrapper;

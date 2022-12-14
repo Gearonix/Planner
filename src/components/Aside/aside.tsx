@@ -62,7 +62,6 @@ const Aside = ({isHide, states}: { isHide: boolean, states: mainStatesT }) => {
                       maxDate={maxDate}
                       maxDetail={'month'}
                       minDetail={'decade'}
-                      onClickMonth={() => console.log('test')}
             />
         </CalendarWrapper>
 

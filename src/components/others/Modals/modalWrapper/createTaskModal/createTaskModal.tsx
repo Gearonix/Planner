@@ -18,8 +18,10 @@ import Button from "@mui/material/Button/Button";
 import {ColorPicker, DatePicker, DropDownC, TextArea, UploadButton} from "../../../components";
 import {getArrayByC, numberTimeToStr, strToTimeNumber} from "../../../../../helpers/tools";
 import {DATE_FORMAT, repetitionDelays} from "../../../../../global/constants";
-import React from "react";
+import React, {useEffect} from "react";
 import {taskType} from "../../../../../global/types";
+import {animated, useSpring} from "@react-spring/web";
+import Animations from "../../../../../helpers/animations";
 
 
 export type createModalUIType = {
@@ -34,10 +36,19 @@ const CreateModalComponent = ({formik, close, error, style}: createModalUIType) 
     const values: taskType = formik.values
     const fullhours = [...getArrayByC(24).map(numberTimeToStr)]
 
+    const [animations, api] = useSpring(Animations.modalError(style).start, [])
+    const animateError = () => api.start(Animations.modalError(style).api)
+    useEffect(() => {
+        if (error) animateError()
+    })
+
 
     return <Draggable handle={'.draggableModalHandler'} bounds={'.dragableMain'} defaultPosition={{x: 500, y: 100}}>
         <DraggableModal>
-            <Animated style={style} isBackground={!!values.taskBackground}>
+            <Animated style={{
+                ...style, transform: animations.translate.to(Animations.modalError(style).transformHandler),
+                background: animations.backgroundColor
+            }} isBackground={!!values.taskBackground} as={animated.div}>
                 <ModalDraggable className={'draggableModalHandler'}>
                     <FaGripLines style={{color: '#CECECE'}}/>
                     {/*@ts-ignore*/}
@@ -96,7 +107,11 @@ const CreateModalComponent = ({formik, close, error, style}: createModalUIType) 
                                         variant="outlined" size={'small'}
                                         sx={{width: '120px', marginRight: '10px'}} color={'info'}>Cancel</Button>
                                 {/*@ts-ignore*/}
-                                <Button onClick={handleSubmit}
+                                <Button onClick={() => {
+                                    if (errors.title || !values.title) return animateError()
+                                    handleSubmit()
+                                }
+                                }
                                         variant="contained" size={'small'}
                                         sx={{marginRight: '10px', width: '120px'}}>Save</Button>
                             </ButtonsContainer>

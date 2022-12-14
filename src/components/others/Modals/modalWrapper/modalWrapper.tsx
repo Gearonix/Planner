@@ -13,7 +13,7 @@ import {uploadFile} from "../../../../reducers/userDataReducer";
 import CreateModalComponent from './createTaskModal/createTaskModal'
 import EditTask from "./EditTaskModal/editTask";
 import {animated, useTransition} from "@react-spring/web";
-import Animations from '../../../../helpers/animations';
+import Animations from "../../../../helpers/animations";
 
 dayjs.extend(customParseFormat)
 
@@ -22,11 +22,20 @@ export type taskToServerT = {
     data: taskType,
 }
 
-const ModalWrapper = ({close, index, taskData}: { close: Function, index: number | null, taskData?: taskType }) => {
+type ModalWrapperT = {
+    close: Function,
+    index: number | null,
+    taskData?: taskType | null
+}
+
+
+const ModalWrapper = ({close, index, taskData}: ModalWrapperT) => {
     const {date, year, month} = useSelector((state: StateType) => state.taskLists.current)
     const [componentError, setError] = useState<string | null>(null)
     const user_id = useSelector((state: StateType) => state.userData.user_id)
     const dispatch = useDispatch()
+    const [isOpen, setIsOpen] = useState(true)
+
     const submitTask = async (data: taskType) => {
         if (!dayjs(data.date).isValid()) return setError('Invalid date')
         let filename = taskData?.taskBackground || null
@@ -42,7 +51,6 @@ const ModalWrapper = ({close, index, taskData}: { close: Function, index: number
         // @ts-ignore
         dispatch(callback(submitData))
         close()
-
     }
 
     const initialValues: taskType = taskData || {
@@ -53,11 +61,14 @@ const ModalWrapper = ({close, index, taskData}: { close: Function, index: number
     }
 
     const formik = useFormik({initialValues, onSubmit: submitTask, validate: modalValidator})
-    const componentProps = {formik, close: () => setIsOpen(false), error: componentError}
+    const componentProps = {
+        formik, close: () => {
+            setIsOpen(false)
+        }, error: componentError
+    }
 
 
     const AnimatedCreateModal = animated(CreateModalComponent)
-    const [isOpen, setIsOpen] = useState(true)
     const transitions = useTransition(isOpen, Animations.scale(close))
 
     return !taskData ? transitions((style, item) => item ? <AnimatedCreateModal {...componentProps} style={style}/>

@@ -7,10 +7,10 @@ export const MonthBlock = styled.div`
   background: white;
   padding-bottom: 15px;
   border-radius: 4px;
-  margin-left: 15px;
   margin-top: 15px;
+  margin-left: -40px;
   width: 100%;
-  position: relative;
+  position: absolute;
   z-index: 0;
 `
 export const MonthHeader = styled.div`

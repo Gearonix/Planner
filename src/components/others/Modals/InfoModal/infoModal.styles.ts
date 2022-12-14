@@ -1,13 +1,11 @@
 import styled from 'styled-components'
 
 export const ChangeModalElement = styled.div`
-  width: 460px;
-  height: 230px;
+  width: 100%;
+  height: 100%;
   background-color: white;
   border-radius: 14px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  position: absolute;
-  z-index: 2;
 `
 export const ModalImage = styled.img`
   width: 100%;
@@ -16,12 +14,22 @@ export const ModalImage = styled.img`
 `
 export const ImageBlock = styled.div`
   width: 100%;
-  height: ${({isImage} : {isImage?: boolean}) => isImage  ? '150px' : '40px'}; ;
+  height: ${({isImage}: { isImage?: boolean }) => isImage ? '150px' : '40px'};;
   position: relative;
 `
+
+export const InfoDraggable = styled.div`
+  width: 460px;
+  height: 230px;
+  background: transparent;
+  border-radius: 14px;
+  position: absolute;
+  z-index: 2;
+`
+
 export const CircleButton = styled.div`
-      
-  background-color: ${({isImage} : {isImage?: boolean}) => isImage  ? '#1d1e20' : 'transparent'};   
+
+  background-color: ${({isImage}: { isImage?: boolean }) => isImage ? '#1d1e20' : 'transparent'};
   opacity: 0.7;
   width: 32px;
   height: 32px;

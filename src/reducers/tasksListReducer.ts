@@ -70,7 +70,7 @@ const taskListReducer = createSlice({
         addTaskToList(state, {payload}: PayloadAction<{ id: string, taskData: taskType }>) {
             state.daysData = state.daysData.map(item => item._id == payload.id ?
                 {...item, tasklist: [...item.tasklist, payload.taskData]} : item)
-            if (payload.taskData.date === convertPromise(state).current.date) {
+            if (payload.taskData.date.split('-')[2] === convertPromise(state).current.date) {
                 state.current.tasklist.push(payload.taskData)
             }
         },
@@ -146,7 +146,6 @@ export const createTask = createThunk('CREATE_TASK',
         if (isError(response)) return
         const {insertData, result, wasExisted}: createTaskResT = response.data
         if (wasExisted) {
-            console.log(result)
             dispatch(addTaskToList({id: result._id || '', taskData: insertData}))
             return
         }
@@ -160,20 +159,17 @@ export const deleteTask = createThunk('DELETE_TASK',
         if (isError(response) || response.data.modifiedCount == 0) {
             return console.log('DELETE_TASK_ERROR')
         }
-        console.log(response)
         dispatch(deleteTaskList(task_id))
     })
 
 export const updateTask = createThunk('UPDATE_TASK',
     async (data: taskToServerT, {dispatch}) => {
         const {data: response} = await API.updateTask(data)
-        console.log(response)
         if (isError(response) || response.data.modifiedCount == 0) {
             return console.log('UPDATE_TASK_ERROR')
         }
 
         dispatch(updateTaskList(data.data))
-        console.log(response)
     })
 
 

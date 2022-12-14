@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import {CellTask, MonthBlock } from "../MonthCalendar/CalendarModule/CalendarModule.styles";
+import {CellTask, MonthBlock} from "../MonthCalendar/CalendarModule/CalendarModule.styles";
 
 export const DayCalendarMain = styled(MonthBlock)`
   width: 60%;
-  position: relative;
+  height: 900px;
+  position: absolute;
 `
 
 export const DayList = styled.div`
@@ -14,13 +15,16 @@ export const DayList = styled.div`
   border-radius: 4px;
   height: 700px;
   overflow-y: auto;
-  &::-webkit-scrollbar-thumb{
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar-thumb {
     border: 5px solid transparent;
     border-radius: 100px;
     background-color: white;
     background-clip: content-box;
   }
-  &::-webkit-scrollbar-track{
+
+  &::-webkit-scrollbar-track {
     background-color: #e4e4e4;
     border-radius: 100px;
   }

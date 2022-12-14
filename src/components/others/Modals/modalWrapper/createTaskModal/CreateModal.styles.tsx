@@ -6,7 +6,6 @@ export const Animated = styled.div`
   width: 400px;
   height: ${({isBackground}: { isBackground?: boolean }) => isBackground ? 770 : 620}px;
   border-radius: 14px;
-  background: white;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   position: absolute;
   z-index: 1;

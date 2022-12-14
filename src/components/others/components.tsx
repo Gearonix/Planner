@@ -41,7 +41,6 @@ export const DropDownC = ({handler, minWidth = 120, value, names,formVariant,
             value={names.indexOf(value)}
             label="Time"
             onChange={(idx : SelectChangeEvent<number>) => {
-                console.log(idx.target.value)
                 // @ts-ignore
                 handler(names[idx.target.value])
             }}

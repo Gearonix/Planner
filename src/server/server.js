@@ -182,7 +182,6 @@ app.post('/planner/task/create', (req, res) => {
 
 app.delete('/planner/task/delete', (req, res) => {
     const {task_id} = req.body
-    console.log(task_id)
     db.collection('tasklists').updateOne({tasklist: {$elemMatch: {task_id: new ObjectId(task_id)}}},
         {$pull: {tasklist: {task_id: new ObjectId(task_id)}}}, (err, result) => {
             if (err) return res.json(error(err))

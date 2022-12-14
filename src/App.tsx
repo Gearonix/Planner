@@ -10,8 +10,8 @@ import {getAuth} from "./reducers/userDataReducer";
 function App() {
     const dispatch = useDispatch()
     const [isUserLoading, setUserLoading] = useState(true)
-    // @ts-ignore
     useEffect(() => {
+        //@ts-ignore
         dispatch(getAuth()).then(() => setUserLoading(false))
     })
     return isUserLoading ? null : (
