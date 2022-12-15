@@ -1,8 +1,7 @@
-import {taskListReducerType, taskListType, taskType} from "../global/types";
+import {taskListReducerType, taskListType, taskType} from "../global/types/stateTypes";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import API from "../global/API";
 import {isError} from "../global/constants";
-import {setDaysFormT} from "../components/Main/main";
 import {
     convertPromise,
     createDateData,
@@ -13,7 +12,7 @@ import {
     stringToTime
 } from "../helpers/tools";
 import dayjs from "dayjs";
-import {taskToServerT} from "../components/others/Modals/modalWrapper/modalWrapper";
+import {setDaysFormT, taskToServerT} from "../global/types/components/mainTypes";
 
 
 const initialState: taskListReducerType = {
@@ -98,14 +97,13 @@ const taskListReducer = createSlice({
         },
         updateTaskList(state, {payload}: PayloadAction<taskType>) {
             const currentState: taskListReducerType = convertPromise(state)
-            // @ts-ignore
             state.daysData = currentState.daysData.map(day => {
                 const index = day.tasklist.findIndex(i => i.task_id == payload.task_id)
                 if (index != -1) {
                     day.tasklist[index] = payload
                     state.current.tasklist[index] = payload
-                    return day
                 }
+                return day
             })
         }
     }
@@ -157,7 +155,7 @@ export const deleteTask = createThunk('DELETE_TASK',
     async (task_id: string, {dispatch}) => {
         const {data: response} = await API.deleteTask(task_id)
         if (isError(response) || response.data.modifiedCount == 0) {
-            return console.log('DELETE_TASK_ERROR')
+            return console.error('DELETE_TASK_ERROR')
         }
         dispatch(deleteTaskList(task_id))
     })
@@ -165,9 +163,7 @@ export const deleteTask = createThunk('DELETE_TASK',
 export const updateTask = createThunk('UPDATE_TASK',
     async (data: taskToServerT, {dispatch}) => {
         const {data: response} = await API.updateTask(data)
-        if (isError(response) || response.data.modifiedCount == 0) {
-            return console.log('UPDATE_TASK_ERROR')
-        }
+        if (isError(response)) return console.error('UPDATE_TASK_ERROR')
 
         dispatch(updateTaskList(data.data))
     })

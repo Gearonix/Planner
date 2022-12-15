@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import {CellTask, MonthBlock} from "../MonthCalendar/CalendarModule/CalendarModule.styles";
+import {CellTask, MonthBlock} from "../MonthCalendar/monthCalendar.styles";
 
 export const DayCalendarMain = styled(MonthBlock)`
   width: 60%;
   height: 900px;
   position: absolute;
+  background: white;
 `
 
 export const DayList = styled.div`

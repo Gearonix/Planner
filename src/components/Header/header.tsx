@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {
     BurgerIconWrapper,
     BurgerWrapper,
@@ -13,36 +13,30 @@ import {
     TodayTitle
 } from './header.styles'
 import {RxHamburgerMenu} from 'react-icons/rx'
-import {StateType} from "../../global/store";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {toMonthName} from '../../helpers/tools';
 import {BsSearch} from 'react-icons/bs'
 import {FiSettings} from 'react-icons/fi'
 import {UserImage} from '../Profile/profile'
 import {Link} from "react-router-dom";
-import {mainStatesT} from "../Main/main";
+import {actions, MainContext} from "../Main/reducer";
+import Selectors from "../../helpers/selectors";
 
-type headerProps = {
-    closeAside: () => void,
-    states: mainStatesT
-}
+const Header = () => {
+    const {year, month, date} = useSelector(Selectors.current)
+    const context = useContext(MainContext)
 
-
-const Header = ({closeAside, states}: headerProps) => {
-    const {year, month, date} =
-        useSelector((state: StateType) => state.taskLists.current)
-    const {component: [componentName, openComponent], index: [componentIndex, setIndex]} = states
-    const user_id = useSelector((state: StateType) => state.userData.user_id) || ''
-    const {year: currentYear, month: currentMonth} = useSelector((state: StateType) => state.taskLists)
-    const dispatch = useDispatch()
     return <HeaderElement>
         <Logo>Gearonix</Logo>
-        <BurgerWrapper onClick={closeAside}>
+        <BurgerWrapper onClick={() => context.dispatch(actions.setIsAsideOpened(!context.state.isAsideOpened))}>
             <BurgerIconWrapper>
                 <RxHamburgerMenu/>
             </BurgerIconWrapper>
         </BurgerWrapper>
-        <TodayButton>
+        <TodayButton onClick={() => {
+            context.scrolls[1]()
+            context.toToday()
+        }}>
             Today
         </TodayButton>
         <TodayTitle>

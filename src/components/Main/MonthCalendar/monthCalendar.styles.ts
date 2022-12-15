@@ -1,26 +1,34 @@
 import styled from 'styled-components'
-import {AddButtonText} from '../../../Aside/aside.styles'
-import {ArrowIconWrapper} from "../../../Header/header.styles";
+import {AddButtonText} from '../../Aside/aside.styles'
+import {ArrowIconWrapper} from "../../Header/header.styles";
 
 
 export const MonthBlock = styled.div`
-  background: white;
   padding-bottom: 15px;
   border-radius: 4px;
   margin-top: 15px;
   margin-left: -40px;
-  width: 100%;
+  width: 83%;
   position: absolute;
   z-index: 0;
 `
+
+export const InnerMonthBlock = styled(MonthBlock)`
+  background: white;
+  width: 100%;
+
+`
+
+
 export const MonthHeader = styled.div`
   width: 100%;
   height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  & > div{
-    width: ${(props : { width : number }) => props.width }%;
+
+  & > div {
+    width: ${(props: { width: number }) => props.width}%;
   }
 `
 export const CurrentDate = styled(AddButtonText)`
@@ -135,8 +143,8 @@ export const CelTasks = styled.div`
   //border: 1px solid red;
 `
 export const CellTask = styled.div`
-  background: ${(props : any) => props.color.background};
-  color: ${(props : any) => props.color.color};
+  background: ${(props: any) => props.theme.background};
+  color: ${(props: any) => props.theme.color};
   width: 93%;
   height: 30px;
   border-radius: 2px;
@@ -148,7 +156,7 @@ export const CellTask = styled.div`
   align-items: center;
   font-weight: normal;
   margin-top: 7px;
-  border: 1px solid ${(props : any) => props.color.color};
+  border: 1px solid ${(props: any) => props.theme.color};
   cursor: pointer;
 `
 

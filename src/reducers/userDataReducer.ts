@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {changeUserResponseType, loginResponseType, loginType} from "../global/types";
+import {loginType} from "../global/types/stateTypes";
 import API from "../global/API";
 import {isError} from "../global/constants";
-import {passwordFormType, profileFormWithID, setUserImageType} from "../components/Profile/profile";
 import {createThunk, randomizeColors} from "../helpers/tools";
+import {getOrCreateUserType, loginResponseType} from "../global/types/components/loginTypes";
+import {passwordFormType, profileFormWithID, setUserImageType} from "../global/types/components/profileTypes";
 
 
 const initialState: loginType = {
@@ -29,7 +30,7 @@ const userDataReducer = createSlice({
             state.userName = payload.userName
             state.userImage = payload.userImage
         },
-        changeUserValues(state,{payload} : PayloadAction<changeUserResponseType>){
+        changeUserValues(state, {payload}: PayloadAction<{ userName: string }>) {
             state.userName = payload.userName
         },
         setUserImage(state,{payload} :PayloadAction<string>){
@@ -48,12 +49,6 @@ const userDataReducer = createSlice({
 const {setUserValues,changeUserValues,setUserImage,
     updateUserPassword,clearUserData} = userDataReducer.actions
 
-
-type getOrCreateUserType = {
-    email : string,
-    password : string,
-    isRegistration : boolean
-}
 
 export const getOrCreateUser = createThunk('GET_OR_CREATE_USER',
     async (data : getOrCreateUserType, {dispatch}) => {

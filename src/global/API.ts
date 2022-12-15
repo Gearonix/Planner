@@ -1,8 +1,7 @@
 import axios from 'axios'
-import {loginFormValues} from '../components/Login/login';
-import {passwordFormType, profileFormWithID, setUserImageType} from "../components/Profile/profile";
-import {setDaysFormT} from "../components/Main/main";
-import {taskToServerT} from "../components/others/Modals/modalWrapper/modalWrapper";
+import {setDaysFormT, taskToServerT} from "./types/components/mainTypes";
+import {loginFormValues} from "./types/components/loginTypes";
+import {passwordFormType, profileFormWithID, setUserImageType} from "./types/components/profileTypes";
 
 
 const instance = axios.create({

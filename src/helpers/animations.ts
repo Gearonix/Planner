@@ -69,6 +69,34 @@ const Animations = {
         onRest: (result: AnimationResult, spring: Controller, item: boolean) => {
             if (!item) onRest()
         }
+    }),
+    parallax: () => ({mass: 1, tension: 380, friction: 60}),
+    monthMoves: () => ({
+        start: {
+            from: {
+                x: 0,
+            }
+
+        },
+        next: {
+            to: [{
+                x: 100,
+            }, {opacity: 0, x: -100, config: {duration: 1}}, {
+                x: 0,
+                config: {duration: 200}
+            }]
+        },
+        prev: {
+            to: [{
+                x: -100,
+            }, {opacity: 0, x: 100, config: {duration: 1}}, {
+                x: 0,
+                config: {duration: 200}
+            }]
+        },
+        transform(value: any) {
+            return `translate(${value}vw)`
+        }
     })
 
 }

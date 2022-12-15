@@ -19,22 +19,16 @@ import {ColorPicker, DatePicker, DropDownC, TextArea, UploadButton} from "../../
 import {getArrayByC, numberTimeToStr, strToTimeNumber} from "../../../../../helpers/tools";
 import {DATE_FORMAT, repetitionDelays} from "../../../../../global/constants";
 import React, {useEffect} from "react";
-import {taskType} from "../../../../../global/types";
+import {taskType} from "../../../../../global/types/stateTypes";
 import {animated, useSpring} from "@react-spring/web";
 import Animations from "../../../../../helpers/animations";
+import {createModalUIType} from "../../../../../global/types/components/mainTypes";
 
-
-export type createModalUIType = {
-    formik: any,
-    close: Function,
-    error: string | null,
-    style?: any,
-}
 
 const CreateModalComponent = ({formik, close, error, style}: createModalUIType) => {
     const {handleChange, handleSubmit, setFieldValue, errors} = formik
     const values: taskType = formik.values
-    const fullhours = [...getArrayByC(24).map(numberTimeToStr)]
+    const fullHours = getArrayByC(24).map(numberTimeToStr)
 
     const [animations, api] = useSpring(Animations.modalError(style).start, [])
     const animateError = () => api.start(Animations.modalError(style).api)
@@ -79,9 +73,9 @@ const CreateModalComponent = ({formik, close, error, style}: createModalUIType) 
                                 if (ends == '24:00') ends = '00:00'
                                 setFieldValue('ends', ends)
                             }
-                            } value={values.starts} names={fullhours} formVariant={'standard'}/>
+                            } value={values.starts} names={fullHours} formVariant={'standard'}/>
                             <DropDownC handler={handleChange('ends')} value={values.ends}
-                                       names={values.starts == '23:00' ? ['00:00'] : fullhours.slice(fullhours.indexOf(values.ends))}
+                                       names={values.starts == '23:00' ? ['00:00'] : fullHours.slice(fullHours.indexOf(values.ends))}
                                        formVariant={'standard'}/>
                         </ButtonsContainer>
 

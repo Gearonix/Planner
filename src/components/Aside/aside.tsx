@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import {
     AddButtonBlock,
     AsideElement,
@@ -13,17 +13,16 @@ import {
 // @ts-ignore
 import Calendar from 'react-calendar';
 import {useDispatch, useSelector} from "react-redux";
-import {StateType} from "../../global/store";
 import {formatMonth, formatNum, timeToString} from "../../helpers/tools";
 import {setCurrentData, setUserDays} from "../../reducers/tasksListReducer";
 import {AiOutlineArrowDown, AiOutlineArrowUp} from 'react-icons/ai'
 import './CalendarComp/calendar.css'
 import {HiOutlinePlus} from 'react-icons/hi'
 import Button from '@mui/material/Button';
-import {mainStatesT} from "../Main/main";
+import {actions, MainContext} from "../Main/reducer";
+import {StateType} from "../../global/types/types";
 
-const Aside = ({isHide, states}: { isHide: boolean, states: mainStatesT }) => {
-    const {component: [componentName, openComponent], index: [componentIndex, setIndex]} = states
+const Aside = () => {
     const dispatch = useDispatch()
     const {month: stateMonth, year: stateYear, date} = useSelector((state: StateType) => state.taskLists)
     const [calendarDate, setCalendarDate] = useState(new Date(+stateYear, +stateMonth - 1, +date))
@@ -35,24 +34,26 @@ const Aside = ({isHide, states}: { isHide: boolean, states: mainStatesT }) => {
         const fulldate = timeToString(selectedYear, selectedMonth, day)
         setCalendarDate(dateObject)
         if (selectedMonth == stateMonth && selectedYear == stateYear) {
-            dispatch(setCurrentData({user_id,fulldate}))
+            dispatch(setCurrentData({user_id, fulldate}))
             return
         }
         // @ts-ignore
-        dispatch(setUserDays({user_id,fulldate}))
+        dispatch(setUserDays({user_id, fulldate: fulldate}))
     }
     const minDate = new Date(+stateYear - 8, +stateMonth - 1)
-    const maxDate = new Date(+stateYear + 8,+stateMonth - 1)
+    const maxDate = new Date(+stateYear + 8, +stateMonth - 1)
+
+    const context = useContext(MainContext)
+    const mainState = context.state
 
 
-
-    return  <AsideElement isHide={isHide}>
+    return <AsideElement isHide={!mainState.isAsideOpened}>
         <AddButtonBlock>
             <Button variant="outlined" size={'large'}
                     startIcon={<HiOutlinePlus style={{color: '#1976d2'}}/>}
                     sx={{marginLeft: '10px'}} onClick={() => {
-                openComponent('createModal')
-                setIndex(6)
+                context.dispatch(actions.openComponent('createModal'))
+                context.dispatch(actions.setIndex(6))
             }}>Add Event</Button>
         </AddButtonBlock>
         <CalendarWrapper>

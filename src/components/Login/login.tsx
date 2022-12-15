@@ -19,37 +19,29 @@ import {
 } from "./login.styles";
 import {useDispatch, useSelector} from "react-redux";
 import {getOrCreateUser} from '../../reducers/userDataReducer';
-import {globalDispatch, StateType} from '../../global/store';
+import {DispatchType} from '../../global/store';
 import {Link, useNavigate} from "react-router-dom";
 import {loginValidator} from "../../helpers/validate";
 import {GoGear} from 'react-icons/go'
 import {FaHeart} from 'react-icons/fa'
-import {refType} from '../../global/types';
 import {BsEyeFill, BsEyeSlashFill} from 'react-icons/bs'
 import {IoMdAlert} from 'react-icons/io'
 import {capitalizeFirstLetter} from '../../helpers/tools';
+import {refType, StateType} from "../../global/types/types";
+import {loginFormValues, LoginProps} from "../../global/types/components/loginTypes";
 
 
-export type loginFormValues = {
-    email: string,
-    password: string
-}
-
-type LoginProps = {
-    isRegistration : boolean
-}
-
-const Login  = ({isRegistration} : LoginProps) => {
+const Login = ({isRegistration}: LoginProps) => {
 
     const pageName = isRegistration ? '/login' : '/signup'
     const linkTitle = isRegistration ? 'Already have an account? Login!' :
         'Don’t have an account? Sign Up'
-    const initialValues : loginFormValues = {email: '',password:''}
-    const [globError,setError] = useState(null)
+    const initialValues: loginFormValues = {email: '', password: ''}
+    const [globError, setError] = useState(null)
 
     const [isLoading,setPreloader] = useState(false)
 
-    const dispatch= useDispatch<globalDispatch>()
+    const dispatch = useDispatch<DispatchType>()
 
     const user_id = useSelector((state : StateType) => state.userData.user_id)
 

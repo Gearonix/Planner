@@ -2,7 +2,7 @@ import FormControl from "@mui/material/FormControl";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import {capitalizeFirstLetter, convertHexToAppColor} from "../../helpers/tools";
 import MenuItem from "@mui/material/MenuItem";
-import React, {useEffect, useState} from "react";
+import React, {ChangeEventHandler, useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
 import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 import {Dayjs} from "dayjs";
@@ -105,38 +105,36 @@ type InputProps = {
     css?: any,
     variant?: 'standard',
     fw?: boolean,
-    onChange: Function,
+    onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
     value: string,
-    error?: string
+    error?: string | boolean
 }
 
 
 export const Input = (props : InputProps) => {
-    // @ts-ignore
-    return  <TextField onChange={props.onChange}
-                       id={props.id}
-                       label={props.label}
-                       type="text"
-                       autoComplete="off"
-                       variant={props.variant}
-                       fullWidth={props.fw}
-                       InputProps={{style : props.css}}
-                       InputLabelProps={{style: props.css}}
-                       value={props.value}
-                       error={!!props.error}
-    />
+    return <TextField onChange={props.onChange}
+                      id={props.id}
+                      label={props.label}
+                      type="text"
+                      autoComplete="off"
+                      variant={props.variant}
+                      fullWidth={props.fw}
+                      InputProps={{style: props.css}}
+                      InputLabelProps={{style: props.css}}
+                      value={props.value}
+                      error={!!props.error}/>
 }
 
-export const Progress = ({color} : {color : LinearProgressProps['color']}) => {
-    const [progress,setProgress] = useState<number>(0)
+export const Progress = ({theme}: { theme: LinearProgressProps['color'] }) => {
+    const [progress, setProgress] = useState<number>(0)
 
     useEffect(() => {
         const interval = setInterval(() => setProgress(
-            p => p == 100 ? 0 : Math.min(p + Math.random() * 10, 100)),500)
+            p => p == 100 ? 0 : Math.min(p + Math.random() * 10, 100)), 500)
         return () => clearInterval(interval)
     }, [])
 
-    return  <LinearProgress variant="determinate" value={progress} color={color}/>
+    return <LinearProgress variant="determinate" value={progress} color={theme}/>
 }
 
 

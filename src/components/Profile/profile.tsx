@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {StateType} from '../../global/store';
 import {
     AvatarButton,
     AvatarButtonTitle,
@@ -36,29 +35,19 @@ import {
     uploadFile
 } from "../../reducers/userDataReducer";
 import {FILES_LOCATION} from "../../global/constants";
-
-
-export type profileFormWithID = {
-    userName : string,
-    user_id : string
-}
-export type setUserImageType = {
-    user_id : string,
-    filename : string
-}
-
-export type profileFormType = {
-    userName : string
-}
+import {StateType} from "../../global/types/types";
+import {changePassFormType, profileFormType, userImageProps} from "../../global/types/components/profileTypes";
 
 
 const Profile = () => {
-    const {userName,user_id,userImage,
-    email,password} = useSelector((state : StateType) => state.userData)
-    const initialValues : profileFormType = {userName : userName || ''}
+    const {
+        userName, user_id, userImage,
+        email, password
+    } = useSelector((state: StateType) => state.userData)
+    const initialValues: profileFormType = {userName: userName || ''}
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [isPasswordOpened,openPasswordComp] = useState(true)
+    const [isPasswordOpened, openPasswordComp] = useState(true)
     useEffect(() => {
         if (!user_id) navigate('/login')
     })
@@ -135,16 +124,6 @@ const Profile = () => {
     </>
 }
 
-export type changePassFormType = {
-    nextPassword : string,
-    repeatPassword : string
-}
-export type passwordFormType = {
-    nextPassword : string,
-    repeatPassword : string,
-    user_id : string
-}
-
 const ChangePassword = ({close} : {close : () => void}) => {
     const {password : currentPassword,user_id} = useSelector((state :StateType) => state.userData)
     const dispatch = useDispatch()
@@ -189,11 +168,6 @@ const createInput = (Component : any,formik : any,name : string) => {
                       type={'text'} name={name}/>
 }
 
-
-type userImageProps = {
-    size : number,
-    fontSize: number
-}
 
 export const UserImage = ({size,fontSize} : userImageProps) => {
     const {userName,userImage} = useSelector((state : StateType) => state.userData)

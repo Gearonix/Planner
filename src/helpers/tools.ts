@@ -1,6 +1,7 @@
 import {MONTHS, taskColors} from "../global/constants"
-import {globalDispatch, StateType} from "../global/store";
+import {DispatchType} from "../global/store";
 import {createAsyncThunk} from "@reduxjs/toolkit";
+import {StateType} from "../global/types/types";
 
 export const capitalizeFirstLetter = (word: string) => word[0].toUpperCase() + word.slice(1)
 
@@ -57,15 +58,6 @@ export const formatMonth = (month: number = new Date().getMonth()) => formatNum(
 
 export const toMonthName = (month: string) => MONTHS[parseInt(month) - 1]
 
-export const generateTodayDate = (inString ?: boolean) => {
-    const date = new Date()
-
-    const array = [formatNum(date.getFullYear()), formatMonth(date.getMonth()),
-        formatNum(date.getDate())]
-    if (inString) return array.join('-')
-    return array
-}
-
 export const ValidateMonthChange = (year: number, month: number) => {
     let arr = [year, month]
     if (month == 13) arr = [year + 1, 1]
@@ -83,7 +75,12 @@ export const convertHexToAppColor = (hex: string) => {
     return ''
 }
 
-export const createThunk = createAsyncThunk.withTypes<{ state: StateType, dispatch: globalDispatch }>()
+export const createThunk = createAsyncThunk.withTypes<{ state: StateType, dispatch: DispatchType }>()
 
-export const cutString = (str: string, length : number = 16) =>
-    str.length > length ? str.slice(0,length)+'...' : str
+export const cutString = (str: string, length: number = 16) =>
+    str.length > length ? str.slice(0, length) + '...' : str
+
+export const styledProps = (property: string) => (props: any) => props[property]
+
+export const compareProps = (property: string, val1: string, val2: string) =>
+    (props: any) => props[property] ? val1 : val2

@@ -1,6 +1,6 @@
-import {loginFormValues as loginValues} from '../components/Login/login'
-import {changePassFormType, profileFormWithID} from '../components/Profile/profile'
-import {nor} from '../global/types'
+import {nor} from "../global/types/types";
+import {loginFormValues as loginValues} from "../global/types/components/loginTypes";
+import {changePassFormType, profileFormWithID} from "../global/types/components/profileTypes";
 
 
 type loginErrType = { email: nor, password: nor } | void

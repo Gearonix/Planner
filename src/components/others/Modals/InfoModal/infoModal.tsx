@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
     ChangeModalElement,
     CircleButton,
@@ -17,34 +17,34 @@ import {AiOutlineClose} from 'react-icons/ai'
 import {BsCalendarEvent, BsPen, BsTrash} from 'react-icons/bs';
 import {TfiBell} from 'react-icons/tfi'
 import Draggable from "react-draggable";
-import {taskType} from "../../../../global/types";
 import {taskColors} from '../../../../global/constants';
-import {StateType} from "../../../../global/store";
 import {useDispatch, useSelector} from "react-redux";
 import {capitalizeFirstLetter, cutString, stringToTime, toMonthName} from "../../../../helpers/tools";
 import {deleteTask} from "../../../../reducers/tasksListReducer";
 import {animated, useTransition} from "@react-spring/web";
 import Animations from "../../../../helpers/animations";
+import {actions, MainContext} from "../../../Main/reducer";
+import {StateType} from "../../../../global/types/types";
 
 
-type InfoModalProps = { task: taskType, close: Function, editTask: Function, style?: any }
-
-
-const InfoModalWrapper = (props: InfoModalProps) => {
+const InfoModalWrapper = () => {
     const [isOpen, setIsOpen] = useState(true)
     const Animated = animated(InfoModal)
-    const transitions = useTransition(isOpen, Animations.infoModal(props.close))
-    return transitions((style, item) => item ? <Animated {...{
-        ...props, close: () => {
-            setIsOpen(false)
-        }
-    }} style={style}/> : null)
+    const context = useContext(MainContext)
+    const close = () => context.dispatch(actions.closeComponent())
+
+    const transitions = useTransition(isOpen, Animations.infoModal(close))
+    return transitions((style, item) => item ? <Animated close={() => setIsOpen(false)} style={style}/> : null)
 }
 
 
-const InfoModal = ({task, close, editTask, style}: InfoModalProps) => {
+const InfoModal = ({close, style}: { close: Function, style: any }) => {
+    const context = useContext(MainContext)
+    const mainState = context.state
     const weekDay = useSelector((state: StateType) => state.taskLists.current.weekDay)
     const userName = useSelector((state: StateType) => state.userData.userName)
+    const tasklist = useSelector((state: StateType) => state.taskLists.current.tasklist)
+    const task = tasklist[mainState.componentIndex || 0]
     const dispatch = useDispatch()
     if (!task) return null
 
@@ -66,8 +66,7 @@ const InfoModal = ({task, close, editTask, style}: InfoModalProps) => {
                 <ChangeModalElement style={style}>
                     <ImageBlock>
                         <CircleButtonBlock>
-                            {/*@ts-ignore*/}
-                            <CircleButton onClick={editTask}>
+                            <CircleButton onClick={() => context.dispatch(actions.openComponent('editPage'))}>
                                 <BsPen/>
                             </CircleButton>
                             {/*@ts-ignore*/}

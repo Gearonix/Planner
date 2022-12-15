@@ -26,22 +26,23 @@ import {Dayjs} from "dayjs";
 import {getArrayByC, numberTimeToStr, strToTimeNumber} from "../../../../../helpers/tools";
 import {repetitionDelays, taskColors} from "../../../../../global/constants";
 import {BsCalendarEvent} from "react-icons/bs";
-import {createModalUIType} from '../createTaskModal/createTaskModal';
 import {useDispatch, useSelector} from "react-redux";
-import {StateType} from "../../../../../global/store";
 import Alert from '@mui/material/Alert/Alert';
 import {deleteTask} from "../../../../../reducers/tasksListReducer";
-import {taskType} from "../../../../../global/types";
+import {taskType} from "../../../../../global/types/stateTypes";
+import {StateType} from "../../../../../global/types/types";
+import {createModalUIType} from "../../../../../global/types/components/mainTypes";
+import {DispatchType} from "../../../../../global/store";
 
 const EditTask = ({formik, close, error}: createModalUIType) => {
     const {handleChange, handleSubmit, setFieldValue, errors} = formik
     const values: taskType = formik.values
     const username = useSelector((state: StateType) => state.userData.userName)
     const fullHours = [...getArrayByC(24).map(numberTimeToStr)]
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<DispatchType>()
+
     return <EditTaskPage>
         <SaveBlock>
-            {/*@ts-ignore*/}
             <CrossContainer onClick={close}>
                 <AiOutlineClose/>
             </CrossContainer>
@@ -79,10 +80,11 @@ const EditTask = ({formik, close, error}: createModalUIType) => {
                            names={repetitionDelays}
                            title={'Repeat'}/>
                 <MarginBottom/>
-                {/*@ts-ignore*/}
-                <Progress color={taskColors[values.color].muiColor}/>
-                <UploadButton handler={(file: any) => setFieldValue('taskBackground', file)} size={'medium'}
-                              title={'Upload Image'}/>
+                <Progress theme={taskColors[values.color].muiColor}/>
+                <UploadButton
+                    handler={(file: React.FormEvent<HTMLInputElement>) => setFieldValue('taskBackground', file)}
+                    size={'medium'}
+                    title={'Upload Image'}/>
                 <MarginBottom/>
                 <ColorPicker handler={(hex: string) => setFieldValue('color', hex)}/>
                 <UserNameWrapper>
@@ -100,8 +102,7 @@ const EditTask = ({formik, close, error}: createModalUIType) => {
                     Save
                 </SaveButton>
                 <SaveButton color={'error'} variant={'outlined'} onClick={() => {
-                    // @ts-ignore
-                    dispatch(deleteTask(values.task_id))
+                    dispatch(deleteTask(values.task_id || ''))
                     close()
                 }}>Delete</SaveButton>
 
