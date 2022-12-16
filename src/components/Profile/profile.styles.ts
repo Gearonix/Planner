@@ -1,18 +1,9 @@
 import styled from "styled-components";
 
 
-
-
-export const Input = styled.input``
-
-
 export const ProfileWrapper = styled.div`
-  width: 50%;
-  border-radius: 20px;
+  width: 87%;
   margin: 0 auto;
-  margin-top: 60px;
-  background: white;
-  height: 1000px;
 `
 
 export const MainContent = styled.div`

@@ -8,6 +8,13 @@ export const DayCalendarMain = styled(MonthBlock)`
   background: white;
 `
 
+export const DayCalendarInner = styled.div`
+  width: 100%;
+  height: 100%;
+
+`
+
+
 export const DayList = styled.div`
   border: 1px solid #d9d9d9;
   width: 90%;

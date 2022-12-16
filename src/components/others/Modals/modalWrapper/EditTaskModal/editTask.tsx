@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
     CrossContainer,
     DateSelectBlock,
@@ -28,20 +28,22 @@ import {repetitionDelays, taskColors} from "../../../../../global/constants";
 import {BsCalendarEvent} from "react-icons/bs";
 import {useDispatch, useSelector} from "react-redux";
 import Alert from '@mui/material/Alert/Alert';
-import {deleteTask} from "../../../../../reducers/tasksListReducer";
 import {taskType} from "../../../../../global/types/stateTypes";
 import {StateType} from "../../../../../global/types/types";
 import {createModalUIType} from "../../../../../global/types/components/mainTypes";
 import {DispatchType} from "../../../../../global/store";
+import {actions, MainContext} from "../../../../Main/reducer";
 
-const EditTask = ({formik, close, error}: createModalUIType) => {
+const EditTask = ({formik, close, error, style}: createModalUIType) => {
     const {handleChange, handleSubmit, setFieldValue, errors} = formik
     const values: taskType = formik.values
     const username = useSelector((state: StateType) => state.userData.userName)
     const fullHours = [...getArrayByC(24).map(numberTimeToStr)]
     const dispatch = useDispatch<DispatchType>()
+    const context = useContext(MainContext)
 
-    return <EditTaskPage>
+
+    return <EditTaskPage style={style}>
         <SaveBlock>
             <CrossContainer onClick={close}>
                 <AiOutlineClose/>
@@ -98,11 +100,17 @@ const EditTask = ({formik, close, error}: createModalUIType) => {
 
             </TitleContainer>
             <SaveButtonsContainer>
-                <SaveButton variant="contained" onClick={handleSubmit}>
+                <SaveButton variant="contained" onClick={() => {
+                    close()
+                    setTimeout(() => {
+                        handleSubmit()
+                    }, 400)
+                }
+                }>
                     Save
                 </SaveButton>
                 <SaveButton color={'error'} variant={'outlined'} onClick={() => {
-                    dispatch(deleteTask(values.task_id || ''))
+                    context.dispatch(actions.setDeletingTask(values.task_id))
                     close()
                 }}>Delete</SaveButton>
 

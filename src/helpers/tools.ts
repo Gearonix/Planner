@@ -1,7 +1,7 @@
 import {MONTHS, taskColors} from "../global/constants"
 import {DispatchType} from "../global/store";
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {StateType} from "../global/types/types";
+import {nor, StateType} from "../global/types/types";
 
 export const capitalizeFirstLetter = (word: string) => word[0].toUpperCase() + word.slice(1)
 
@@ -84,3 +84,7 @@ export const styledProps = (property: string) => (props: any) => props[property]
 
 export const compareProps = (property: string, val1: string, val2: string) =>
     (props: any) => props[property] ? val1 : val2
+
+export const isValidDate = (currentDate: nor, count: number, year: string,
+                            month: string) => currentDate && +currentDate + count <
+    createDaysAmount(year, month) + 1 && +currentDate + count > 0

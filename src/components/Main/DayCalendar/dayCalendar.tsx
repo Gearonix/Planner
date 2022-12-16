@@ -1,38 +1,34 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {clearCurrentData} from "../../../reducers/tasksListReducer";
-import {
-    DayCalendarMain,
-    DayList,
-    DayTask,
-    DayTaskImage,
-    DayTaskTimeRange,
-    DayTaskTitle,
-    HourBlock,
-    HoursContainer,
-    HourTime
-} from "./dayCalendar.styles";
-import {getArrayByC, strToTimeNumber} from "../../../helpers/tools";
-import {FILES_LOCATION, taskColors} from "../../../global/constants";
+import {DayCalendarInner, DayCalendarMain, DayList, HourBlock, HoursContainer, HourTime} from "./dayCalendar.styles";
+import {getArrayByC} from "../../../helpers/tools";
 import CalendarHeader from "../../others/CalendarHeader/CalendarHeader";
 import ModalWrapper from "../../others/Modals/modalWrapper/modalWrapper";
 import {taskType} from "../../../global/types/stateTypes";
 import InfoModal from "../../others/Modals/InfoModal/infoModal";
-import {animated, useTransition} from "@react-spring/web";
-import Animations from "../../../helpers/animations";
 import {actions, MainContext} from "../reducer";
 import Selectors from "../../../helpers/selectors";
 import {DispatchType} from "../../../global/store";
+import {NoneDayCalendar, NoneTask, Task} from "./components";
+import Animations from "../../../helpers/animations";
+import {animated, useSpring} from "@react-spring/web";
+import Profile from "../../Profile/profile";
 
 const DayCalendar = () => {
     const {date, tasklist} = useSelector(Selectors.current)
+    const user_id = useSelector(Selectors.userId)
     const dispatch = useDispatch<DispatchType>()
+    const context = useContext(MainContext)
+    const {dispatch: mainDispatch, state} = context
+    const [isProfileOpen, setProfileOpened] = useState(state.isProfile)
 
-    const {dispatch: mainDispatch, scrolls, state} = useContext(MainContext)
 
     const RedirectToMonth = () => {
+        mainDispatch(actions.closeComponent())
+        mainDispatch(actions.setIndex(null))
         dispatch(clearCurrentData())
-        scrolls[0]()
+        context.scrolls[0]()
     }
     const openTask = (i: number) => {
         mainDispatch(actions.openComponent('createModal'))
@@ -44,64 +40,49 @@ const DayCalendar = () => {
         mainDispatch(actions.setIndex(idx))
         mainDispatch(actions.animateModal(true))
     }
+    const arrows = Animations.arrowMoves()
+    const [arrowAnimations, arrowsApi] = useSpring(arrows.start, [])
+    const opacityAnimation = useSpring(Animations.dayCalendarOpacity)
+    const switchAnimation = (direction: 1 | -1) => {
+        mainDispatch(actions.animateModal(true))
+        arrowsApi.start(arrows[direction == -1 ? 'next' : 'prev'])
+    }
 
-    if (!date) return <NoneDayCalendar/>
+    useEffect(() => {
+        context.scrolls[1]()
 
-    return <DayCalendarMain className={'dragableMain'}>
+        if (!date && !state.isProfile) return
+        if (date) arrowsApi.start(arrows[!state.isProfile ? 'next' : 'prev'])
 
-        {(state.componentName == 'createModal' || state.componentName == 'editPage') && <ModalWrapper/>}
-        {state.componentName == 'infoModal' && <InfoModal/>}
+        setTimeout(() => setProfileOpened(state.isProfile), 100)
+    }, [state.isProfile])
 
-        <CalendarHeader isDay={true} close={RedirectToMonth}/>
-        <DayList>
-            <HoursContainer>
-                {getArrayByC(24).map((i, idx) => {
-                    return <HourBlock key={idx} onClick={() => {
-                        if (!state.componentName) openTask(i)
-                    }}>
-                        <HourTime>{i}:00</HourTime>
-                    </HourBlock>
-                })}
-                {tasklist.map((task: taskType, idx: number) => {
-                    const [startTime, endTime] = [strToTimeNumber(task.starts), strToTimeNumber(task.ends) || 24]
+    if (!date && !state.isProfile) return <NoneDayCalendar/>
 
-                    return <DayTask length={endTime - startTime} top={startTime} key={idx}
-                                    onClick={() => {
-                                        if (!state.componentName) openInfo(idx)
-                                    }}
-                                    theme={taskColors[task.color]}>
-                        <DayTaskTitle>{task.title}</DayTaskTitle>
-                        <DayTaskTimeRange>{task.starts}-{task.ends}</DayTaskTimeRange>
-                        {task.taskBackground &&
-                        <DayTaskImage src={FILES_LOCATION + '/task_backgrounds/' + task.taskBackground}/>}
-                    </DayTask>
-                })}
-                {state.componentName == 'createModal' && <NoneTask/>}
-            </HoursContainer>
-        </DayList>
+    return <DayCalendarMain className={'dragableMain'} as={animated.div}
+                            style={{transform: arrowAnimations.x.to(arrows.transform)}}>
+        {state.componentName == 'editPage' && <ModalWrapper/>}
+        {(state.componentName == 'createModal') && <ModalWrapper/>}
+        {isProfileOpen ? <Profile/> : <DayCalendarInner style={opacityAnimation} as={animated.div}>
+            {state.componentName == 'infoModal' && <InfoModal/>}
+
+            <CalendarHeader isDay={true} close={RedirectToMonth} animation={switchAnimation}/>
+            <DayList>
+                <HoursContainer>
+                    {getArrayByC(24).map((i, idx) => {
+                        return <HourBlock key={idx} onClick={() => {
+                            if (!state.componentName) openTask(i)
+                        }}>
+                            <HourTime>{i}:00</HourTime>
+                        </HourBlock>
+                    })}
+                    {tasklist.map((task: taskType, idx: number) => <Task task={task} openInfo={() => openInfo(idx)}/>)}
+                    {state.componentName == 'createModal' && <NoneTask/>}
+                </HoursContainer>
+            </DayList>
+        </DayCalendarInner>}
+
     </DayCalendarMain>
-}
-
-
-const NoneDayCalendar = () => <DayCalendarMain className={'dragableMain'}>
-    <DayList>
-        <HoursContainer>
-            {getArrayByC(24).map((i, idx) => {
-                return <HourBlock key={idx}>
-                    <HourTime>{i}:00</HourTime>
-                </HourBlock>
-            })}
-        </HoursContainer>
-    </DayList>
-</DayCalendarMain>
-
-
-const NoneTask = () => {
-    const {state} = useContext(MainContext)
-    const transitions = useTransition(state.isModalAnimated, Animations.widthOpacity())
-    return transitions((style, item) => item ? <DayTask length={1} top={state.componentIndex || 0}
-                                                        as={animated.div} style={style} theme={taskColors.blue}>
-        <DayTaskTitle>(No Title)</DayTaskTitle></DayTask> : null)
 }
 
 export default DayCalendar

@@ -19,7 +19,9 @@ export enum actionsTypes {
     setIsAsideOpened = 'set_is_aside_opened',
     animateModal = 'animate_modal',
     setError = 'set_error',
-    clearError = 'clear_error'
+    clearError = 'clear_error',
+    setDeletingTask = 'set_is_task_deleting',
+    openProfile = 'open_profile'
 }
 
 export type mainStateT = {
@@ -27,7 +29,9 @@ export type mainStateT = {
     componentIndex: number | null,
     isAsideOpened: boolean,
     isModalAnimated: boolean,
-    componentError: string | null
+    componentError: string | null,
+    DeletingTaskId: string | null,
+    isProfile: boolean
 }
 export type mainContextType = {
     state: mainStateT, dispatch: React.Dispatch<any>,
@@ -62,7 +66,7 @@ export type createModalUIType = {
     formik: any,
     close: () => void,
     error: string | null,
-    style?: any,
+    style: any,
 }
 export type CalendarHeaderProps = {
     isDay?: boolean, close: Function,

@@ -91,31 +91,6 @@ export const ArrowIconWrapper = styled.div`
   align-items: center;
   justify-content: center;
 `
-export const SearchInput = styled.input`
-  background: #EFF6FF;
-  border-radius: 30px;
-  width: 100%;
-  height: 100%;
-  
-  outline: none;
-  border: none;
-  color: #64748B;
-  font-size: 15px;
-  padding-left: 15px;
-`
-export const SearchInputWrapper = styled.div`
-  width: 13%;
-  height: 40px;
-  margin-left: 0;
-  position: relative;
-`
-export const SearchIconWrapper = styled.div`
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  color: #64748B;
-  cursor: pointer;
-`
 
 export const SettingsBlock = styled.div`
   height: 60px;

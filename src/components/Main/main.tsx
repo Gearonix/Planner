@@ -21,7 +21,8 @@ import {mainContextType, toTodayT} from "../../global/types/components/mainTypes
 
 const Main = () => {
     const user_id: string = useSelector(Selectors.userId) as string
-    const {month: currentMonth, year: currentYear, date} = useSelector(Selectors.taskLists)
+    const {month: currentMonth, year: currentYear, date: date} = useSelector(Selectors.taskLists)
+    const {date: currentDate} = useSelector(Selectors.current)
     const navigate = useNavigate()
     const dispatch = useDispatch<DispatchType>()
     const [mainState, mainDispatch] = useReducer(mainReducer, initialState)
@@ -31,14 +32,23 @@ const Main = () => {
         dispatch(setUserDays({user_id: user_id, fulldate: timeToString(currentYear, currentMonth, date)}))
     }, [])
 
-    const toToday = () => {
+    const toToday = (animate ?: (count: 1 | -1) => void) => {
         const date = dayjs()
+
+
         const submitData: toTodayT = {user_id, fulldate: date.format(DATE_FORMAT)}
         dispatch(setCurrentData(submitData))
 
         const [year, month] = [date.format('YYYY'), date.format('MM')]
-        if (year == currentYear && month == currentMonth) return
+        if (year == currentYear && month == currentMonth) {
+            if (animate) {
+                if (date.get('date') == Number(currentDate)) return
+                animate(date.get('date') > Number(currentDate) ? 1 : -1)
+            }
+            return
+        }
         dispatch(setUserDays(submitData))
+
 
     }
 

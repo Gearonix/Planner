@@ -1,6 +1,7 @@
 export type userImageProps = {
     size: number,
-    fontSize: number
+    fontSize: number,
+    handler: Function
 }
 export type passwordFormType = {
     nextPassword: string,
@@ -18,7 +19,4 @@ export type profileFormWithID = {
 export type setUserImageType = {
     user_id: string,
     filename: string
-}
-export type profileFormType = {
-    userName: string
 }

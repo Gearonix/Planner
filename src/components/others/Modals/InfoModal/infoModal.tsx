@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {
     ChangeModalElement,
     CircleButton,
@@ -24,40 +24,37 @@ import {deleteTask} from "../../../../reducers/tasksListReducer";
 import {animated, useTransition} from "@react-spring/web";
 import Animations from "../../../../helpers/animations";
 import {actions, MainContext} from "../../../Main/reducer";
-import {StateType} from "../../../../global/types/types";
+import {DispatchType} from "../../../../global/store";
+import {taskType} from "../../../../global/types/stateTypes";
+import Selectors from "../../../../helpers/selectors";
 
 
 const InfoModalWrapper = () => {
-    const [isOpen, setIsOpen] = useState(true)
     const Animated = animated(InfoModal)
     const context = useContext(MainContext)
-    const close = () => context.dispatch(actions.closeComponent())
-
-    const transitions = useTransition(isOpen, Animations.infoModal(close))
-    return transitions((style, item) => item ? <Animated close={() => setIsOpen(false)} style={style}/> : null)
+    const mainState = context.state
+    const tasklist = useSelector(Selectors.currentTaskList)
+    const task = tasklist[mainState.componentIndex || 0]
+    const dispatch = useDispatch<DispatchType>()
+    const closeComponent = () => {
+        context.dispatch(actions.closeComponent())
+        if (mainState.DeletingTaskId == task.task_id && mainState.DeletingTaskId != null) {
+            dispatch(deleteTask(task.task_id || ''))
+            context.dispatch(actions.setDeletingTask(null))
+        }
+    }
+    const transitions = useTransition(mainState.isModalAnimated, Animations.infoModal(closeComponent))
+    return transitions((style, item) => item ? <Animated style={style} task={task}/> : null)
 }
 
 
-const InfoModal = ({close, style}: { close: Function, style: any }) => {
+const InfoModal = ({style, task}: { style: any, task: taskType }) => {
     const context = useContext(MainContext)
-    const mainState = context.state
-    const weekDay = useSelector((state: StateType) => state.taskLists.current.weekDay)
-    const userName = useSelector((state: StateType) => state.userData.userName)
-    const tasklist = useSelector((state: StateType) => state.taskLists.current.tasklist)
-    const task = tasklist[mainState.componentIndex || 0]
-    const dispatch = useDispatch()
+    const {weekDay} = useSelector(Selectors.current)
+    const userName = useSelector(Selectors.userName)
     if (!task) return null
 
     const [year, month, date] = stringToTime(task.date)
-
-    const delTask = () => {
-        close()
-        setTimeout(() => {
-            // @ts-ignore
-            dispatch(deleteTask(task.task_id))
-        }, 300)
-
-    }
 
     return (
         <Draggable bounds={'.dragableMain'}
@@ -70,14 +67,18 @@ const InfoModal = ({close, style}: { close: Function, style: any }) => {
                                 <BsPen/>
                             </CircleButton>
                             {/*@ts-ignore*/}
-                            <CircleButton onClick={delTask}>
+                            <CircleButton onClick={() => {
+                                context.dispatch(actions.animateModal(false))
+                                context.dispatch(actions.setDeletingTask(task.task_id))
+                            }
+                            }>
                                 <BsTrash/>
                             </CircleButton>
-                    {/*@ts-ignore*/}
-                    <CircleButton onClick={close}>
-                        <AiOutlineClose/>
-                    </CircleButton>
-                </CircleButtonBlock>
+                            {/*@ts-ignore*/}
+                            <CircleButton onClick={() => context.dispatch(actions.animateModal(false))}>
+                                <AiOutlineClose/>
+                            </CircleButton>
+                        </CircleButtonBlock>
             </ImageBlock>
             <MainBlock>
                 <ColorBlock>

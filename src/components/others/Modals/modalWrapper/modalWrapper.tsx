@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext} from 'react'
 import dayjs from 'dayjs';
 import {useFormik} from "formik";
 import {numberTimeToStr, timeToString} from "../../../../helpers/tools";
@@ -7,7 +7,7 @@ import {isFileImage, modalValidator} from '../../../../helpers/validate';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import {useDispatch, useSelector} from "react-redux";
 import {taskType} from "../../../../global/types/stateTypes";
-import {createTask, updateTask} from '../../../../reducers/tasksListReducer';
+import {createTask, deleteTask, updateTask} from '../../../../reducers/tasksListReducer';
 import {uploadFile} from "../../../../reducers/userDataReducer";
 import CreateModalComponent from './createTaskModal/createTaskModal'
 import EditTask from "./EditTaskModal/editTask";
@@ -31,14 +31,13 @@ const ModalWrapper = () => {
     const taskData = mainState.componentName == 'editPage' ?
         current.tasklist[mainState.componentIndex || 0] : null
 
-    const [isOpen, setIsOpen] = useState(true)
 
     const submitTask = async (data: taskType) => {
         if (!dayjs(data.date).isValid()) return context.dispatch(actions.setError('Invalid date'))
 
         let filename = taskData?.taskBackground || null
         const file = data.taskBackground
-        if (typeof file == 'string') {
+        if (file && typeof file != 'string') {
             if (!isFileImage(file)) return context.dispatch(actions.setError('Invalid background'))
 
             const {payload} = await dispatch(uploadFile({file, name: 'task_backgrounds'}))
@@ -64,15 +63,29 @@ const ModalWrapper = () => {
 
     const componentProps = {
         formik, close: () => {
-            setIsOpen(false)
+            context.dispatch(actions.animateModal(false))
         }, error: mainState.componentError
+    }
+    const closeComponent = () => {
+        context.dispatch(actions.closeComponent())
+        console.log(mainState.DeletingTaskId)
+        if (mainState.DeletingTaskId == taskData?.task_id && mainState.DeletingTaskId != null) {
+            dispatch(deleteTask(taskData?.task_id || ''))
+            context.dispatch(actions.setDeletingTask(null))
+        }
     }
 
     const AnimatedCreateModal = animated(CreateModalComponent)
-    const transitions = useTransition(isOpen, Animations.scale(() => context.dispatch(actions.closeComponent())))
+    const AnimatedEditTask = animated(EditTask)
 
-    return !taskData ? transitions((style, item) => item ? <AnimatedCreateModal {...componentProps} style={style}/>
-        : null) : <EditTask {...componentProps} />
+    const createModalTransitions = useTransition(mainState.isModalAnimated,
+        Animations.scale(() => closeComponent()))
+    // const editTaskTransitions = useTransition(mainState.isModalAnimated,)
+
+    return !taskData ? createModalTransitions((style, item) => item ?
+        <AnimatedCreateModal {...componentProps} style={style}/>
+        : null) : createModalTransitions((style, item) => item ?
+        <AnimatedEditTask {...componentProps} style={style}/> : null)
 }
 
 export default ModalWrapper

@@ -5,13 +5,13 @@ import {
     generateCalendarArray,
     getArrayByC
 } from "../../../helpers/tools";
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import {WEEKDAYS} from "../../../global/constants";
 import {CalendarTable, CalenRow, InnerMonthBlock, MonthBlock, WekkendRow} from "./monthCalendar.styles";
 import {useDispatch, useSelector} from "react-redux";
 import CalendarHeader from "../../others/CalendarHeader/CalendarHeader";
 import ModalWrapper from "../../others/Modals/modalWrapper/modalWrapper";
-import {MainContext} from "../reducer";
+import {actions, MainContext} from "../reducer";
 import Selectors from "../../../helpers/selectors";
 import {setCurrentData} from "../../../reducers/tasksListReducer";
 import {Cell, FirstRow, OtherRows} from "./components";
@@ -29,10 +29,16 @@ const MonthCalendar = () => {
     const mainState = context.state
 
     const clickToDay = (date: number) => {
+        context.dispatch(actions.closeComponent())
+        context.dispatch(actions.setIndex(null))
         const fulldate = `${year}-${month}-${formatNum(date)}`
         dispatch(setCurrentData({user_id, fulldate}))
         context.scrolls[1]()
     }
+
+    useEffect(() => {
+        if (mainState.isProfile) context.scrolls[1]()
+    }, [])
 
     //calendar creating block
     const daysAmount = createDaysAmount(year, month)
@@ -42,16 +48,15 @@ const MonthCalendar = () => {
     const numbers = getArrayByC(daysAmount).map(i => i + 1)
     //
 
-    const [animations, api] = useSpring(Animations.monthMoves().start, [])
-    const animatMonth = (direction: 1 | -1) => api.start(Animations.monthMoves()[direction == -1 ? 'next' : 'prev'])
+    const [animations, api] = useSpring(Animations.arrowMoves().start, [])
+    const animateMonth = (direction: 1 | -1) => api.start(Animations.arrowMoves()[direction == -1 ? 'next' : 'prev'])
 
 
-    console.log(animations.x)
     return <MonthBlock as={animated.div}
-                       style={{transform: animations.x.to(Animations.monthMoves().transform)}}>
+                       style={{transform: animations.x.to(Animations.arrowMoves().transform)}}>
         <InnerMonthBlock className={'dragableMain'}>
             {mainState.componentName == 'createModal' && <ModalWrapper/>}
-            <CalendarHeader close={() => clickToDay(+currentDate)} animation={animatMonth}/>
+            <CalendarHeader close={() => clickToDay(+currentDate)} animation={animateMonth}/>
             <CalendarTable>
                 <tbody>
                 <WekkendRow>{getArrayByC(7).map((i, idx) => <Cell key={idx}

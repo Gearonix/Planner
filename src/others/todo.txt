@@ -127,3 +127,12 @@ add event не работает
 зарефакторить current
 
 рефактор calendar header
+
+сделать нормально ui noneDayCalendar
+
+решить баг в deleteTask на фронтенде
+
+решить баг с add event на фронтенде
+
+
+анимация при входе прогрывается

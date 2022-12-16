@@ -9,11 +9,16 @@ const Animations = {
         enter: {
             scale: 1,
             opacity: 1,
+            config: {
+                duration: 400
+            }
         },
         leave: {
             scale: 0,
             opacity: 0,
-
+            config: {
+                duration: 400
+            }
         },
         onRest: (result: any, spring: any, item: any) => {
             if (!item) onRest()
@@ -32,6 +37,34 @@ const Animations = {
             width: 0,
             opacity: 0
         }
+    }),
+    deleteTask: () => ({
+
+        start: {
+            from: {
+                opacity: 1,
+                width: 900
+            }
+        },
+        api: () => ({
+            to: [{
+                width: 0,
+                opacity: 0,
+                config: {
+                    duration: 500
+                },
+            },
+                {
+                    opacity: 1,
+                    width: 900,
+                    config: {
+                        duration: 0
+                    }
+                }
+
+            ]
+
+        })
     }),
     modalError: (style: any) => ({
         start: {
@@ -61,17 +94,23 @@ const Animations = {
             scale: 1,
             y: 0,
             opacity: 1,
+            config: {
+                duration: 400
+            }
         },
         leave: {
             y: 100,
             opacity: 0,
+            config: {
+                duration: 400
+            },
         },
         onRest: (result: AnimationResult, spring: Controller, item: boolean) => {
             if (!item) onRest()
         }
     }),
     parallax: () => ({mass: 1, tension: 380, friction: 60}),
-    monthMoves: () => ({
+    arrowMoves: () => ({
         start: {
             from: {
                 x: 0,
@@ -96,9 +135,18 @@ const Animations = {
         },
         transform(value: any) {
             return `translate(${value}vw)`
-        }
-    })
+        },
+    }),
+    dayCalendarOpacity: {
+        from: {
+            opacity: 0,
+        },
+        to: {
+            opacity: 1,
 
+        },
+        config: {duration: 400}
+    },
 }
 
 export default Animations

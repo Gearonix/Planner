@@ -1,6 +1,6 @@
 import {nor} from "../global/types/types";
 import {loginFormValues as loginValues} from "../global/types/components/loginTypes";
-import {changePassFormType, profileFormWithID} from "../global/types/components/profileTypes";
+import {changePassFormType} from "../global/types/components/profileTypes";
 
 
 type loginErrType = { email: nor, password: nor } | void
@@ -24,11 +24,13 @@ const isWordValid = (word : string) => {
     return !!res;
 }
 
-export const profileValidator = ({userName} : profileFormWithID) => {
-    const errors : any = {}
-    if (!isWordValid(userName)) errors.userName = 'Name is not correct'
-    if (userName.length <4) errors.userName = 'Name is too short'
-    if (userName.length >12) errors.userName = 'Name is too long'
+export const profileValidator = (values: { userName: string }) => {
+    const errors: any = {}
+    console.log(values)
+    if (!isWordValid(values.userName)) errors.userName = 'Name is not correct'
+    if (values.userName.length < 4) errors.userName = 'Name is too short'
+    if (values.userName.length > 12) errors.userName = 'Name is too long'
+    console.log(errors)
     return errors
 }
 
