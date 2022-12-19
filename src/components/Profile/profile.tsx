@@ -51,12 +51,12 @@ const Profile = () => {
         }
     }
 
-    const formik = useFormik({initialValues,onSubmit,validateOnChange : false, validate: profileValidator})
+    const formik = useFormik({initialValues, onSubmit, validateOnChange: false, validate: profileValidator})
 
     return <>
         <ProfileWrapper>
             <MainContent>
-               <ProfileTitle>Settings</ProfileTitle>
+                <ProfileTitle>Settings</ProfileTitle>
                 <GreyLine/>
                 <SmallerTitle>Profile Settings</SmallerTitle>
                 <InnerContainer>
@@ -71,7 +71,7 @@ const Profile = () => {
                     <FieldsContainer>
                         <FieldBlock>
                             <FieldTitle>Username</FieldTitle>
-                            {createInput(FieldInput,formik,'userName')}
+                            {createInput(FieldInput, formik, 'userName')}
                         </FieldBlock>
                         <FieldBlock>
                             <FieldTitle>Email</FieldTitle>
@@ -81,16 +81,16 @@ const Profile = () => {
                             <FieldTitle>Password</FieldTitle>
                             <ChangePasswordBlock>
                                 <FieldInput isPassword={true} disabled value={password || ''}/>
-                                <PasswordButton  onClick={() => openPasswordComp(!isPasswordOpened)}>
+                                <PasswordButton onClick={() => openPasswordComp(!isPasswordOpened)}>
                                     Change password
                                 </PasswordButton>
                             </ChangePasswordBlock>
                         </FieldBlock>
-                        {isPasswordOpened || <ChangePassword close={() => openPasswordComp(true)}/> }
+                        {isPasswordOpened || <ChangePassword close={() => openPasswordComp(true)}/>}
                         <FieldBlock>
                             <FieldTitle>Leave the account</FieldTitle>
                             {/*@ts-ignore   */}
-                            <PasswordButton style={{width: '27%' }} onClick={() => dispatch(logoutUser())} >
+                            <PasswordButton style={{width: '27%'}} onClick={() => dispatch(logoutUser())}>
                                 Log out
                             </PasswordButton>
                         </FieldBlock>

@@ -3,9 +3,9 @@ import userDataReducer from "../reducers/userDataReducer";
 import tasksListReducer from "../reducers/tasksListReducer";
 
 const store = configureStore({
-    reducer : {
-        userData : userDataReducer,
-        taskLists : tasksListReducer
+    reducer: {
+        userData: userDataReducer,
+        taskLists: tasksListReducer
     }
 })
 
@@ -13,7 +13,6 @@ const store = configureStore({
 window.s = store.getState
 
 export type DispatchType = typeof store.dispatch
-
 
 
 export default store

@@ -65,7 +65,8 @@ export const UserImage = ({size, fontSize, handler}: userImageProps) => {
     const {userName, userImage} = useSelector(Selectors.userData)
     return userImage ? <UserImageElement src={FILES_LOCATION + '/user_avatars/' + userImage} size={size}
                                          onClick={() => handler()}/> :
-        <EmptyAvatar color={localStorage.getItem('defaultAvatarColor') || ''} size={size}>
+        <EmptyAvatar color={localStorage.getItem('defaultAvatarColor') || ''} size={size}
+                     onClick={() => handler()}>
             <EmptyAvatarTitle
                 fontSize={fontSize}>{userName ? userName[0].toUpperCase() : ''}</EmptyAvatarTitle></EmptyAvatar>
 

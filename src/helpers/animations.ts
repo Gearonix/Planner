@@ -1,4 +1,5 @@
 import {AnimationResult, Controller} from "@react-spring/web";
+import {randomizeNumber} from "./tools";
 
 const Animations = {
     scale: (onRest: Function) => ({
@@ -147,6 +148,21 @@ const Animations = {
         },
         config: {duration: 400}
     },
+    rock: ([left, top]: Array<number>) => ({
+        from: {
+            x: Math.round(window.innerWidth / left) - 160,
+            y: Math.round(window.innerHeight / top) - 160,
+            rotate: 0
+        },
+        to: {
+            x: randomizeNumber(-window.innerWidth, window.innerWidth),
+            y: randomizeNumber(-window.innerHeight, window.innerHeight),
+            rotate: 360
+        },
+        config: {
+            duration: 4e5,
+        }
+    })
 }
 
 export default Animations

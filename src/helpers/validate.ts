@@ -13,13 +13,12 @@ export const loginValidator = ({email, password}: loginValues): loginErrType => 
     if (!password) errors.password = 'Password is required'
     return errors
 }
-export const ValidateEmail = (mail : string) => {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-        .test(mail)) return false
+export const ValidateEmail = (mail: string) => {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) return false
     return true
 }
 
-const isWordValid = (word : string) => {
+const isWordValid = (word: string) => {
     const res = /^[a-z0-9_\.]+$/.exec(word);
     return !!res;
 }
@@ -34,21 +33,21 @@ export const profileValidator = (values: { userName: string }) => {
     return errors
 }
 
-export const changePasswordValidator = (values : changePassFormType) => {
-    const errors : any = {}
-    const checkPass = (word : string,name : string,message : string) => {
+export const changePasswordValidator = (values: changePassFormType) => {
+    const errors: any = {}
+    const checkPass = (word: string, name: string, message: string) => {
         if (!isWordValid(word)
             || !word
-            || word.length>10
-            || word.length<4
+            || word.length > 10
+            || word.length < 4
         ) {
             errors[name] = message
         }
     }
 
-    checkPass(values.nextPassword,'nextPassword','New password is not correct')
-    checkPass(values.repeatPassword,'repeatPassword','Passwords do not match')
-    if (values.nextPassword!=values.repeatPassword && values.repeatPassword.length>0){
+    checkPass(values.nextPassword, 'nextPassword', 'New password is not correct')
+    checkPass(values.repeatPassword, 'repeatPassword', 'Passwords do not match')
+    if (values.nextPassword != values.repeatPassword && values.repeatPassword.length > 0) {
         errors.repeatPassword = 'Passwords do not match'
     }
     return errors
@@ -65,7 +64,7 @@ export const modalValidator = (values: any) => {
 }
 
 
-export function isFileImage(file : any) {
+export function isFileImage(file: any) {
     const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
 
     return file && acceptedImageTypes.includes(file['type'])

@@ -2,30 +2,45 @@ import styled from 'styled-components'
 
 
 export const HeaderElement = styled.header`
-  height: 80px;
+  height: 63px;
   width: 100%;
-  border-bottom: 1px solid #d9d9d9;
-  background: white;
+  background: #242526;
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  position: relative;
+  z-index: 5;
+  -webkit-box-shadow: 4px 11px 8px 0px rgba(36, 37, 38, 1);
+  -moz-box-shadow: 4px 11px 8px 0px rgba(36, 37, 38, 1);
+  box-shadow: 4px 11px 8px 0px rgba(36, 37, 38, 1);
 `
 
-export const Logo = styled.h1`
-  font-size: 43px;
-  font-family: 'Zen Dots', cursive;
-  color: #424242;
-  margin: 0;
-  padding: 0;
-  margin-left: 15px;
-  margin-top: 13px;
-  text-shadow: #817F7F 2px 5px;
+export const Logo = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 17px;
+
+  & > svg {
+    width: 30px;
+    height: 30px;
+    color: white;
+  }
 `
+
+export const LogoText = styled.h4`
+  font-size: 18px;
+  color: white;
+  font-weight: normal;
+  margin: 0;
+  margin-left: 12px;
+
+`
+
+
+
 export const BurgerWrapper = styled.div`
-  border-radius: 100%;
   width: 45px;
   height: 45px;
-  border: 2px solid #3B82F6;
   margin-left: 50px;
   display: flex;
   align-items: center;
@@ -34,37 +49,39 @@ export const BurgerWrapper = styled.div`
   transition: background 200ms;
 
   &:hover {
-    background: #F4F4F4;
+    color: #f7f7f7;
   }
 `
 
 export const BurgerIconWrapper = styled.div`
-  & > * {
+  & > svg {
     width: 24px;
     height: 24px;
-    color: #3B82F6;
+    color: white;
     display: flex;
     justify-content: center;
   }
+
+  & > svg:hover {
+    color: #e3e1e1;
+  }
 `
 
-
 export const TodayButton = styled.button`
-  border: none;
+  background: #242526;
   outline: none;
-  background: #EFF6FF;
   height: 36px;
-  width: 130px;
-  border-radius: 10px;
-  margin-left: 60px;
-  border: 1px solid #3B82F6;
-  color: #424242;
+  width: 66px;
+  border-radius: 4px;
+  margin-left: 40px;
+  border: 1px solid #d9d9d9;
+  color: white;
   font-size: 17px;
   cursor: pointer;
   transition: background 200ms;
 
   &:hover {
-    background: #D4E7FF;
+    color: #d9d9d9;
   }
 `
 export const TodayTitle = styled.h2`
@@ -77,20 +94,29 @@ export const TodayTitle = styled.h2`
 
 export const ArrowIconWrapper = styled.div`
   & > * {
-    width: 25px;
-    height: 25px;
-    color: #3B82F6;
-    margin-left: 20px;
+    width: 20px;
+    height: 20px;
+    color: white;
+    margin-left: 12px;
     cursor: pointer;
   }
 
   & > *:hover {
-    background: #F4F4F4;
+    color: #d9d9d9;
   }
+
   display: flex;
   align-items: center;
   justify-content: center;
 `
+
+export const ArrowsBlock = styled.div`
+  width: 60px;
+  display: flex;
+  height: 100%;
+  margin-left: 8px;
+`
+
 
 export const SettingsBlock = styled.div`
   height: 60px;
@@ -99,10 +125,9 @@ export const SettingsBlock = styled.div`
   right: 50px;
   display: flex;
   align-items: center;
-  
+
   justify-content: space-between;
 `
-
 
 
 export const SettingsIconWrapper = styled.div`
@@ -115,11 +140,5 @@ export const SettingsIconWrapper = styled.div`
     cursor: pointer;
   display: flex;
   align-items: center;
-`
-export const UserImage = styled.img`
-  border-radius: 100%;
-  width: 50px;
-  height: 50px;
-  
 `
 

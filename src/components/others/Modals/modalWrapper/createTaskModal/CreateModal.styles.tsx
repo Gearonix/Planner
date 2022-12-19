@@ -1,12 +1,11 @@
 import styled from 'styled-components'
-import {InputElement} from '../../../../Login/login.styles'
 
 
 export const Animated = styled.div`
   width: 400px;
   height: ${({isBackground}: { isBackground?: boolean }) => isBackground ? 770 : 620}px;
   border-radius: 14px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
   position: absolute;
   z-index: 1;
 `
@@ -18,7 +17,6 @@ export const DraggableModal = styled.div`
   background: transparent;
 
 `
-
 
 
 export const ModalDraggable = styled.div`
@@ -44,30 +42,24 @@ export const ModalDraggable = styled.div`
 
 
 export const ModalWrapper = styled.div`
-  width: ${({w} : {w ?: number}) => w ? w+'%' : '90%'};
+  width: ${({w}: { w?: number }) => w ? w + '%' : '90%'};
   height: 100%;
   margin: 0 auto;
   padding-left: 20px;
 `
-export const ModalInput = styled(InputElement)`
-    margin-top: 15px;
-    font-size: 25px;
-    border-bottom-width: 1px;
-  height: 40px
-`
 
 type btnContProps = {
-    w ?: number,
-    jc ?: string
+    w?: number,
+    jc?: string
 }
 
 export const ButtonsContainer = styled.div`
-  width: ${({w} : btnContProps) => w ? w+'%' : '70%'};
+  width: ${({w}: btnContProps) => w ? w + '%' : '70%'};
   display: flex;
   height: 50px;
   align-items: center;
   margin-top: 2px;
-  justify-content: ${({jc} : btnContProps) => jc ? jc : 'flex-start'};
+  justify-content: ${({jc}: btnContProps) => jc ? jc : 'flex-start'};
 `
 
 export const TimeWrapper = styled.div`

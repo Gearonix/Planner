@@ -32,4 +32,5 @@ export const taskColors: TaskColorsType = {
 export const DATE_FORMAT = 'YYYY-MM-DD'
 
 
-export const repetitionDelays = ['single','daily','weekly','monthly','annually']
+export const repetitionDelays = ['single', 'daily', 'weekly', 'monthly', 'annually']
+

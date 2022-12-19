@@ -5,7 +5,7 @@ export const ChangeModalElement = styled.div`
   height: 100%;
   background-color: white;
   border-radius: 14px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 `
 export const ModalImage = styled.img`
   width: 100%;
@@ -39,11 +39,12 @@ export const CircleButton = styled.div`
   align-items: center;
   margin-right: 10px;
 
-  & > *{
-    color: ${({isImage} : {isImage?: boolean}) => isImage  ? 'transparent' : '#1d1e20'};
+  & > * {
+    color: ${({isImage}: { isImage?: boolean }) => isImage ? 'transparent' : '#1d1e20'};
     width: 18px;
     height: 18px;
   }
+
   cursor: pointer;
 `
 export const CircleButtonBlock = styled.div`
@@ -75,10 +76,9 @@ export const Color = styled.div`
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  background: ${({color} : {color: any}) => color.background};
-  margin: 0 auto;
-  border: 1px solid ${({color} : {color: any}) => color.color};;
-  margin-top: 3px;
+  background: ${({color}: { color: any }) => color.background};
+  margin: 3px auto 0 auto;
+  border: 1px solid ${({color}: { color: any }) => color.color};;
 `
 export const Title = styled.h2`
   color: #555;
@@ -97,7 +97,6 @@ export const Description = styled.p`
 `
 
 export const InfoIcon = styled(CircleButton)`
-  margin: 0 auto;
-  margin-top: 75px;
+  margin: 75px auto 0 auto;
   height: 26px;
 `

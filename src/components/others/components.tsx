@@ -27,24 +27,26 @@ type dropDownType = {
     formVariant?: "standard" | "outlined" |
         "filled" | undefined,
     title?: string,
-    css? : any
+    css?: any
 }
 
-export const DropDownC = ({handler, minWidth = 120, value, names,formVariant,
-                              title,css = {}}: dropDownType) =>
+export const DropDownC = ({
+                              handler, minWidth = 120, value, names, formVariant,
+                              title, css = {}
+                          }: dropDownType) =>
     <FormControl sx={{m: 1, minWidth}} size="small"
                  variant={formVariant}>
-        {title &&  <InputLabel id="demo-simple-select-filled-label">{title}</InputLabel>}
+        {title && <InputLabel id="demo-simple-select-filled-label">{title}</InputLabel>}
         <Select
             labelId="demo-simple-select-small"
             id="demo-select-small"
             value={names.indexOf(value)}
             label="Time"
-            onChange={(idx : SelectChangeEvent<number>) => {
+            onChange={(idx: SelectChangeEvent<number>) => {
                 // @ts-ignore
                 handler(names[idx.target.value])
             }}
-            sx={{marginLeft: '-0px',...css}}
+            sx={{marginLeft: '-0px', ...css}}
         >
             {names.map((i, idx) => <MenuItem value={idx.toString()} key={idx}>{capitalizeFirstLetter(i)}</MenuItem>)}
         </Select>
@@ -57,46 +59,50 @@ type datePickerType = {
     disabled?: boolean
 }
 export const DatePicker = ({date, handleDate, disabled}: datePickerType) => <LocalizationProvider
-    dateAdapter={AdapterDayjs}><DesktopDatePicker
-    label="Choose date"
-    inputFormat="DD/MM/YYYY"
-    value={date} onChange={handleDate}
-    disabled={disabled}
+    dateAdapter={AdapterDayjs}>
+    <DesktopDatePicker
+        label="Choose date"
+        inputFormat="DD/MM/YYYY"
+        value={date} onChange={handleDate}
+        disabled={disabled}
 
-    renderInput={(params) => <TextField size={'small'} {...params}
-    />}/>
+        renderInput={(params) => <TextField size={'small'} {...params}
+        />}/>
 </LocalizationProvider>
-
 
 
 type TextAreaProps = {
     desc: string, setDesc: any,
-    css ?: any
+    css?: any
 }
 
-export const TextArea = ({desc, setDesc,css={maxLength: 55}}: TextAreaProps) => <TextField
+export const TextArea = ({desc, setDesc, css = {maxLength: 55}}: TextAreaProps) => <TextField
     id="filled-multiline-flexible"
     label="Description..."
     multiline
     maxRows={2}
     value={desc}
     onChange={setDesc}
-    inputProps={{style : css}}
+    inputProps={{style: css}}
     variant="filled"
     sx={{marginTop: '10px'}}
 />
 
 
 type CheckBoxProps = {
-    title : string,
-    checked : boolean,
-    handler : Function
+    title: string,
+    checked?: boolean,
+    handler?: Function,
+    darkMode?: boolean
 }
 
-export const CheckBox = ({title,handler,checked} : CheckBoxProps) => {
+export const CheckBox = ({
+                             title, handler = () => {
+    }, checked = false, darkMode = false
+                         }: CheckBoxProps) => {
     return <FormControlLabel control={<CheckboxMui onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
         handler(e.target.checked)
-    }} checked={checked}/>} label={title} sx={{marginLeft: '5px'}} />
+    }} checked={checked}/>} label={title} sx={{color: darkMode ? 'white' : 'black'}}/>
 }
 
 type InputProps = {
@@ -111,7 +117,7 @@ type InputProps = {
 }
 
 
-export const Input = (props : InputProps) => {
+export const Input = (props: InputProps) => {
     return <TextField onChange={props.onChange}
                       id={props.id}
                       label={props.label}
@@ -138,20 +144,21 @@ export const Progress = ({theme}: { theme: LinearProgressProps['color'] }) => {
 }
 
 
-type UploadButtonProps = {handler : Function,
+type UploadButtonProps = {
+    handler: Function,
     size?: "small" | "medium" | "large",
     title?: string
 }
 
-export const UploadButton = ({handler,size = 'small',title = 'Upload'} : UploadButtonProps) => {
-    return  <Button variant="outlined"
-                component="label" startIcon={<BiCloudUpload/>}
-                    size={size} sx={{marginTop : '15px'}}>{title}
-        <input type="file" hidden onChange={(e : React.BaseSyntheticEvent) =>
+export const UploadButton = ({handler, size = 'small', title = 'Upload'}: UploadButtonProps) => {
+    return <Button variant="outlined"
+                   component="label" startIcon={<BiCloudUpload/>}
+                   size={size} sx={{marginTop: '15px'}}>{title}
+        <input type="file" hidden onChange={(e: React.BaseSyntheticEvent) =>
             handler(e.target?.files?.[0])}/></Button>
 }
 
-export const ColorPicker = ({handler} : {handler : Function}) => <ColorWrapper>
+export const ColorPicker = ({handler}: { handler: Function }) => <ColorWrapper>
     <TwitterPicker colors={Object.values(taskColors).map(({color}) => color)}
-                   onChangeComplete={({hex} : any)  =>  handler(convertHexToAppColor(hex))}/>
+                   onChangeComplete={({hex}: any) => handler(convertHexToAppColor(hex))}/>
 </ColorWrapper>

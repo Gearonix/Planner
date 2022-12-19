@@ -1,8 +1,8 @@
-const express = require('express')
-const app = express()
-const {MongoClient, ObjectId} = require('mongodb')
-const server = require('http').Server(app)
-const cors = require('cors')
+const express = require('express');
+const app = express();
+const {MongoClient, ObjectId} = require('mongodb');
+const server = require('http').Server(app);
+const cors = require('cors');
 const multer = require('multer')
 const emailValidator = require('deep-email-validator');
 const cookieParser = require('cookie-parser')
@@ -44,18 +44,20 @@ connectToDB().then(response => {
 
 
 app.put('/user/login', (req, res) => {
-    const {email, password} = req.body
+    const {email, password, rememberMe} = req.body
     db.collection('users').find({email, password}).toArray((err, result) => {
         if (result[0]) {
-            const user_id = result[0]._id.toString()
-            res.cookie('user_id', user_id)
-            res.cookie('password', password)
+            if (rememberMe) {
+                const user_id = result[0]._id.toString()
+                res.cookie('user_id', user_id)
+                res.cookie('password', password)
+            }
             res.json(ok(result[0]))
         } else res.json(error('Wrong password or username'))
     })
 })
 app.post('/user/signup', async (req, res) => {
-    const {email, password} = req.body
+    const {email, password, rememberMe} = req.body
     const {valid: isEmailExists} = await emailValidator.validate(email)
     if (!isEmailExists) return res.json(error('Email does not exist'))
     db.collection('users').find({email}).toArray((err, result) => {
@@ -63,15 +65,15 @@ app.post('/user/signup', async (req, res) => {
             res.json(error('User already exists'))
             return
         }
-
-
         const data = {
             email, password, userImage: null,
             userName: email.split('@')[0]
         }
         db.collection('users').insertOne(data, (err, {insertedId}) => {
-            res.cookie('user_id', insertedId)
-            res.cookie('password', password)
+            if (rememberMe) {
+                res.cookie('user_id', insertedId)
+                res.cookie('password', password)
+            }
             res.json(ok({...data, _id: insertedId}))
         })
 

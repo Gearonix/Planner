@@ -18,8 +18,7 @@ export const DayCalendarInner = styled.div`
 export const DayList = styled.div`
   border: 1px solid #d9d9d9;
   width: 90%;
-  margin: 0 auto;
-  margin-top: 15px;
+  margin: 15px auto 0 auto;
   border-radius: 4px;
   height: 700px;
   overflow-y: auto;
@@ -36,9 +35,11 @@ export const DayList = styled.div`
     background-color: #e4e4e4;
     border-radius: 100px;
   }
-  &::-webkit-scrollbar{
+
+  &::-webkit-scrollbar {
     width: 16px;
   }
+
   position: relative;
 `
 
@@ -70,8 +71,8 @@ export const DayTask = styled(CellTask)`
   border: none;
   width: 95%;
   border-radius: 15px;
-  height: ${({length} : {length : number,top : number}) => length * 91}px;
-  top: ${({top} : {length : number,top : number}) => top * 91 - 10}px;
+  height: ${({length}: { length: number, top: number }) => length * 91}px;
+  top: ${({top}: { length: number, top: number }) => top * 91 - 10}px;
   display: block;
 
 `
@@ -81,7 +82,7 @@ export const DayTaskTitle = styled.h2`
   font-size: 20px;
   margin-bottom: 0;
 `
-export const DayTaskTimeRange =  styled.h3`
+export const DayTaskTimeRange = styled.h3`
   font-size: 17px;
   margin-left: 10px;
   margin-top: 2px;
@@ -95,5 +96,5 @@ export const DayTaskImage = styled.img`
   position: absolute;
   object-fit: cover;
   border-radius: 20px;
-  
+
 `

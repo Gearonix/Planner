@@ -7,7 +7,7 @@ import DayCalendar from './DayCalendar/dayCalendar';
 import MonthCalendar from './MonthCalendar/monthCalendar';
 import {timeToString,} from '../../helpers/tools';
 import Aside from '../Aside/aside';
-import {DayLayer, MainElement, MainPage, MonthLayer} from './main.styles';
+import {DayLayer, MainPage, MonthLayer} from './main.styles';
 import Header from '../Header/header';
 import {IParallax, Parallax} from '@react-spring/parallax'
 import {initialState, MainContext, mainReducer} from "./reducer";
@@ -17,6 +17,7 @@ import {DATE_FORMAT} from "../../global/constants";
 import {useScrolls} from '../../helpers/hooks';
 import Animations from '../../helpers/animations';
 import {mainContextType, toTodayT} from "../../global/types/components/mainTypes";
+import {SpaceBackground} from "../others/SpaceBackground/spaceBackground";
 
 
 const Main = () => {
@@ -63,7 +64,7 @@ const Main = () => {
     return <MainContext.Provider value={contextValues}>
         <MainPage className={'dragableMain'}>
             <Header/>
-            <MainElement>
+            <SpaceBackground>
                 <Parallax ref={parallax} pages={2} config={Animations.parallax}>
                     <DayLayer
                         offset={0}
@@ -77,7 +78,7 @@ const Main = () => {
                     </MonthLayer>
                 </Parallax>
                 <Aside/>
-            </MainElement>
+            </SpaceBackground>
 
         </MainPage>
     </MainContext.Provider>

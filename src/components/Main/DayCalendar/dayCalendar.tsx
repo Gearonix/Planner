@@ -17,7 +17,6 @@ import Profile from "../../Profile/profile";
 
 const DayCalendar = () => {
     const {date, tasklist} = useSelector(Selectors.current)
-    const user_id = useSelector(Selectors.userId)
     const dispatch = useDispatch<DispatchType>()
     const context = useContext(MainContext)
     const {dispatch: mainDispatch, state} = context

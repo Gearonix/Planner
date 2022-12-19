@@ -1,171 +1,127 @@
-import styled,{keyframes} from 'styled-components';
+import styled, {keyframes} from 'styled-components';
+import {styled as mui} from '@mui/material/styles';
+import TextField from "@mui/material/TextField";
+import FormHelperText from '@mui/material/FormHelperText';
 
-
-export const PageContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-    
-    
-
+const loginAnimation = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 `
-
-export const LoginWrapper = styled.div`
-  width: 22%;
-  height: 650px;
+export const LoginSection = styled.div`
+  width: 40%;
+  height: 100%;
   border-radius: 10px;
-  background: white;
-  margin: 0 auto;
-  margin-top: 25px;
+  background: rgb(36, 37, 38, 0.8);
+  position: absolute;
+  right: 0;
   border: 1px solid transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
-    
-`
-export const LoginTitle = styled.h2`
-  font-size: 28px;
-  line-height: 1.2;
-  margin-top: 77px;
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 800;
-  color: #333;
-  
-`
-
-export const IconWrapper = styled.div`
-  width: 60px;
-  height: 60px;
-  margin: 0 auto;
-  margin-bottom: 48px;
-`
-
-
-
-
-
-export const InputElement = styled.input`
-    outline: none;  
-    border: none;
-    width: 100%;
-    height: 100%;
-    color : #555;
-    font-size: 14px;
-  font-weight: normal;
-  border-bottom: #a6a6a6 solid 2px;
-  &:focus{
-    border-image: linear-gradient(to right,#7293ff,pink);
-    border-image-slice: 1;
-  }
-  -webkit-text-security: ${({isPassword} : {isPassword : boolean     }) => isPassword ? 'disc' : 'none'};
-`
-const inputTransition = keyframes`
-  from{
-    top: 0;
-  }
-  to{
-    top: -20px;
-  }
-
+  z-index: 3;
+  -webkit-box-shadow: -95px 4px 8px 0 rgb(36, 37, 38, 0.8);
+  -moz-box-shadow: -95px 4px 8px 0 rgb(36, 37, 38, 0.8);
+  box-shadow: -95px 4px 8px 0 rgb(36, 37, 38, 0.8);
+  animation: ${loginAnimation};
+  animation-duration: 1s;
 
 `
 
-export const InputWrapper = styled.div`
-  width: 69%;
-  height: 37px;
-  margin-bottom: 37px;
+export const LoginWrapper = styled.div`
+  width: 60%;
+  height: 80%;
+  margin: 200px auto 0 auto;
   position: relative;
-  border: none;
-  &:focus-within > span{
-    animation: ${inputTransition};
-    animation-duration: 250ms;
-    animation-fill-mode: forwards;
-  }
 `
 
-export const EyeIconWrapper = styled.div`
-  width: 12px;
-  height: 12px;
-  color: #a9a9a9;
-  position: absolute;
-  top: 10px;
-  right: 5px;
-  cursor: pointer;
-`
-
-export const ErrorMessage = styled.div`
-    position: absolute;
-    right: 0;
-    top: 10px;
-    width: 70%;
-    height: 19px;
-    color: #c80000;
-    border-radius: 4px;
-    border: 1px solid #c80000;
-    font-size: 12px;
-    display: flex;
-  align-items: center;
-  padding-left: 2px;
-  opacity: 0;
-  transition: opacity 400ms;
-`
-
-
-
-export const InputPlaceholder = styled.span`
-        display: block;
-  position: absolute;
-  top: 10px;
-  left: 0;
-  color: #a9a9a9;
+export const WelcomeBack = styled.h3`
+  font-size: 16px;
+  margin: 0;
+  color: #c4c4c4;
   font-weight: normal;
-  font-size: 14px;
+`
+
+export const InputTitle = styled(WelcomeBack)`
+  color: #e3e3e3;
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+`
+
+export const Error = mui(FormHelperText)`
+    color: #f44336;
+    font-size: 16px;
+
+`
+
+export const LoginTitle = styled.h2`
+  font-size: 32px;
+  line-height: 1.2;
+  margin: 6px 0 20px 0;
   font-weight: 400;
+  color: #e3e3e3;
 
 `
 
-
-
-
-
-export const MainErrorMessage = styled.h2`
-  color: #c80000;
-  font-size: 15px;
-  font-weight: 300;
-  
+export const Input = mui(TextField)`
+    width: 75%;
+    background: white;
+    outline: none !important;
+    border-radius: 4px;
+    box-shadow: 0 0 3px #ddd;
+    margin-bottom: 11px;
+    fieldset {
+        border-radius: 4px;
+        border-width: 2px !important;
+    }
+    &:hover fieldset{
+        border: none !important;
+    }  
+ 
 `
 
+export const ButtonContainer = styled.div`
+  width: 80%;
+  height: 40px;
+  margin: 0;
+  position: relative;
 
+`
 
 export const Button = styled.div`
   cursor: pointer;
-  border-radius: 25px;
   font: 700 30px consolas;
-   color: #fff;
-   text-decoration: none;
-   text-transform: uppercase;
-   padding: 20px 60px;
-   position: relative;
-   overflow: hidden;
-   border-radius: 40px;
-   transition: 0.2s;
-   transform: scale(0.65);
+  color: #fff;
+  text-decoration: none;
+  padding: 20px 60px;
+  font-weight: normal;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 5px;
+  transition: 0.2s;
   margin-top: 20px;
-   width: 60%;
+  height: 12px;
+  width: 65%;
   text-align: center;
-   
-  &:hover{
-      box-shadow: 0 0 5px #7293ff, inset 0 0 5px #7293ff;
-      transition-delay: 0.2s;
+
+  &:hover {
+    box-shadow: 0 0 5px #7293ff, inset 0 0 5px #7293ff;
+    transition-delay: 0.2s;
   }
 `
 export const ButtonTitle = styled.span`
-    margin: 0 auto;
-  position: relative;
-   z-index: 0;
-   color: #fff;
+  margin: 0 auto;
+  z-index: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 21px;
   text-align: center;
 
 `
@@ -184,10 +140,11 @@ export const ButtonInner = styled.div`
   left: 0;
   width: 100%;
   height: 200px;
-  background: ${(props : {isPink : boolean}) => props.isPink ? '#e3667d'  : '#7293ff'};
+  background: ${(props: { isPink: boolean }) => props.isPink ? '#e3667d' : '#7293ff'};
   box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.7);
   z-index: -1;
   transition: 0.6s;
+
   &:before {
     position: absolute;
     content: "";
@@ -197,6 +154,7 @@ export const ButtonInner = styled.div`
     left: 0;
     transform: translate(-25%, -75%);
   }
+
   &:before {
     position: absolute;
     content: "";
@@ -206,13 +164,15 @@ export const ButtonInner = styled.div`
     left: 0;
     transform: translate(-25%, -75%);
   }
-  &:after{
+
+  &:after {
     border-radius: 45%;
     background: rgba(20, 20, 20, 1);
     box-shadow: 0 0 10px 5px #7293ff, inset 0 0 5px #7293ff;
     animation: ${animateButton} 5s linear infinite;
     opacity: 0.8;
   }
+
   &:before {
     border-radius: 40%;
     box-shadow: 0 0 10px rgba(26, 26, 26, 0.5),
@@ -221,87 +181,29 @@ export const ButtonInner = styled.div`
 
     animation: ${animateButton} 7s linear infinite;
   }
+
   &:hover {
     top: -120px;
   }
-  
+
+`
+
+export const LinkContainer = styled.div`
+  width: 80%;
+  height: 20px;
+  margin: 290px 0 0 0;
 `
 
 export const SwitchPageLink = styled.div`
-  margin: 0 auto;
-  margin-top: 115px;
-  & > a{
+  text-align: center;
+
+  & > a {
     text-decoration: none;
-    color: #555;
-    font-size: 15px;
+    color: #e3e3e3;
+    font-size: 16px;
+    font-weight: normal;
   }
 `
-const PrealoderAnimation1 = keyframes`
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-`
-const PrealoderAnimation2 = keyframes`
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(24px, 0);
-  }
-`
-
-const PrealoderAnimation3 = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-
-`
-export const Preloader = styled.div`
-  display: inline-block;
-  position: absolute;
-  width: 80px;
-  height: 80px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  margin-top: 480px;
-  & > div {
-    position: absolute;
-    top: 33px;
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    background: #333;
-    animation-timing-function: cubic-bezier(0, 1, 1, 0);
-  }
-  & > div:nth-child(1){
-    left: 8px;
-    animation: ${PrealoderAnimation1} 0.6s infinite;
-  }
-  & > div:nth-child(2){
-    left: 8px;
-    animation: ${PrealoderAnimation2} 0.6s infinite;
-  }
-  & > div:nth-child(3){
-    left: 32px;
-    animation: ${PrealoderAnimation2} 0.6s infinite;
-  }
-  & > div:nth-child(4){
-    left: 56px;
-    animation: ${PrealoderAnimation3} 0.6s infinite;
-  }
-`
-
-
-
-
-
 
 
 

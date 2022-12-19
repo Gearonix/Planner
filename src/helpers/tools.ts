@@ -88,3 +88,6 @@ export const compareProps = (property: string, val1: string, val2: string) =>
 export const isValidDate = (currentDate: nor, count: number, year: string,
                             month: string) => currentDate && +currentDate + count <
     createDaysAmount(year, month) + 1 && +currentDate + count > 0
+
+export const randomizeNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min)
+

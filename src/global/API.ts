@@ -22,18 +22,18 @@ const API = {
         return instance.put('/user/change/username', data)
     },
     uploadFile(data: { formData: any, name: string }) {
-        return instance.put(`/user/upload/image?dir=${data.name}`,data.formData)
+        return instance.put(`/user/upload/image?dir=${data.name}`, data.formData)
     },
-    setUserImage(data : setUserImageType){
-        return instance.put('/user/set/image',data)
+    setUserImage(data: setUserImageType) {
+        return instance.put('/user/set/image', data)
     },
-    changeUserPassword(data : passwordFormType){
-        return instance.put('/user/change/password',data)
+    changeUserPassword(data: passwordFormType) {
+        return instance.put('/user/change/password', data)
     },
-    getAuth(){
+    getAuth() {
         return instance.get('/cookie/auth')
     },
-    logoutUser(){
+    logoutUser() {
         return instance.delete('/cookie/clear')
     },
     getUserDays({user_id, fulldate}: setDaysFormT) {

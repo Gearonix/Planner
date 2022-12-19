@@ -79,34 +79,34 @@ const InfoModal = ({style, task}: { style: any, task: taskType }) => {
                                 <AiOutlineClose/>
                             </CircleButton>
                         </CircleButtonBlock>
-            </ImageBlock>
-            <MainBlock>
-                <ColorBlock>
-                    {/*@ts-ignore*/}
-                    <Color color={taskColors[task.color]}/>
-                    <InfoIcon>
-                        <TfiBell/>
-                    </InfoIcon>
-                    <InfoIcon style={{marginTop: '0px'}}>
-                        <BsCalendarEvent/>
-                    </InfoIcon>
-                </ColorBlock>
-                <InfoBlock>
-                    <Title>{task.title}</Title>
-                    <Description>
-                        {weekDay}, {date} {toMonthName(month)} &bull; {task.starts}-{task.ends}
-                    </Description>
-                    <Description>
-                        {capitalizeFirstLetter(task.repetitionDelay)}
-                    </Description>
-                    <Description style={{marginTop: '35px'}}>
-                        {cutString(task.description || '', 20) || 'No description'}
-                    </Description>
-                    <Description style={{marginTop: '8px'}}>
-                        {userName}
-                    </Description>
-                </InfoBlock>
-            </MainBlock>
+                    </ImageBlock>
+                    <MainBlock>
+                        <ColorBlock>
+                            {/*@ts-ignore*/}
+                            <Color color={taskColors[task.color]}/>
+                            <InfoIcon>
+                                <TfiBell/>
+                            </InfoIcon>
+                            <InfoIcon style={{marginTop: '0px'}}>
+                                <BsCalendarEvent/>
+                            </InfoIcon>
+                        </ColorBlock>
+                        <InfoBlock>
+                            <Title>{task.title}</Title>
+                            <Description>
+                                {weekDay}, {date} {toMonthName(month)} &bull; {task.starts}-{task.ends}
+                            </Description>
+                            <Description>
+                                {capitalizeFirstLetter(task.repetitionDelay)}
+                            </Description>
+                            <Description style={{marginTop: '35px'}}>
+                                {cutString(task.description || '', 20) || 'No description'}
+                            </Description>
+                            <Description style={{marginTop: '8px'}}>
+                                {userName}
+                            </Description>
+                        </InfoBlock>
+                    </MainBlock>
                 </ChangeModalElement>
             </InfoDraggable>
         </Draggable>

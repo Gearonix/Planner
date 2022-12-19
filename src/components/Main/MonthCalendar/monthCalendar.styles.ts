@@ -32,17 +32,17 @@ export const MonthHeader = styled.div`
   }
 `
 export const CurrentDate = styled(AddButtonText)`
- 
+
   font-weight: normal;
   margin: 0;
   font-family: 'Barlow Semi Condensed', sans-serif;
   font-size: 25px;
   margin-left: 20px;
-  width: ${(props : { width : number }) => props.width }px;;
+  width: ${(props: { width: number }) => props.width}px;;
 
 `
 export const MonthArrow = styled(ArrowIconWrapper)`
-    display: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 `
@@ -51,7 +51,7 @@ export const TodayButton = styled.button`
   border: none;
   outline: none;
   background: #EFF6FF;
-  color : #2563EB;
+  color: #2563EB;
   border-radius: 4px;
   font-size: 18px;
   font-weight: normal;
@@ -69,7 +69,7 @@ export const SortText = styled.h4`
 `
 export const Grey = styled.span`
   color: #94A3B8;
-  
+
 `
 export const ArrowDownWrap = styled.div`
   height: 23px;
@@ -99,10 +99,11 @@ export const CalendarCell = styled.td`
   border-top: 1px solid #94A3B8;
   border-left: 1px solid #94A3B8;
   display: block;
-  background: ${({dis} : {dis : boolean | void}) => dis ? '#F8FAFC' : 'white'};
+  background: ${({dis}: { dis: boolean | void }) => dis ? '#F8FAFC' : 'white'};
   width: 100%;
-  & > h2{
-    color: ${({dis} : {dis : boolean | void}) => dis ? '#94A3B8' : '#475569'};
+
+  & > h2 {
+    color: ${({dis}: { dis: boolean | void }) => dis ? '#94A3B8' : '#475569'};
   }
 
 `
@@ -121,22 +122,25 @@ export const CalenRow = styled.tr`
 `
 export const WekkendRow = styled(CalenRow)`
   height: 56px;
-  & > td{
+
+  & > td {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-   
+
   }
-  
+
 `
 export const CelTasks = styled.div`
   width: 100%;
   height: 90px;
-  &::-webkit-scrollbar{
+
+  &::-webkit-scrollbar {
     opacity: 0;
   }
+
   overflow-y: auto;
   padding: 0;
   margin: 0;

@@ -4,7 +4,7 @@ import {RefObject} from "react";
 export const useScrolls = (parallax: RefObject<IParallax>) => {
     const toMonth = () => parallax?.current?.scrollTo(1)
     const toDay = () => parallax?.current?.scrollTo(0)
-    const scrolls = [() => {
+    return [() => {
         document.removeEventListener('mousewheel', toDay)
         document.addEventListener('mousewheel', toMonth)
         parallax?.current?.scrollTo(1)
@@ -15,5 +15,4 @@ export const useScrolls = (parallax: RefObject<IParallax>) => {
             parallax?.current?.scrollTo(0)
         }
     ]
-    return scrolls
 }

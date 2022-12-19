@@ -7,8 +7,7 @@ export const ProfileWrapper = styled.div`
 `
 
 export const MainContent = styled.div`
-  padding: 32px;
-  padding-bottom: 0;
+  padding: 32px 32px 0 32px;
 `
 
 export const ProfileTitle = styled.h1`
@@ -44,29 +43,33 @@ export const UserAvatarBlock = styled.div`
   align-items: center;
 `
 export const UserImageElement = styled.img`
-  width: ${(props : {size : 
-  number}) => props.size + 'px'};
+  width: ${(props: {
+    size:
+            number
+  }) => props.size + 'px'};
   height: ${props => props.size + 'px'};
   border-radius: 100%;
   border: 1px solid black;
   cursor: pointer;
 `
 export const EmptyAvatar = styled.div`
-  width: ${(props : {size :
-            number}) => props.size + 'px'};
+  width: ${(props: {
+    size:
+            number
+  }) => props.size + 'px'};
   height: ${props => props.size + 'px'};
-  border-radius: 100%;  
-  background: ${({color} : any) => color }; 
+  border-radius: 100%;
+  background: ${({color}: any) => color};
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 `
 export const EmptyAvatarTitle = styled.h2`
-  font-size: ${({fontSize} :
-{ fontSize : number }) => fontSize + 'px' };
+  font-size: ${({fontSize}:
+                        { fontSize: number }) => fontSize + 'px'};
   color: white;
-  
+
 
 `
 
@@ -121,24 +124,26 @@ export const FieldTitle = styled.h4`
 `
 export const FieldInput = styled.input`
   outline: none;
-  width: ${({isPassword} :
-  {isPassword ?: boolean}) => 
-  isPassword ? '58%' : '67%'};
+  width: ${({isPassword}:
+                    { isPassword?: boolean }) =>
+          isPassword ? '58%' : '67%'};
   margin-right: 2px;
   height: 30px;
   border: 1px solid #e6e6eb;
   border-radius: 8px;
   color: #525266;
   font-size: 16px;
-  &:disabled{
+
+  &:disabled {
     background: #f4f2f5;
-    color : #9292a6;
+    color: #9292a6;
   }
+
   padding-left: 10px;
-  -webkit-text-security: ${({isPassword} : {isPassword ?: boolean}) => isPassword ? 'disc' : 'none'};
-  
-  &::placeholder{
-     color: #d2d2d4;
+  -webkit-text-security: ${({isPassword}: { isPassword?: boolean }) => isPassword ? 'disc' : 'none'};
+
+  &::placeholder {
+    color: #d2d2d4;
     font-size: 16px;
   }
 `
@@ -150,42 +155,32 @@ export const ChangePasswordBlock = styled.div`
   align-items: center;
 `
 
-export const PasswordInputChange = styled.input`
-  -webkit-text-security: disc;
-  background: #9292a6;
-  color : #9292a6;
-  width: 60%;
-  height: 30px;
-  border: 1px solid #e6e6eb;
-  border-radius: 8px;
-`
-
 export const PasswordButton = styled.button`
   width: 33%;
   height: 32px;
   background: #f5f5fa;
   position: relative;
   border-radius: 8px;
-  text-align: center;
   display: flex;
   margin-right: 10px;
   justify-content: center;
   align-items: center;
-  transition: background 200ms;
   border: none;
   outline: none;
   text-align: center;
   font-weight: 400;
-  color : #8d8da6;
+  color: #8d8da6;
   font-size: 14px;
   cursor: pointer;
   transition: background 200ms;
-  &:hover{
+
+  &:hover {
     background: #e8e8eb;
   }
-  &:disabled{
+
+  &:disabled {
     background: #f4f2f5;
-    color : #9292a6;
+    color: #9292a6;
   }
 `
 
@@ -204,10 +199,8 @@ export const PasswordInputsBlock = styled.div`
 `
 export const PasswordInput = styled(FieldInput)`
   width: 95%;
-  padding: 0;
-  padding-left: 10px;
-  margin: 0 auto;
-  margin-top: 16px;
+  padding: 0 0 0 10px;
+  margin: 16px auto 0 auto;
   -webkit-text-security: disc;
 `
 export const PasswordButtons = styled.div`

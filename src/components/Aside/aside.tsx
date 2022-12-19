@@ -69,26 +69,25 @@ const Aside = () => {
         <DropDownHeader onClick={() => showDropDown(!isDropDown)}>
             <DropDownText>Filter</DropDownText>
 
-                {isDropDown ? <AiOutlineArrowUp/>:
-        <AiOutlineArrowDown/>}
+            {isDropDown ? <AiOutlineArrowUp/> :
+                <AiOutlineArrowDown/>}
 
         </DropDownHeader>
-         <><DropDownBody hide={isDropDown}>
+        <><DropDownBody hide={isDropDown}>
             <HiddenCheckBox type={'checkbox'} value={'test1'}/>
             <CheckBox/>
             <DropDownBodyT>Tasks</DropDownBodyT>
         </DropDownBody>
             <DropDownBody hide={isDropDown}>
-            <HiddenCheckBox type={'checkbox'} value={'test2'}/>
-            <CheckBox/>
-            <DropDownBodyT>Reminders</DropDownBodyT>
+                <HiddenCheckBox type={'checkbox'} value={'test2'}/>
+                <CheckBox/>
+                <DropDownBodyT>Reminders</DropDownBodyT>
             </DropDownBody>
         </>
 
 
     </AsideElement>
 }
-
 
 
 export default Aside

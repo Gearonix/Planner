@@ -2,156 +2,83 @@ import React, {useEffect, useState} from 'react'
 import {useFormik} from 'formik';
 import {
     Button,
+    ButtonContainer,
     ButtonInner,
     ButtonTitle,
-    ErrorMessage,
-    EyeIconWrapper,
-    IconWrapper,
-    InputElement,
-    InputPlaceholder,
-    InputWrapper,
+    Error,
+    Input,
+    InputTitle,
+    LinkContainer,
+    LoginSection,
     LoginTitle,
     LoginWrapper,
-    MainErrorMessage,
-    PageContainer,
-    Preloader,
-    SwitchPageLink
+    SwitchPageLink,
+    WelcomeBack
 } from "./login.styles";
 import {useDispatch, useSelector} from "react-redux";
 import {getOrCreateUser} from '../../reducers/userDataReducer';
 import {DispatchType} from '../../global/store';
 import {Link, useNavigate} from "react-router-dom";
 import {loginValidator} from "../../helpers/validate";
-import {GoGear} from 'react-icons/go'
-import {FaHeart} from 'react-icons/fa'
-import {BsEyeFill, BsEyeSlashFill} from 'react-icons/bs'
-import {IoMdAlert} from 'react-icons/io'
-import {capitalizeFirstLetter} from '../../helpers/tools';
-import {refType, StateType} from "../../global/types/types";
 import {loginFormValues, LoginProps} from "../../global/types/components/loginTypes";
+import {OutlinedInput} from "@mui/material";
+import {CheckBox} from '../others/components';
+import {SpaceBackground} from "../others/SpaceBackground/spaceBackground";
+import Selectors from '../../helpers/selectors';
 
-
-const Login = ({isRegistration}: LoginProps) => {
-
+const Login: React.FC<LoginProps> = ({isRegistration}) => {
     const pageName = isRegistration ? '/login' : '/signup'
-    const linkTitle = isRegistration ? 'Already have an account? Login!' :
-        'Don’t have an account? Sign Up'
-    const initialValues: loginFormValues = {email: '', password: ''}
-    const [globError, setError] = useState(null)
-
-    const [isLoading,setPreloader] = useState(false)
-
+    const rememberMe = JSON.parse(localStorage.getItem('rememberMe') || 'true')
+    const [error, setError] = useState(null)
     const dispatch = useDispatch<DispatchType>()
-
-    const user_id = useSelector((state : StateType) => state.userData.user_id)
-
-    const onSubmit = async (data : loginFormValues) => {
-        setPreloader(true)
-        const {payload} = await dispatch(getOrCreateUser({...data,isRegistration}))
-        setPreloader(false)
+    const user_id = useSelector(Selectors.userId)
+    const navigate = useNavigate()
+    const onSubmit = async (data: loginFormValues) => {
+        const {payload} = await dispatch(getOrCreateUser({...data, isRegistration}))
         if (payload) setError(payload)
     }
-    const navigate = useNavigate()
-
-    const PageIcon = <IconWrapper>
-        {!isRegistration ? <GoGear style={{
-        width: '90%',
-        height: '100%',
-        color : '#333'
-    }} /> :
-        <FaHeart  style={{
-            width: '85%',
-            height: '100%',
-            color: '#f52c47'
-        }}/>}
-    </IconWrapper>
-
     useEffect(() => {
         if (user_id) navigate('/')
-    },[user_id])
+    }, [user_id])
+    const {handleChange, values, errors, ...formik} =
+        useFormik({
+            initialValues: {email: '', password: '', rememberMe}, onSubmit,
+            validate: loginValidator, validateOnBlur: true, validateOnChange: false
+        })
 
+    return <SpaceBackground>
+        <LoginSection>
+            <LoginWrapper>
+                <WelcomeBack>Welcome back</WelcomeBack>
+                <LoginTitle>{!isRegistration ? 'Login to your account' : 'Create an account'}</LoginTitle>
+                <InputTitle>Email</InputTitle>
 
-    const formik = useFormik({initialValues,
-        onSubmit,validate: loginValidator,validateOnBlur: true,validateOnChange : false})
+                <Input id="outlined-basic" variant="outlined" fullWidth placeholder={'Email'}
+                       onChange={handleChange('email')} value={values.email}/>
 
-
-    return   <PageContainer>
-        <LoginWrapper>
-
-            <LoginTitle>{!isRegistration ? 'Welcome back.' : 'Create an account'}</LoginTitle>
-            {PageIcon}
-            <Input formik={formik} name={'email'}/>
-            <Input formik={formik} name={'password'}/>
-            {!isLoading || <LoginPreloader />}
-            {/*@ts-ignore*/}
-
-            <Button onClick={formik.handleSubmit}>
-                <ButtonTitle>{!isRegistration ? 'Login' : 'Sign Up'}</ButtonTitle>
-                <ButtonInner isPink={isRegistration}/>
-            </Button>
-
-            <MainErrorMessage>{globError}</MainErrorMessage>
-            <SwitchPageLink>
-                <Link to={pageName}>{linkTitle}</Link>
-            </SwitchPageLink>
-        </LoginWrapper>
-
-    </PageContainer>
+                <Error>{errors.email}</Error>
+                <InputTitle>Password</InputTitle>
+                <Input id="outlined-basic"
+                       variant="outlined" fullWidth placeholder={'Password'}
+                       as={OutlinedInput} onChange={handleChange('password')} value={values.password}/>
+                <Error>{errors.password || error}</Error>
+                <CheckBox title={'Remember me'} darkMode={true} checked={values.rememberMe}
+                          handler={(val: boolean) => formik.setFieldValue('rememberMe', val)}/>
+                <ButtonContainer>
+                    <Button onClick={() => formik.handleSubmit()}>
+                        <ButtonTitle>{!isRegistration ? 'Login now' : 'Sign Up'}</ButtonTitle>
+                        <ButtonInner isPink={isRegistration}/>
+                    </Button>
+                </ButtonContainer>
+                <LinkContainer>
+                    <SwitchPageLink>
+                        <Link to={pageName}>
+                            {isRegistration ? 'Already have an account?' : 'Dont have an account?'}
+                            <span style={{color: '#499AEE'}}>Join free today</span></Link>
+                    </SwitchPageLink>
+                </LinkContainer>
+            </LoginWrapper>
+        </LoginSection>
+    </SpaceBackground>
 }
-
-const LoginPreloader = () => <Preloader>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-</Preloader>
-
-
-const Error = ({message} : {message : string | void}) => {
-    const ErrorMessageRef = React.createRef()
-    return  !message ? null : <>
-        {/*@ts-ignore*/}
-        <ErrorMessage ref={ErrorMessageRef}>
-            {message}
-    </ErrorMessage>
-    <EyeIconWrapper onMouseOver={() => {
-        // @ts-ignore
-        ErrorMessageRef.current.style.opacity = '1'
-
-    }} onMouseOut={() => {
-        // @ts-ignore
-        ErrorMessageRef.current.style.opacity = '0'
-
-    }
-    }>
-        <IoMdAlert style={{color : 'red',width: '14px',
-            height: '14px'}}/>
-    </EyeIconWrapper>
-
-    </>
-}
-
-const Input = ({formik,name} : {formik: any,name : string}) => {
-    const InputRef : refType = React.createRef()
-    const [isPasswordOpened,openPassword] = useState(false)
-    const ErrorPin = name == 'password' ? <EyeIconWrapper onClick={() => {
-        openPassword(!isPasswordOpened)
-    }}>{isPasswordOpened ? <BsEyeSlashFill/> : <BsEyeFill/> }
-    </EyeIconWrapper> : null
-
-    return  <InputWrapper>
-        <InputElement type="text" name={name} onChange={formik.handleChange(name)}
-                      value={formik.values[name]}
-                      onBlur={formik.handleBlur} autoComplete={'off'} ref={InputRef}
-                      isPassword={name == 'password' && !isPasswordOpened}/>
-        {formik.values[name] ? null :   <InputPlaceholder
-            onClick={() => {InputRef.current?.focus()}} >{capitalizeFirstLetter(name)}</InputPlaceholder>}
-
-        {formik.errors[name] ? <Error message={formik.errors[name]}/> : ErrorPin }
-
-    </InputWrapper>
-}
-
-
-
 export default Login

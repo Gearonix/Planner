@@ -51,21 +51,21 @@ const CalendarHeaderC = ({
     }
 
     return <MonthHeader width={isDay ? 25 : 17}>
-    <HeaderInfoWrapper>
-        <CurrentDate width={!isDay ? 160 : 100}>
-    {currentDate ? weekDay
-        + ' ' + +currentDate :
-        toMonthName(month) + ' ' + year}
-    </CurrentDate>
-        <MonthArrow>
-            <IoIosArrowBack onClick={() => switchMonth(-1)}/>
-        </MonthArrow>
-        <MonthArrow>
-            <IoIosArrowForward onClick={() => switchMonth(1)}/>
-        </MonthArrow>
+        <HeaderInfoWrapper>
+            <CurrentDate width={!isDay ? 160 : 100}>
+                {currentDate ? weekDay
+                    + ' ' + +currentDate :
+                    toMonthName(month) + ' ' + year}
+            </CurrentDate>
+            <MonthArrow>
+                <IoIosArrowBack onClick={() => switchMonth(-1)}/>
+            </MonthArrow>
+            <MonthArrow>
+                <IoIosArrowForward onClick={() => switchMonth(1)}/>
+            </MonthArrow>
 
 
-    </HeaderInfoWrapper>
+        </HeaderInfoWrapper>
         <HeaderInfoWrapper>
             <TodayButton onClick={() => {
                 context.toToday(animation)
