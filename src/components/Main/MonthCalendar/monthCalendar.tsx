@@ -9,7 +9,6 @@ import React, {useContext, useEffect} from "react";
 import {WEEKDAYS} from "../../../global/constants";
 import {CalendarTable, CalenRow, InnerMonthBlock, MonthBlock, WekkendRow} from "./monthCalendar.styles";
 import {useDispatch, useSelector} from "react-redux";
-import CalendarHeader from "../../others/CalendarHeader/CalendarHeader";
 import ModalWrapper from "../../others/Modals/modalWrapper/modalWrapper";
 import {actions, MainContext} from "../reducer";
 import Selectors from "../../../helpers/selectors";
@@ -37,7 +36,7 @@ const MonthCalendar = () => {
     }
 
     useEffect(() => {
-        if (mainState.isProfile) context.scrolls[1]()
+        if (mainState.componentName == 'profile') context.scrolls[1]()
     }, [])
 
     //calendar creating block
@@ -55,8 +54,7 @@ const MonthCalendar = () => {
     return <MonthBlock as={animated.div}
                        style={{transform: animations.x.to(Animations.arrowMoves().transform)}}>
         <InnerMonthBlock className={'dragableMain'}>
-            {mainState.componentName == 'createModal' && <ModalWrapper/>}
-            <CalendarHeader close={() => clickToDay(+currentDate)} animation={animateMonth}/>
+            {mainState.modalComponent == 'createModal' && <ModalWrapper/>}
             <CalendarTable>
                 <tbody>
                 <WekkendRow>{getArrayByC(7).map((i, idx) => <Cell key={idx}

@@ -63,7 +63,7 @@ const InfoModal = ({style, task}: { style: any, task: taskType }) => {
                 <ChangeModalElement style={style}>
                     <ImageBlock>
                         <CircleButtonBlock>
-                            <CircleButton onClick={() => context.dispatch(actions.openComponent('editPage'))}>
+                            <CircleButton onClick={() => context.dispatch(actions.openModal('editPage'))}>
                                 <BsPen/>
                             </CircleButton>
                             {/*@ts-ignore*/}

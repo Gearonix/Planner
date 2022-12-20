@@ -1,8 +1,9 @@
 import styled from 'styled-components'
-
+import {styled as mui} from '@mui/material/styles';
+import Select from '@mui/material/Select';
 
 export const HeaderElement = styled.header`
-  height: 63px;
+  height: 67px;
   width: 100%;
   background: #242526;
   box-sizing: border-box;
@@ -10,9 +11,6 @@ export const HeaderElement = styled.header`
   align-items: center;
   position: relative;
   z-index: 5;
-  -webkit-box-shadow: 4px 11px 8px 0px rgba(36, 37, 38, 1);
-  -moz-box-shadow: 4px 11px 8px 0px rgba(36, 37, 38, 1);
-  box-shadow: 4px 11px 8px 0px rgba(36, 37, 38, 1);
 `
 
 export const Logo = styled.div`
@@ -41,7 +39,7 @@ export const LogoText = styled.h4`
 export const BurgerWrapper = styled.div`
   width: 45px;
   height: 45px;
-  margin-left: 50px;
+  margin-left: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,7 +71,7 @@ export const TodayButton = styled.button`
   height: 36px;
   width: 66px;
   border-radius: 4px;
-  margin-left: 40px;
+  margin-left: 20px;
   border: 1px solid #d9d9d9;
   color: white;
   font-size: 17px;
@@ -85,10 +83,10 @@ export const TodayButton = styled.button`
   }
 `
 export const TodayTitle = styled.h2`
-  font-size: 23px;
-  color: #424242;
+  font-size: 22px;
+  color: white;
   font-weight: normal;
-  margin-left: 25px;
+  margin-left: 30px;
   margin-right: 50px;
 `
 
@@ -118,26 +116,41 @@ export const ArrowsBlock = styled.div`
 `
 
 
+export const RangeDropDown = mui(Select)`
+    border: 1px solid white;
+    color: white;
+    & *{
+        color: white;
+        font-size: 15px;
+    }
+    fieldset{
+          border: 1px solid white !important;
+    }
+    width : 77px;
+    height: 37px;
+`
+
+
 export const SettingsBlock = styled.div`
   height: 60px;
-  width: 5.5%;
+  width: 10.5%;
   position: absolute;
   right: 50px;
   display: flex;
   align-items: center;
-
   justify-content: space-between;
 `
 
 
 export const SettingsIconWrapper = styled.div`
-    & > *{
-      color: #3B82F6;
-      width: 27px;
-      height: 27px;
-    
-    }
-    cursor: pointer;
+  & > * {
+    color: white;
+    width: 26px;
+    height: 26px;
+
+  }
+
+  cursor: pointer;
   display: flex;
   align-items: center;
 `

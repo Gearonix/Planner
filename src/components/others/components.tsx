@@ -27,30 +27,31 @@ type dropDownType = {
     formVariant?: "standard" | "outlined" |
         "filled" | undefined,
     title?: string,
-    css?: any
+    css?: any,
+    Component?: any
 }
 
-export const DropDownC = ({
-                              handler, minWidth = 120, value, names, formVariant,
-                              title, css = {}
-                          }: dropDownType) =>
-    <FormControl sx={{m: 1, minWidth}} size="small"
-                 variant={formVariant}>
-        {title && <InputLabel id="demo-simple-select-filled-label">{title}</InputLabel>}
-        <Select
+export const DropDownC: React.FC<dropDownType> = (props) => {
+    const Element = props.Component || Select
+    return <FormControl sx={{m: 1, minWidth: props.minWidth || 120}} size="small"
+                        variant={props.formVariant}>
+        {props.title && <InputLabel id="demo-simple-select-filled-label">{props.title}</InputLabel>}
+        <Element
             labelId="demo-simple-select-small"
             id="demo-select-small"
-            value={names.indexOf(value)}
+            value={props.names.indexOf(props.value)}
             label="Time"
             onChange={(idx: SelectChangeEvent<number>) => {
                 // @ts-ignore
-                handler(names[idx.target.value])
+                props.handler(props.names[idx.target.value])
             }}
-            sx={{marginLeft: '-0px', ...css}}
+            sx={{marginLeft: '-0px', ...props.css}}
         >
-            {names.map((i, idx) => <MenuItem value={idx.toString()} key={idx}>{capitalizeFirstLetter(i)}</MenuItem>)}
-        </Select>
+            {props.names.map((i, idx) => <MenuItem value={idx.toString()}
+                                                   key={idx}>{capitalizeFirstLetter(i)}</MenuItem>)}
+        </Element>
     </FormControl>
+}
 
 
 type datePickerType = {

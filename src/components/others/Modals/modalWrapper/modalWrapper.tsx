@@ -28,7 +28,7 @@ const ModalWrapper = () => {
     const context = useContext(MainContext)
     const mainState = context.state
 
-    const taskData = mainState.componentName == 'editPage' ?
+    const taskData = mainState.modalComponent == 'editPage' ?
         current.tasklist[mainState.componentIndex || 0] : null
 
 

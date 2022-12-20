@@ -1,18 +1,24 @@
 import React from 'react'
-import {actionsTypes, compValueType, mainContextType, mainStateT} from "../../global/types/components/mainTypes";
+import {
+    actionsTypes,
+    componentNameT,
+    mainContextType,
+    mainStateT,
+    modalComponentT
+} from "../../global/types/components/mainTypes";
 import {createAction, createReducer} from "@reduxjs/toolkit";
 
 export const initialState: mainStateT = {
-    componentName: null,
+    modalComponent: null,
     componentIndex: null,
     isAsideOpened: false,
     isModalAnimated: false,
     componentError: null,
     DeletingTaskId: null,
-    isProfile: false
+    componentName: 'day'
 }
 export const actions = {
-    openComponent: createAction<compValueType>(actionsTypes.openComponent),
+    openModal: createAction<modalComponentT>(actionsTypes.openModalComponent),
     setIndex: createAction<number | null>(actionsTypes.setIndex),
     closeComponent: createAction(actionsTypes.closeComponent),
     setIsAsideOpened: createAction<boolean>(actionsTypes.setIsAsideOpened),
@@ -20,19 +26,20 @@ export const actions = {
     setError: createAction<string | null>(actionsTypes.setError),
     clearError: createAction(actionsTypes.clearError),
     setDeletingTask: createAction<string | null>(actionsTypes.setDeletingTask),
-    openProfile: createAction<boolean>(actionsTypes.openProfile)
+    openComponent: createAction<componentNameT>(actionsTypes.openComponent)
+
 }
 
 export const mainReducer = createReducer(initialState, builder => {
     builder
-        .addCase(actions.openComponent, (state, {payload}) => {
-            state.componentName = payload
+        .addCase(actions.openModal, (state, {payload}) => {
+            state.modalComponent = payload
         })
         .addCase(actions.setIndex, (state, {payload}) => {
             state.componentIndex = payload
         })
         .addCase(actions.closeComponent, state => {
-            state.componentName = null
+            state.modalComponent = null
         })
         .addCase(actions.setIsAsideOpened, (state, {payload}) => {
             state.isAsideOpened = payload
@@ -49,8 +56,8 @@ export const mainReducer = createReducer(initialState, builder => {
         .addCase(actions.setDeletingTask, (state, {payload}) => {
             state.DeletingTaskId = payload
         })
-        .addCase(actions.openProfile, (state, {payload}) => {
-            state.isProfile = payload
+        .addCase(actions.openComponent, (state, {payload}) => {
+            state.componentName = payload
         })
 })
 

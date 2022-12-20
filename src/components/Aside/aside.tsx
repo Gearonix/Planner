@@ -52,7 +52,7 @@ const Aside = () => {
             <Button variant="outlined" size={'large'}
                     startIcon={<HiOutlinePlus style={{color: '#1976d2'}}/>}
                     sx={{marginLeft: '10px'}} onClick={() => {
-                context.dispatch(actions.openComponent('createModal'))
+                context.dispatch(actions.openModal('createModal'))
                 context.dispatch(actions.setIndex(6))
             }}>Add Event</Button>
         </AddButtonBlock>

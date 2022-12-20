@@ -35,8 +35,6 @@ const Main = () => {
 
     const toToday = (animate ?: (count: 1 | -1) => void) => {
         const date = dayjs()
-
-
         const submitData: toTodayT = {user_id, fulldate: date.format(DATE_FORMAT)}
         dispatch(setCurrentData(submitData))
 

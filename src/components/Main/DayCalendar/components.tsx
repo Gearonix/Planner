@@ -32,7 +32,7 @@ export const Task = ({task, openInfo}: { task: taskType, openInfo: Function }) =
 
     return <DayTask length={endTime - startTime} top={startTime}
                     onClick={() => {
-                        if (!mainState.componentName) openInfo()
+                        if (!mainState.modalComponent) openInfo()
                     }}
                     theme={taskColors[task.color]}
                     style={animations} as={animated.div}>

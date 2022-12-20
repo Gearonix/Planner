@@ -6,14 +6,17 @@ export type setDaysFormT = {
     fulldate: string,
     noCurrent?: boolean
 }
-export type compValueType = 'createModal' | 'infoModal' | 'editPage' | null
+export type modalComponentT = 'createModal' | 'infoModal' | 'editPage' | null
 
-export type mainStatesT = { component: [compValueType, Function], index: [number | null, Function] }
+export type componentNameT = 'day' | 'month' | 'profile' | null
+
+
+export type mainStatesT = { component: [modalComponentT, Function], index: [number | null, Function] }
 
 export type toTodayT = { user_id: string, fulldate: string }
 
 export enum actionsTypes {
-    openComponent = 'open_component',
+    openModalComponent = 'open_modal_component',
     setIndex = 'set_index',
     closeComponent = 'close_component',
     setIsAsideOpened = 'set_is_aside_opened',
@@ -21,17 +24,17 @@ export enum actionsTypes {
     setError = 'set_error',
     clearError = 'clear_error',
     setDeletingTask = 'set_is_task_deleting',
-    openProfile = 'open_profile'
+    openComponent = 'open_component'
 }
 
 export type mainStateT = {
-    componentName: compValueType,
+    modalComponent: modalComponentT,
     componentIndex: number | null,
     isAsideOpened: boolean,
     isModalAnimated: boolean,
     componentError: string | null,
     DeletingTaskId: string | null,
-    isProfile: boolean
+    componentName: componentNameT
 }
 export type mainContextType = {
     state: mainStateT, dispatch: React.Dispatch<any>,
