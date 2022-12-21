@@ -1,0 +1,69 @@
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root {
+    color: white !important;
+    background: #242526;
+}
+
+.css-169iwlq-MuiCalendarPicker-root {
+    background-color: #242526;
+}
+
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root {
+    background-color: #242526 !important;
+}
+
+.Mui-selected {
+    background: #1565c0 !important;
+}
+
+.MuiPickersDay-today {
+    background: #333436 !important;
+    border: none !important;
+    color: white !important;
+}
+
+.ant-picker-calendar-date-content::-webkit-scrollbar {
+    opacity: 0;
+}
+
+.ant-picker-body {
+    background: #242526 !important;
+}
+
+.ant-picker-body * {
+    color: white !important;
+    border-color: #615d5e !important;
+    border: none !important;
+}
+
+.ant-picker-body td {
+    height: 140px;
+}
+
+.ant-picker-body th {
+    text-align: center !important;
+}
+
+.ant-picker-cell {
+    border: 1px solid #615d5e !important;
+}
+
+.ant-picker-calendar-date-today {
+    background: #242526 !important;
+    border: none !important;
+}
+
+.ant-picker-cell-selected > div {
+    background: #333436 !important;
+}
+
+.ant-picker-cell-selected {
+    background: #333436 !important;
+}
+
+.ant-picker-calendar {
+    /*height: 100% !important;*/
+}
+
+.Mui-disabled {
+    -webkit-text-fill-color: white !important;
+}

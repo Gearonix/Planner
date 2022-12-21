@@ -11,6 +11,8 @@ export const HeaderElement = styled.header`
   align-items: center;
   position: relative;
   z-index: 5;
+  opacity: 0.98;
+  border-bottom: 1px solid #615d5e;
 `
 
 export const Logo = styled.div`

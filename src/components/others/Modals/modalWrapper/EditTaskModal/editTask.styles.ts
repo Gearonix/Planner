@@ -6,9 +6,20 @@ import Button from '@mui/material/Button';
 export const EditTaskPage = styled.div`
   width: 100%;
   height: 100%;
-  background: #fff;
+  border-radius: 10px;
+  background: #242526;
   position: absolute;
   z-index: 3;
+
+  & * {
+    color: white !important;
+    font-weight: normal;
+    border-color: white !important;
+  }
+
+  & input {
+    border-bottom: 1px solid white;
+  }
 
 `
 
@@ -25,11 +36,12 @@ export const CrossContainer = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
+
   & > * {
-    color : #5f6368;
-    width: 27px;
-    height: 27px;
-    margin-top: 25px;
+    color: #5f6368;
+    width: 25px;
+    height: 25px;
+    margin-top: 10px;
     cursor: pointer;
   }
 `
@@ -100,6 +112,5 @@ export const UserNameWrapper = styled.div`
     color : #3c4043;
   }
   display: flex;
-  margin-bottom: 20px;
 `
 

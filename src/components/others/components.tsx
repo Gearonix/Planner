@@ -17,6 +17,7 @@ import {BiCloudUpload} from "react-icons/bi";
 import {TwitterPicker} from "react-color";
 import {taskColors} from "../../global/constants";
 import {ColorWrapper} from "./Modals/modalWrapper/createTaskModal/CreateModal.styles";
+import {StaticDatePicker} from "@mui/x-date-pickers/StaticDatePicker";
 
 
 type dropDownType = {
@@ -54,12 +55,12 @@ export const DropDownC: React.FC<dropDownType> = (props) => {
 }
 
 
-type datePickerType = {
+type inputDatePickerT = {
     date: Dayjs,
     handleDate: any,
     disabled?: boolean
 }
-export const DatePicker = ({date, handleDate, disabled}: datePickerType) => <LocalizationProvider
+export const InputDatePicker = ({date, handleDate, disabled}: inputDatePickerT) => <LocalizationProvider
     dateAdapter={AdapterDayjs}>
     <DesktopDatePicker
         label="Choose date"
@@ -72,6 +73,20 @@ export const DatePicker = ({date, handleDate, disabled}: datePickerType) => <Loc
 </LocalizationProvider>
 
 
+type DatePickerT = {
+    value: Dayjs | null,
+    handleDate: (value: Dayjs) => void
+}
+// @ts-ignore
+export const DatePicker = ({value, handleDate}: DatePickerT) => <StaticDatePicker onChange={handleDate}
+                                                                                  displayStaticWrapperAs="desktop"
+                                                                                  openTo="day"
+                                                                                  value={value}
+                                                                                  renderInput={(params) =>
+                                                                                      <TextField {...params} />}
+/>
+
+
 type TextAreaProps = {
     desc: string, setDesc: any,
     css?: any
@@ -79,14 +94,14 @@ type TextAreaProps = {
 
 export const TextArea = ({desc, setDesc, css = {maxLength: 55}}: TextAreaProps) => <TextField
     id="filled-multiline-flexible"
-    label="Description..."
+    placeholder="Description..."
     multiline
     maxRows={2}
     value={desc}
     onChange={setDesc}
     inputProps={{style: css}}
     variant="filled"
-    sx={{marginTop: '10px'}}
+    sx={{padding: 0, border: 'none', marginLeft: '-10px'}}
 />
 
 
@@ -108,20 +123,21 @@ export const CheckBox = ({
 
 type InputProps = {
     id: string,
-    label: string,
+    label?: string,
     css?: any,
     variant?: 'standard',
     fw?: boolean,
     onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>,
     value: string,
-    error?: string | boolean
+    error?: string | boolean,
+    placeholder?: string
 }
 
 
 export const Input = (props: InputProps) => {
     return <TextField onChange={props.onChange}
                       id={props.id}
-                      label={props.label}
+                      label={props.label || ''}
                       type="text"
                       autoComplete="off"
                       variant={props.variant}
@@ -129,7 +145,9 @@ export const Input = (props: InputProps) => {
                       InputProps={{style: props.css}}
                       InputLabelProps={{style: props.css}}
                       value={props.value}
-                      error={!!props.error}/>
+                      error={!!props.error}
+                      placeholder={props.placeholder || ''}
+    />
 }
 
 export const Progress = ({theme}: { theme: LinearProgressProps['color'] }) => {
@@ -159,7 +177,8 @@ export const UploadButton = ({handler, size = 'small', title = 'Upload'}: Upload
             handler(e.target?.files?.[0])}/></Button>
 }
 
-export const ColorPicker = ({handler}: { handler: Function }) => <ColorWrapper>
-    <TwitterPicker colors={Object.values(taskColors).map(({color}) => color)}
-                   onChangeComplete={({hex}: any) => handler(convertHexToAppColor(hex))}/>
-</ColorWrapper>
+export const ColorPicker = ({handler, isDark = false}: { handler: Function, isDark?: boolean }) =>
+    <ColorWrapper isDark={isDark}>
+        <TwitterPicker colors={Object.values(taskColors).map(({color}) => color)}
+                       onChangeComplete={({hex}: any) => handler(convertHexToAppColor(hex))}/>
+    </ColorWrapper>

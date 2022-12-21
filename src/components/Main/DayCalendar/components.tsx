@@ -27,7 +27,6 @@ export const Task = ({task, openInfo}: { task: taskType, openInfo: Function }) =
     if (mainState.DeletingTaskId == task.task_id && mainState.DeletingTaskId != null) {
         api.start(Animations.deleteTask().api())
     }
-    console.log(task.task_id)
 
 
     return <DayTask length={endTime - startTime} top={startTime}
@@ -35,7 +34,7 @@ export const Task = ({task, openInfo}: { task: taskType, openInfo: Function }) =
                         if (!mainState.modalComponent) openInfo()
                     }}
                     theme={taskColors[task.color]}
-                    style={animations} as={animated.div}>
+                    style={{...animations, width: animations.width.to(i => i + '%')}} as={animated.div}>
         <DayTaskTitle>{task.title}</DayTaskTitle>
         <DayTaskTimeRange>{task.starts}-{task.ends}</DayTaskTimeRange>
         {task.taskBackground &&
@@ -60,7 +59,12 @@ export const NoneTask = () => {
     const transitions = useTransition(state.isModalAnimated, Animations.widthOpacity())
 
 
-    return transitions((style, item) => item ? <DayTask length={1} top={state.componentIndex || 0}
-                                                        as={animated.div} style={style} theme={taskColors.blue}>
-        <DayTaskTitle>(No Title)</DayTaskTitle></DayTask> : null)
+    return transitions((style, item) => {
+        return item ? <DayTask length={1} top={state.componentIndex || 0}
+                               as={animated.div} style={{
+            ...style,
+            width: style.width.to(i => i + '%')
+        }} theme={taskColors.blue}>
+            <DayTaskTitle>(No Title)</DayTaskTitle></DayTask> : null
+    })
 }

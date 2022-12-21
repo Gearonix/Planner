@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext} from 'react'
 import {
     ArrowIconWrapper,
     ArrowsBlock,
@@ -14,7 +14,7 @@ import {
     TodayTitle
 } from './header.styles'
 import {useDispatch, useSelector} from "react-redux";
-import {formatNum, toMonthName} from '../../helpers/tools';
+import {formatNum, isValidDate, toMonthName, ValidateMonthChange} from '../../helpers/tools';
 import {FiSettings} from 'react-icons/fi'
 import {actions, MainContext} from "../Main/reducer";
 import Selectors from "../../helpers/selectors";
@@ -24,31 +24,58 @@ import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 import {DropDownC} from '../others/components';
 import {RxHamburgerMenu} from 'react-icons/rx'
 import {componentNameT} from "../../global/types/components/mainTypes";
-import {clearCurrentData, setCurrentData} from "../../reducers/tasksListReducer";
+import {clearCurrentData, setCurrentData, setUserDays} from "../../reducers/tasksListReducer";
 import {DispatchType} from '../../global/store';
+import {useNavigate} from "react-router-dom";
 
 const Header = () => {
     const current = useSelector(Selectors.current)
     const tasklists = useSelector(Selectors.taskLists)
-    const context = useContext(MainContext)
     const user_id = useSelector(Selectors.userId)
+    const {month, year} = tasklists
+    const {date: currentDate} = current
+    const context = useContext(MainContext)
+    const navigate = useNavigate()
+
+
     const dispatch = useDispatch<DispatchType>()
-    const [calendarRange, setRange] = useState<componentNameT>('day')
+    const component = context.state.componentName
     const switchRange = (value: componentNameT) => {
         context.dispatch(actions.openComponent(value))
-        setRange(value)
         if (value == 'day') {
-            context.dispatch(actions.closeComponent())
+            if (component == 'day') return
+            context.dispatch(actions.closeModal())
             context.dispatch(actions.setIndex(null))
             const fulldate = `${tasklists.year}-${tasklists.month}-${formatNum(+tasklists.date)}`
             dispatch(setCurrentData({user_id, fulldate}))
             context.scrolls[1]()
             return
         }
-        context.dispatch(actions.closeComponent())
+        context.dispatch(actions.closeModal())
         context.dispatch(actions.setIndex(null))
         dispatch(clearCurrentData())
         context.scrolls[0]()
+    }
+
+    const switchDate = (count: -1 | 1) => {
+        if (component == 'day' && !isValidDate(currentDate, count, year, month)) return
+        context.dispatch(actions.closeModal())
+        context.dispatch(actions.setIndex(null))
+
+        const isDayElement = component == 'day' && isValidDate(currentDate, count, year, month)
+
+        const [selectedYear, selectedMonth] =
+            isDayElement ? [year, month] : ValidateMonthChange(+year, +month + count)
+        // @ts-ignore
+        const selectedDate: string = isDayElement ? formatNum(+currentDate + count) : currentDate || '01'
+        const fulldate = `${selectedYear}-${selectedMonth}-${selectedDate}`
+
+
+        const callback = isDayElement ? setCurrentData : setUserDays
+        setTimeout(() => dispatch(callback({user_id, fulldate, noCurrent: !isDayElement})), 200)
+
+        // animation(count)
+
     }
 
     return <HeaderElement>
@@ -69,10 +96,10 @@ const Header = () => {
         }}>Today</TodayButton>
 
         <ArrowsBlock>
-            <ArrowIconWrapper>
+            <ArrowIconWrapper onClick={() => switchDate(-1)}>
                 <IoIosArrowBack/>
             </ArrowIconWrapper>
-            <ArrowIconWrapper>
+            <ArrowIconWrapper onClick={() => switchDate(1)}>
                 <IoIosArrowForward/>
             </ArrowIconWrapper>
         </ArrowsBlock>
@@ -80,10 +107,10 @@ const Header = () => {
             {current.date} {toMonthName(current.month || '')} {current.year}
         </TodayTitle>
         <SettingsBlock>
-            <SettingsIconWrapper>
+            <SettingsIconWrapper onClick={() => navigate('/about')}>
                 <FiSettings/>
             </SettingsIconWrapper>
-            <DropDownC names={['day', 'month']} value={calendarRange}
+            <DropDownC names={['day', 'month']} value={component}
                        handler={switchRange} Component={RangeDropDown}
                        minWidth={75}/>
             <UserImage size={40} fontSize={22} handler={() =>

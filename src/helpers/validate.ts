@@ -23,15 +23,11 @@ const isWordValid = (word: string) => {
     return !!res;
 }
 
-export const profileValidator = (values: { userName: string }) => {
-    const errors: any = {}
-    console.log(values)
-    if (!isWordValid(values.userName)) errors.userName = 'Name is not correct'
-    if (values.userName.length < 4) errors.userName = 'Name is too short'
-    if (values.userName.length > 12) errors.userName = 'Name is too long'
-    console.log(errors)
-    return errors
-}
+export const profileValidator = (value: string, matchValue: string) =>
+    !isWordValid(value)
+    || value.length < 4
+    || value.length > 12
+    || value == matchValue
 
 export const changePasswordValidator = (values: changePassFormType) => {
     const errors: any = {}

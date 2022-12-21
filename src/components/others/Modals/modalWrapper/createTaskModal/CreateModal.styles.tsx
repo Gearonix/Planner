@@ -10,8 +10,8 @@ export const Animated = styled.div`
   z-index: 1;
 `
 export const DraggableModal = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 620px;
   position: absolute;
   z-index: 1;
   background: transparent;
@@ -25,7 +25,6 @@ export const ModalDraggable = styled.div`
   width: 100%;
   border-radius: 5px;
   margin-bottom: 5px;
-  //background: #F8F8F8;
   cursor: grab;
   display: flex;
   justify-content: space-between;
@@ -36,7 +35,6 @@ export const ModalDraggable = styled.div`
     height: 22px;
     margin-right: 10px;
     margin-left: 10px;
-    
   }
 `
 
@@ -95,9 +93,12 @@ export const ColorWrapper = styled.div`
   transform: translate(0.8);
   height: 50px;
   overflow: hidden;
-  & > .twitter-picker  > div{
+
+  & > .twitter-picker > div {
     padding-left: 0 !important;
+    background: ${({isDark}: { isDark: boolean }) => isDark ? '#242526' : 'white'};
   }
+
   width: 270px;
-    
+
 `

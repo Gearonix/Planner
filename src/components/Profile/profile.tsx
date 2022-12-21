@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {useFormik} from "formik";
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {
     AvatarButton,
@@ -19,39 +18,29 @@ import {
     UserAvatarBlock
 } from './profile.styles';
 import {profileValidator} from '../../helpers/validate';
-import {useNavigate} from "react-router-dom";
 import {changeUserName, logoutUser, updateUserImage, uploadFile} from "../../reducers/userDataReducer";
 import Selectors from '../../helpers/selectors';
 import {DispatchType} from "../../global/store";
-import {ChangePassword, createInput, UserImage} from "./components";
+import {ChangePassword, UserImage} from "./components";
 
 
 const Profile = () => {
     const dispatch = useDispatch<DispatchType>()
-    const navigate = useNavigate()
+    const [isPasswordOpened, openPasswordComp] = useState<boolean>(true)
+    const {userName: currentUserName, user_id, email, password} = useSelector(Selectors.userData)
+    const [userNameField, setUserName] = useState<string>(currentUserName || '')
 
-    const [isPasswordOpened, openPasswordComp] = useState(true)
-    const {userName, user_id, email, password} = useSelector(Selectors.userData)
-    const initialValues: { userName: string } = {userName: userName || ''}
-
-    useEffect(() => {
-        if (!user_id) navigate('/login')
-    })
-
-    const onSubmit = (formData: { userName: string }) => {
-        if (formData.userName == userName) return
-        dispatch(changeUserName({...formData, user_id: user_id || ''}))
+    const onSubmit = () => {
+        if (profileValidator(userNameField, currentUserName || '')) return
+        dispatch(changeUserName({userName: userNameField, user_id: user_id || ''}))
     }
 
     const changeAvatar = async (e: any) => {
-        if (e.target.files.length > 0) {
-            const {payload: filename} = await dispatch(uploadFile({file: e.target.files[0], name: 'user_avatars'}))
-            if (!filename) return
-            dispatch(updateUserImage({user_id: user_id || '', filename}))
-        }
+        if (e.target.files.lengt == 0) return
+        const {payload: filename} = await dispatch(uploadFile({file: e.target.files[0], name: 'user_avatars'}))
+        if (!filename) return
+        dispatch(updateUserImage({user_id: user_id || '', filename}))
     }
-
-    const formik = useFormik({initialValues, onSubmit, validateOnChange: false, validate: profileValidator})
 
     return <>
         <ProfileWrapper>
@@ -71,7 +60,9 @@ const Profile = () => {
                     <FieldsContainer>
                         <FieldBlock>
                             <FieldTitle>Username</FieldTitle>
-                            {createInput(FieldInput, formik, 'userName')}
+                            <FieldInput value={userNameField || ''}
+                                        onChange={(e: any) =>
+                                            setUserName(e.target.value)} onBlur={() => onSubmit()}/>
                         </FieldBlock>
                         <FieldBlock>
                             <FieldTitle>Email</FieldTitle>

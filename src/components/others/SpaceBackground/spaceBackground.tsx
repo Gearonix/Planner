@@ -18,9 +18,10 @@ const coords = {
 
 export const SpaceBackground = ({children}: any) => {
     return <PageContainer>
-        {sprites.rocks.map((img, idx) => <Rock src={img} idx={idx}/>)}
+        {sprites.rocks.map((img, idx) => <Rock src={img} idx={idx} key={idx}/>)}
         {cloudSizes.map((size, idx) => <Cloud src={sprites.cloudImg}
-                                              coords={coords.clouds[idx]} size={size}/>)}
+                                              coords={coords.clouds[idx]} size={size}
+                                              key={idx}/>)}
         <Earth src={sprites.earthImg}/>
         {children}
     </PageContainer>

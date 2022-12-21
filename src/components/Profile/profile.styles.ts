@@ -13,7 +13,7 @@ export const MainContent = styled.div`
 export const ProfileTitle = styled.h1`
   font-size: 30px;
   margin-bottom: 30px;
-  color: #3e3e42;
+  color: white;
   font-weight: 400;
 `
 export const GreyLine = styled.div`
@@ -26,7 +26,7 @@ export const SmallerTitle = styled.h2`
   margin-top: 20px;
   margin-bottom: 26px;
   font-size: 24px;
-  color: #7b7b8c;
+  color: white;
   font-weight: 400;
 `
 export const InnerContainer = styled.div`
@@ -50,7 +50,6 @@ export const UserImageElement = styled.img`
   height: ${props => props.size + 'px'};
   border-radius: 100%;
   border: 1px solid black;
-  cursor: pointer;
 `
 export const EmptyAvatar = styled.div`
   width: ${(props: {
@@ -76,7 +75,8 @@ export const EmptyAvatarTitle = styled.h2`
 export const AvatarButton = styled.div`
   width: 138px;
   height: 35px;
-  background: #f5f5fa;
+  border: 1px solid white;
+  color: white;
   position: relative;
   border-radius: 10px;
   margin-top: 16px;
@@ -85,10 +85,12 @@ export const AvatarButton = styled.div`
   justify-content: center;
   align-items: center;
   transition: background 200ms;
-  &:hover{
-    background: #e8e8eb;
+
+  &:hover {
+    background: #242530;
   }
-  & > input{
+
+  & > input {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -101,8 +103,8 @@ export const AvatarButton = styled.div`
 `
 export const AvatarButtonTitle = styled.span`
   text-align: center;
-  font-weight: 400;
-  color : #8d8da6;
+  font-weight: normal;
+  color: white;
   font-size: 18px;
 `
 
@@ -118,7 +120,7 @@ export const FieldBlock = styled.div`
 `
 export const FieldTitle = styled.h4`
   font-size: 16px;
-  color : #8d8da6;
+  color: white;
   font-weight: normal;
   margin-left: 2px;
 `
@@ -155,33 +157,11 @@ export const ChangePasswordBlock = styled.div`
   align-items: center;
 `
 
-export const PasswordButton = styled.button`
-  width: 33%;
+export const PasswordButton = styled(AvatarButton)`
+  width: 32%;
+  margin-bottom: 20px;
   height: 32px;
-  background: #f5f5fa;
-  position: relative;
-  border-radius: 8px;
-  display: flex;
-  margin-right: 10px;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  outline: none;
-  text-align: center;
-  font-weight: 400;
-  color: #8d8da6;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background 200ms;
-
-  &:hover {
-    background: #e8e8eb;
-  }
-
-  &:disabled {
-    background: #f4f2f5;
-    color: #9292a6;
-  }
+  font-size: 15px;
 `
 
 

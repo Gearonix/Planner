@@ -15,7 +15,7 @@ import {FaGripLines} from "react-icons/fa";
 import {AiOutlineClose} from "react-icons/ai";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button/Button";
-import {ColorPicker, DatePicker, DropDownC, TextArea, UploadButton} from "../../../components";
+import {ColorPicker, DropDownC, InputDatePicker, TextArea, UploadButton} from "../../../components";
 import {getArrayByC, numberTimeToStr, strToTimeNumber} from "../../../../../helpers/tools";
 import {DATE_FORMAT, repetitionDelays} from "../../../../../global/constants";
 import React, {useEffect} from "react";
@@ -37,7 +37,8 @@ const CreateModalComponent = ({formik, close, error, style}: createModalUIType) 
     })
 
 
-    return <Draggable handle={'.draggableModalHandler'} bounds={'.dragableMain'} defaultPosition={{x: 500, y: 100}}>
+    return <Draggable handle={'.draggableModalHandler'} bounds={'.dragableMain'}
+                      defaultPosition={{x: 500, y: 100}}>
         <DraggableModal>
             <Animated style={{
                 ...style, transform: animations.translate.to(Animations.modalError(style).transformHandler),
@@ -63,8 +64,8 @@ const CreateModalComponent = ({formik, close, error, style}: createModalUIType) 
                     </ButtonsContainer>
 
                     <TimeWrapper>
-                        <DatePicker date={dayjs(values.date)}
-                                    handleDate={(date: Dayjs) => setFieldValue('date', date.format(DATE_FORMAT))}/>
+                        <InputDatePicker date={dayjs(values.date)}
+                                         handleDate={(date: Dayjs) => setFieldValue('date', date.format(DATE_FORMAT))}/>
 
                         <ButtonsContainer w={120}>
                             <DropDownC handler={(value: string) => {

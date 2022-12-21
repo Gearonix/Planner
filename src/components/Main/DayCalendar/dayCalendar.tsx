@@ -28,26 +28,34 @@ const DayCalendar = () => {
 
     const arrows = Animations.arrowMoves()
     const [arrowAnimations, arrowsApi] = useSpring(arrows.start, [])
-    const opacityAnimation = useSpring(Animations.dayCalendarOpacity)
+    const opacityAnimation = useSpring(Animations.springOpacity)
 
     useEffect(() => {
-        context.scrolls[1]()
+        if (state.componentName == 'month') {
+            return context.scrolls[0]()
+        }
 
+        context.scrolls[1]()
         if (!date && !isProfile) return
         if (date) arrowsApi.start(arrows[!isProfile ? 'next' : 'prev'])
 
         setTimeout(() => setProfileOpened(isProfile), 100)
-    }, [isProfile])
+    }, [state.componentName])
+    useEffect(() => {
+        if (date) {
+            // arrowsApi.start(arrows.next)
+        }
+    }, [date])
 
     if (!date && !isProfile) return <NoneDayCalendar/>
 
-    return <DayCalendarMain className={'dragableMain'} as={animated.div}
+    return <DayCalendarMain as={animated.div}
                             style={{transform: arrowAnimations.x.to(arrows.transform)}}>
         {state.modalComponent == 'editPage' && <ModalWrapper/>}
         {(state.modalComponent == 'createModal') && <ModalWrapper/>}
         {isProfileOpen ? <Profile/> : <DayCalendarInner style={opacityAnimation} as={animated.div}>
             {state.modalComponent == 'infoModal' && <InfoModal/>}
-            <DayList>
+            <DayList className={'dragableMain'}>
                 <HoursContainer>
                     {getArrayByC(24).map((i, idx) => {
                         return <HourBlock key={idx} onClick={() => {

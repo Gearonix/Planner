@@ -47,7 +47,7 @@ const ModalWrapper = () => {
         const submitData: taskToServerT = {user_id, data: {...data, taskBackground: filename}}
         const callback = !!taskData ? updateTask : createTask
         dispatch(callback(submitData))
-        context.dispatch(actions.closeComponent())
+        context.dispatch(actions.closeModal())
     }
 
 
@@ -67,7 +67,7 @@ const ModalWrapper = () => {
         }, error: mainState.componentError
     }
     const closeComponent = () => {
-        context.dispatch(actions.closeComponent())
+        context.dispatch(actions.closeModal())
         console.log(mainState.DeletingTaskId)
         if (mainState.DeletingTaskId == taskData?.task_id && mainState.DeletingTaskId != null) {
             dispatch(deleteTask(taskData?.task_id || ''))
@@ -80,11 +80,12 @@ const ModalWrapper = () => {
 
     const createModalTransitions = useTransition(mainState.isModalAnimated,
         Animations.scale(() => closeComponent()))
-    // const editTaskTransitions = useTransition(mainState.isModalAnimated,)
+    const editTaskTransitions = useTransition(mainState.isModalAnimated,
+        Animations.opacity(() => closeComponent()))
 
     return !taskData ? createModalTransitions((style, item) => item ?
         <AnimatedCreateModal {...componentProps} style={style}/>
-        : null) : createModalTransitions((style, item) => item ?
+        : null) : editTaskTransitions((style, item) => item ?
         <AnimatedEditTask {...componentProps} style={style}/> : null)
 }
 

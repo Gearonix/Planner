@@ -37,7 +37,7 @@ const InfoModalWrapper = () => {
     const task = tasklist[mainState.componentIndex || 0]
     const dispatch = useDispatch<DispatchType>()
     const closeComponent = () => {
-        context.dispatch(actions.closeComponent())
+        context.dispatch(actions.closeModal())
         if (mainState.DeletingTaskId == task.task_id && mainState.DeletingTaskId != null) {
             dispatch(deleteTask(task.task_id || ''))
             context.dispatch(actions.setDeletingTask(null))

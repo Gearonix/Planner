@@ -1,10 +1,11 @@
 import styled, {keyframes} from 'styled-components'
-
+import {styled as mui} from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
 export const AsideElement = styled.aside`
   width: 13%;
   height: 100%;
-  background: white;
+  background: #242526;
 
   & > * {
     margin-left: 15px;
@@ -15,7 +16,48 @@ export const AsideElement = styled.aside`
           !isHide ? openAside : closeAside};
   animation-duration: 250ms;
   animation-fill-mode: forwards;
+  border-right: 1px solid #615d5e;
+  opacity: 0.98;
 `
+
+export const AddButton = mui(Button)`
+    border: 1px solid white;
+    background: #242526;
+    color: white;
+    &:hover{
+        color: white;
+        border-color: white !important;
+        border: 1px solid white !important;
+        outline: none;
+    }
+`
+
+export const DatePickerWrapper = styled.div`
+  width: 100%;
+
+  & > * {
+    width: 100%;
+    height: 150%;
+    transform: scale(0.8);
+    margin: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: left top;
+  }
+
+  & * {
+    //background: #242526;
+    color: white !important;
+  }
+
+  height: 244px;
+  overflow: hidden;
+  margin: 0;
+  position: relative;
+  transform-origin: left top;
+`
+
 
 const openAside = keyframes`
   from {
@@ -158,6 +200,7 @@ export const CalendarWrapper = styled.div`
   width: calc(100% - 20px);
   margin-left: 10px;
 `
+
 
 
 

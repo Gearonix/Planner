@@ -1,91 +1,87 @@
-import React, {useContext, useState} from 'react'
-import {
-    AddButtonBlock,
-    AsideElement,
-    CalendarWrapper,
-    CheckBox,
-    DropDownBody,
-    DropDownBodyT,
-    DropDownHeader,
-    DropDownText,
-    HiddenCheckBox
-} from './aside.styles'
-// @ts-ignore
-import Calendar from 'react-calendar';
+import React, {useContext, useEffect, useState} from 'react'
+import {AddButton, AddButtonBlock, AsideElement, DatePickerWrapper,} from './aside.styles'
 import {useDispatch, useSelector} from "react-redux";
-import {formatMonth, formatNum, timeToString} from "../../helpers/tools";
 import {setCurrentData, setUserDays} from "../../reducers/tasksListReducer";
-import {AiOutlineArrowDown, AiOutlineArrowUp} from 'react-icons/ai'
-import './CalendarComp/calendar.css'
+import './calendar.css'
 import {HiOutlinePlus} from 'react-icons/hi'
-import Button from '@mui/material/Button';
 import {actions, MainContext} from "../Main/reducer";
-import {StateType} from "../../global/types/types";
+import Selectors from "../../helpers/selectors";
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, {Dayjs} from 'dayjs';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import {Checkbox, FormControlLabel, FormGroup} from "@mui/material";
+import {DatePicker} from '../others/components';
+import {DATE_FORMAT} from "../../global/constants";
+import {DispatchType} from "../../global/store";
 
 const Aside = () => {
-    const dispatch = useDispatch()
-    const {month: stateMonth, year: stateYear, date} = useSelector((state: StateType) => state.taskLists)
-    const [calendarDate, setCalendarDate] = useState(new Date(+stateYear, +stateMonth - 1, +date))
-    const user_id = useSelector((state: StateType) => state.userData.user_id) || ''
-    const [isDropDown, showDropDown] = useState(false)
-    const setAnotherMonth = (dateObject: any) => {
-        const [selectedYear, selectedMonth, day] = [formatNum(dateObject.getFullYear()),
-            formatMonth(dateObject.getMonth()), formatNum(dateObject.getDate())]
-        const fulldate = timeToString(selectedYear, selectedMonth, day)
-        setCalendarDate(dateObject)
-        if (selectedMonth == stateMonth && selectedYear == stateYear) {
-            dispatch(setCurrentData({user_id, fulldate}))
-            return
-        }
-        // @ts-ignore
-        dispatch(setUserDays({user_id, fulldate: fulldate}))
-    }
-    const minDate = new Date(+stateYear - 8, +stateMonth - 1)
-    const maxDate = new Date(+stateYear + 8, +stateMonth - 1)
-
+    const dispatch = useDispatch<DispatchType>()
+    const {month: stateMonth, year: stateYear} = useSelector(Selectors.taskLists)
+    const {date} = useSelector(Selectors.current)
+    const user_id = useSelector(Selectors.userId) || ''
     const context = useContext(MainContext)
     const mainState = context.state
 
+    const [datePickerValue, setDateValue] = useState<Dayjs>(dayjs());
+    const [filterValues, setFilterValues] = useState<{ tasks: boolean, reminders: boolean }>
+    ({tasks: false, reminders: false})
+
+    useEffect(() => {
+        setDateValue(dayjs().set('date', Number(date)))
+    }, [date])
+
+    const setAnotherMonth = (dateObject: Dayjs) => {
+        const fulldate = dateObject.format(DATE_FORMAT)
+        const [selectedYear, selectedMonth] = fulldate.split('-')
+        setDateValue(dateObject)
+
+        if (selectedMonth == stateMonth && selectedYear == stateYear) {
+            return dispatch(setCurrentData({user_id, fulldate}))
+        }
+        dispatch(setUserDays({user_id, fulldate}))
+    }
+
+    const DropDownChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFilterValues({...filterValues, [e.target.name]: e.target.checked})
+    }
+
 
     return <AsideElement isHide={!mainState.isAsideOpened}>
-        <AddButtonBlock>
-            <Button variant="outlined" size={'large'}
-                    startIcon={<HiOutlinePlus style={{color: '#1976d2'}}/>}
-                    sx={{marginLeft: '10px'}} onClick={() => {
-                context.dispatch(actions.openModal('createModal'))
-                context.dispatch(actions.setIndex(6))
-            }}>Add Event</Button>
-        </AddButtonBlock>
-        <CalendarWrapper>
-            <Calendar onChange={setAnotherMonth}
-                      value={calendarDate}
-                      minDate={minDate}
-                      maxDate={maxDate}
-                      maxDetail={'month'}
-                      minDetail={'decade'}
-            />
-        </CalendarWrapper>
-
-        <DropDownHeader onClick={() => showDropDown(!isDropDown)}>
-            <DropDownText>Filter</DropDownText>
-
-            {isDropDown ? <AiOutlineArrowUp/> :
-                <AiOutlineArrowDown/>}
-
-        </DropDownHeader>
-        <><DropDownBody hide={isDropDown}>
-            <HiddenCheckBox type={'checkbox'} value={'test1'}/>
-            <CheckBox/>
-            <DropDownBodyT>Tasks</DropDownBodyT>
-        </DropDownBody>
-            <DropDownBody hide={isDropDown}>
-                <HiddenCheckBox type={'checkbox'} value={'test2'}/>
-                <CheckBox/>
-                <DropDownBodyT>Reminders</DropDownBodyT>
-            </DropDownBody>
-        </>
-
-
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <AddButtonBlock>
+                <AddButton variant="outlined" size={'large'}
+                           startIcon={<HiOutlinePlus style={{color: 'white'}}/>} onClick={() => {
+                    context.dispatch(actions.openModal('createModal'))
+                    context.dispatch(actions.setIndex(6))
+                }}>Add Event</AddButton>
+            </AddButtonBlock>
+            <DatePickerWrapper>
+                <DatePicker value={datePickerValue} handleDate={setAnotherMonth}/>
+            </DatePickerWrapper>
+            <FormControl sx={{m: 3}} component="fieldset" variant="standard">
+                <FormLabel component="legend" sx={{color: 'white'}}>Calendar Filter</FormLabel>
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox checked={filterValues.tasks} onChange={DropDownChange}
+                                      sx={{color: 'white'}} name={'tasks'}/>
+                        }
+                        label="Tasks"
+                        sx={{color: 'white'}}
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox checked={filterValues.reminders} onChange={DropDownChange}
+                                      sx={{color: 'white'}} name={'reminders'}/>
+                        }
+                        label="Reminders"
+                        sx={{color: 'white'}}
+                    />
+                </FormGroup>
+            </FormControl>
+        </LocalizationProvider>
     </AsideElement>
 }
 

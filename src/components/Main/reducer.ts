@@ -11,7 +11,7 @@ import {createAction, createReducer} from "@reduxjs/toolkit";
 export const initialState: mainStateT = {
     modalComponent: null,
     componentIndex: null,
-    isAsideOpened: false,
+    isAsideOpened: true,
     isModalAnimated: false,
     componentError: null,
     DeletingTaskId: null,
@@ -20,7 +20,7 @@ export const initialState: mainStateT = {
 export const actions = {
     openModal: createAction<modalComponentT>(actionsTypes.openModalComponent),
     setIndex: createAction<number | null>(actionsTypes.setIndex),
-    closeComponent: createAction(actionsTypes.closeComponent),
+    closeModal: createAction(actionsTypes.closeModal),
     setIsAsideOpened: createAction<boolean>(actionsTypes.setIsAsideOpened),
     animateModal: createAction<boolean>(actionsTypes.animateModal),
     setError: createAction<string | null>(actionsTypes.setError),
@@ -38,7 +38,7 @@ export const mainReducer = createReducer(initialState, builder => {
         .addCase(actions.setIndex, (state, {payload}) => {
             state.componentIndex = payload
         })
-        .addCase(actions.closeComponent, state => {
+        .addCase(actions.closeModal, state => {
             state.modalComponent = null
         })
         .addCase(actions.setIsAsideOpened, (state, {payload}) => {

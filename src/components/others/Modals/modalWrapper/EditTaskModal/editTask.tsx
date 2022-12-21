@@ -15,9 +15,9 @@ import {AiOutlineClose} from 'react-icons/ai'
 import {
     CheckBox,
     ColorPicker,
-    DatePicker,
     DropDownC,
     Input,
+    InputDatePicker,
     Progress,
     TextArea,
     UploadButton
@@ -26,12 +26,11 @@ import {Dayjs} from "dayjs";
 import {getArrayByC, numberTimeToStr, strToTimeNumber} from "../../../../../helpers/tools";
 import {repetitionDelays, taskColors} from "../../../../../global/constants";
 import {BsCalendarEvent} from "react-icons/bs";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import Alert from '@mui/material/Alert/Alert';
 import {taskType} from "../../../../../global/types/stateTypes";
 import {StateType} from "../../../../../global/types/types";
 import {createModalUIType} from "../../../../../global/types/components/mainTypes";
-import {DispatchType} from "../../../../../global/store";
 import {actions, MainContext} from "../../../../Main/reducer";
 
 const EditTask = ({formik, close, error, style}: createModalUIType) => {
@@ -39,7 +38,6 @@ const EditTask = ({formik, close, error, style}: createModalUIType) => {
     const values: taskType = formik.values
     const username = useSelector((state: StateType) => state.userData.userName)
     const fullHours = [...getArrayByC(24).map(numberTimeToStr)]
-    const dispatch = useDispatch<DispatchType>()
     const context = useContext(MainContext)
 
 
@@ -49,12 +47,13 @@ const EditTask = ({formik, close, error, style}: createModalUIType) => {
                 <AiOutlineClose/>
             </CrossContainer>
             <TitleContainer>
-                <Input id={"standard-password-input"} label={'Add Title'} variant={'standard'}
-                       fw css={{fontSize: 28}} onChange={handleChange('title')} value={values.title}
-                       error={errors.title}/>
+                <Input id={"standard-password-input"} variant={'standard'}
+                       fw css={{fontSize: 26,}} onChange={handleChange('title')} value={values.title}
+                       error={errors.title}
+                       placeholder={'Add Title'}/>
                 <DateSelectBlock>
                     <div style={{marginTop: '7px', marginRight: '10px'}}>
-                        <DatePicker handleDate={(date: Dayjs) => {
+                        <InputDatePicker handleDate={(date: Dayjs) => {
                             // @ts-ignore
                             setFieldValue('date', date)
                         }} date={values.date} disabled={true}/>
@@ -88,7 +87,9 @@ const EditTask = ({formik, close, error, style}: createModalUIType) => {
                     size={'medium'}
                     title={'Upload Image'}/>
                 <MarginBottom/>
-                <ColorPicker handler={(hex: string) => setFieldValue('color', hex)}/>
+
+                <ColorPicker handler={(hex: string) => setFieldValue('color', hex)}
+                             isDark={true}/>
                 <UserNameWrapper>
                     <BsCalendarEvent/>
                     <h5>{username}</h5>
@@ -96,7 +97,11 @@ const EditTask = ({formik, close, error, style}: createModalUIType) => {
                 {error && <Alert severity="error">{error}</Alert>}
                 <TextArea desc={values.description || ''}
                           setDesc={handleChange('description')}
-                          css={{width: '680px', height: '140px'}}/>
+                          css={{
+                              width: '690px', height: '140px',
+                              background: '#444444', color: 'black',
+                              paddingTop: '10px', paddingLeft: '10px'
+                          }}/>
 
             </TitleContainer>
             <SaveButtonsContainer>

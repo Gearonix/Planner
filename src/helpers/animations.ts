@@ -31,7 +31,7 @@ const Animations = {
             opacity: 0
         },
         enter: {
-            width: 900,
+            width: 96,
             opacity: 1
         },
         leave: {
@@ -39,12 +39,26 @@ const Animations = {
             opacity: 0
         }
     }),
+    opacity: (onRest: Function) => ({
+        from: {
+            opacity: 0
+        },
+        enter: {
+            opacity: 1
+        },
+        leave: {
+            opacity: 0
+        },
+        onRest: (result: any, spring: any, item: any) => {
+            if (!item) onRest()
+        }
+    }),
     deleteTask: () => ({
 
         start: {
             from: {
                 opacity: 1,
-                width: 900
+                width: 96
             }
         },
         api: () => ({
@@ -57,7 +71,7 @@ const Animations = {
             },
                 {
                     opacity: 1,
-                    width: 900,
+                    width: 96,
                     config: {
                         duration: 0
                     }
@@ -138,7 +152,7 @@ const Animations = {
             return `translate(${value}vw)`
         },
     }),
-    dayCalendarOpacity: {
+    springOpacity: {
         from: {
             opacity: 0,
         },
@@ -161,6 +175,18 @@ const Animations = {
         },
         config: {
             duration: 4e5,
+        }
+    }),
+    aboutPage: () => ({
+        start: {
+            from: {
+                height: 0
+            },
+        },
+        api: {
+            to: {
+                height: 500
+            },
         }
     })
 }

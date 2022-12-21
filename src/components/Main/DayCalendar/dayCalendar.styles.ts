@@ -2,27 +2,29 @@ import styled from "styled-components";
 import {CellTask, MonthBlock} from "../MonthCalendar/monthCalendar.styles";
 
 export const DayCalendarMain = styled(MonthBlock)`
-  width: 60%;
-  height: 900px;
+  width: 87.5%;
+  height: 100%;
   position: absolute;
-  background: white;
+  background: #242526;
+  margin: 0;
+  margin-left: 244px;
+  opacity: 0.98;
 `
 
 export const DayCalendarInner = styled.div`
   width: 100%;
   height: 100%;
-
 `
 
 
 export const DayList = styled.div`
-  border: 1px solid #d9d9d9;
-  width: 90%;
+  width: 99%;
   margin: 15px auto 0 auto;
   border-radius: 4px;
-  height: 700px;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  background: #242526;
 
   &::-webkit-scrollbar-thumb {
     border: 5px solid transparent;
@@ -32,7 +34,6 @@ export const DayList = styled.div`
   }
 
   &::-webkit-scrollbar-track {
-    background-color: #e4e4e4;
     border-radius: 100px;
   }
 
@@ -58,7 +59,7 @@ export const HourBlock = styled.div`
   margin-bottom: 0;
 `
 export const HourTime = styled.h4`
-  color: #424242;
+  color: #e3e3e3;
   font-weight: normal;
   font-size: 15px;
   margin: 0;
@@ -69,7 +70,7 @@ export const DayTask = styled(CellTask)`
   margin-top: 0;
   margin-bottom: 0;
   border: none;
-  width: 95%;
+  width: 98%;
   border-radius: 15px;
   height: ${({length}: { length: number, top: number }) => length * 91}px;
   top: ${({top}: { length: number, top: number }) => top * 91 - 10}px;

@@ -1,21 +1,15 @@
-import {
-    capitalizeFirstLetter,
-    createDaysAmount,
-    formatNum,
-    generateCalendarArray,
-    getArrayByC
-} from "../../../helpers/tools";
 import React, {useContext, useEffect} from "react";
-import {WEEKDAYS} from "../../../global/constants";
-import {CalendarTable, CalenRow, InnerMonthBlock, MonthBlock, WekkendRow} from "./monthCalendar.styles";
+import {DATE_FORMAT} from "../../../global/constants";
+import {MonthBlock} from "./monthCalendar.styles";
 import {useDispatch, useSelector} from "react-redux";
-import ModalWrapper from "../../others/Modals/modalWrapper/modalWrapper";
 import {actions, MainContext} from "../reducer";
 import Selectors from "../../../helpers/selectors";
 import {setCurrentData} from "../../../reducers/tasksListReducer";
-import {Cell, FirstRow, OtherRows} from "./components";
 import {animated, useSpring} from "@react-spring/web";
 import Animations from "../../../helpers/animations";
+import {Calendar} from 'antd';
+import {Dayjs} from "dayjs";
+import {CellRender} from "./utils";
 
 
 const MonthCalendar = () => {
@@ -27,49 +21,31 @@ const MonthCalendar = () => {
     const context = useContext(MainContext)
     const mainState = context.state
 
-    const clickToDay = (date: number) => {
-        context.dispatch(actions.closeComponent())
+    const clickToDay = (value: Dayjs) => {
+        context.dispatch(actions.closeModal())
         context.dispatch(actions.setIndex(null))
-        const fulldate = `${year}-${month}-${formatNum(date)}`
+        const fulldate = value.format(DATE_FORMAT)
+
+        const [curYear, curMonth, curDate] = fulldate.split('-')
+        if (year != curYear || month != curMonth && currentDate == curDate) return
+        context.dispatch(actions.openComponent('day'))
         dispatch(setCurrentData({user_id, fulldate}))
         context.scrolls[1]()
     }
+
 
     useEffect(() => {
         if (mainState.componentName == 'profile') context.scrolls[1]()
     }, [])
 
-    //calendar creating block
-    const daysAmount = createDaysAmount(year, month)
-    const pastDaysAmount = createDaysAmount(year, +month - 1)
-    const firstWeekDay = (new Date(+year, (+month) - 1, 1).getDay())
-    const calendarArray = generateCalendarArray(firstWeekDay, daysAmount)
-    const numbers = getArrayByC(daysAmount).map(i => i + 1)
-    //
-
     const [animations, api] = useSpring(Animations.arrowMoves().start, [])
     const animateMonth = (direction: 1 | -1) => api.start(Animations.arrowMoves()[direction == -1 ? 'next' : 'prev'])
 
-
     return <MonthBlock as={animated.div}
                        style={{transform: animations.x.to(Animations.arrowMoves().transform)}}>
-        <InnerMonthBlock className={'dragableMain'}>
-            {mainState.modalComponent == 'createModal' && <ModalWrapper/>}
-            <CalendarTable>
-                <tbody>
-                <WekkendRow>{getArrayByC(7).map((i, idx) => <Cell key={idx}
-                                                                  title={capitalizeFirstLetter(WEEKDAYS[i])}/>)}</WekkendRow>
-                <CalenRow>
-                    <FirstRow firstWeekDay={firstWeekDay}
-                              numbers={numbers} handle={clickToDay}
-                              daysAmount={pastDaysAmount}
-                              daysData={daysData}/>
-                </CalenRow>
-                <OtherRows calendarArray={calendarArray} numbers={numbers} firstWeekDay={firstWeekDay}
-                           handle={clickToDay} daysData={daysData}/>
-                </tbody>
-            </CalendarTable>
-        </InnerMonthBlock></MonthBlock>
+        <Calendar dateCellRender={CellRender(daysData)} onSelect={clickToDay} headerRender={() => null}/>;
+    </MonthBlock>
+
 }
 
 

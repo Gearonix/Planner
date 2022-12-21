@@ -1,5 +1,5 @@
 import React from "react";
-import {taskListType, taskType} from "../stateTypes";
+import {taskType} from "../stateTypes";
 
 export type setDaysFormT = {
     user_id: string,
@@ -18,7 +18,7 @@ export type toTodayT = { user_id: string, fulldate: string }
 export enum actionsTypes {
     openModalComponent = 'open_modal_component',
     setIndex = 'set_index',
-    closeComponent = 'close_component',
+    closeModal = 'close_modal',
     setIsAsideOpened = 'set_is_aside_opened',
     animateModal = 'animate_modal',
     setError = 'set_error',
@@ -40,21 +40,7 @@ export type mainContextType = {
     state: mainStateT, dispatch: React.Dispatch<any>,
     toToday: Function, scrolls: Array<() => void>
 }
-export type firstRowType = {
-    firstWeekDay: number,
-    numbers: Array<number>,
-    handle: (n: number) => void,
-    daysAmount: number,
-    daysData: Array<taskListType>
-}
-export type otherRowsType =
-    {
-        calendarArray: Array<number>,
-        firstWeekDay: number
-        numbers: Array<number>,
-        handle: (n: number) => void,
-        daysData: Array<taskListType>
-    }
+
 export type cellType = {
     title: string | number,
     handler?: any,
@@ -70,8 +56,4 @@ export type createModalUIType = {
     close: () => void,
     error: string | null,
     style: any,
-}
-export type CalendarHeaderProps = {
-    isDay?: boolean, close: Function,
-    animation?: Function
 }

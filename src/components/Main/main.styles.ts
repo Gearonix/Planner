@@ -17,14 +17,10 @@ export const MainElement = styled.main`
     overflow-y: hidden !important;
   }
 `
-export const DayLayer = styled(ParallaxLayer)`
+export const Layer = styled(ParallaxLayer)`
   display: flex;
-  justify-content: center;
   height: 100%;
   width: 100%;
   position: absolute;
-
-`
-export const MonthLayer = styled(DayLayer)`
-  justify-content: flex-end;
+  justify-content: flex-start;
 `
