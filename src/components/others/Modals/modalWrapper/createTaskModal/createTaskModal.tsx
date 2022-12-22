@@ -1,4 +1,4 @@
-import dayjs, {Dayjs} from "dayjs";
+import {Dayjs} from "dayjs";
 import Draggable from "react-draggable";
 import {
     Animated,
@@ -15,20 +15,28 @@ import {FaGripLines} from "react-icons/fa";
 import {AiOutlineClose} from "react-icons/ai";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button/Button";
-import {ColorPicker, DropDownC, InputDatePicker, TextArea, UploadButton} from "../../../components";
-import {getArrayByC, numberTimeToStr, strToTimeNumber} from "../../../../../helpers/tools";
-import {DATE_FORMAT, repetitionDelays} from "../../../../../global/constants";
+import {TextArea, UploadButton} from "../../../materialUI/buttonsAndInputs";
+import {
+    convertToDate,
+    convertToDayJs,
+    generateArray,
+    numberTimeToStr,
+    strToTimeNumber
+} from "../../../../../utils/tools";
+import {repetitionDelays} from "../../../../../setup/constants";
 import React, {useEffect} from "react";
-import {taskType} from "../../../../../global/types/stateTypes";
+import {taskType} from "../../../../../types/stateTypes";
 import {animated, useSpring} from "@react-spring/web";
 import Animations from "../../../../../helpers/animations";
-import {createModalUIType} from "../../../../../global/types/components/mainTypes";
+import {createModalUIType} from "../../../../Main/others/mainTypes";
+import {DropDownC, InputDatePicker} from "../../../materialUI/datepicker";
+import {ColorPicker} from "../../../materialUI/colorPicker";
 
 
-const CreateModalComponent = ({formik, close, error, style}: createModalUIType) => {
+const CreateModalComponent = ({formik, startClosing, error, style}: createModalUIType) => {
     const {handleChange, handleSubmit, setFieldValue, errors} = formik
     const values: taskType = formik.values
-    const fullHours = getArrayByC(24).map(numberTimeToStr)
+    const fullHours = generateArray(24).map(numberTimeToStr)
 
     const [animations, api] = useSpring(Animations.modalError(style).start, [])
     const animateError = () => api.start(Animations.modalError(style).api)
@@ -36,18 +44,16 @@ const CreateModalComponent = ({formik, close, error, style}: createModalUIType) 
         if (error) animateError()
     })
 
-
-    return <Draggable handle={'.draggableModalHandler'} bounds={'.dragableMain'}
+    return <Draggable handle={'.draggableModalHandler'} bounds={'.draggableElement'}
                       defaultPosition={{x: 500, y: 100}}>
         <DraggableModal>
             <Animated style={{
                 ...style, transform: animations.translate.to(Animations.modalError(style).transformHandler),
                 background: animations.backgroundColor
-            }} isBackground={!!values.taskBackground} as={animated.div}>
+            }} isbackground={values.taskBackground} as={animated.div}>
                 <ModalDraggable className={'draggableModalHandler'}>
                     <FaGripLines style={{color: '#CECECE'}}/>
-                    {/*@ts-ignore*/}
-                    <AiOutlineClose style={{cursor: "pointer"}} onClick={close}/>
+                    <AiOutlineClose style={{cursor: "pointer"}} onClick={startClosing}/>
                 </ModalDraggable>
                 <ModalWrapper w={80}>
                     <TextField error={!!errors.title}
@@ -64,19 +70,20 @@ const CreateModalComponent = ({formik, close, error, style}: createModalUIType) 
                     </ButtonsContainer>
 
                     <TimeWrapper>
-                        <InputDatePicker date={dayjs(values.date)}
-                                         handleDate={(date: Dayjs) => setFieldValue('date', date.format(DATE_FORMAT))}/>
+                        <InputDatePicker date={convertToDayJs(values.selectedDate)}
+                                         handleDate={(date: Dayjs) =>
+                                             setFieldValue('selectedDate', convertToDate(date))}/>
 
                         <ButtonsContainer w={120}>
                             <DropDownC handler={(value: string) => {
                                 setFieldValue('starts', value)
                                 let ends = numberTimeToStr(strToTimeNumber(value) + 1)
-                                if (ends == '24:00') ends = '00:00'
+                                if (ends === '24:00') ends = '00:00'
                                 setFieldValue('ends', ends)
                             }
                             } value={values.starts} names={fullHours} formVariant={'standard'}/>
                             <DropDownC handler={handleChange('ends')} value={values.ends}
-                                       names={values.starts == '23:00' ? ['00:00'] : fullHours.slice(fullHours.indexOf(values.ends))}
+                                       names={values.starts === '23:00' ? ['00:00'] : fullHours.slice(fullHours.indexOf(values.ends))}
                                        formVariant={'standard'}/>
                         </ButtonsContainer>
 
@@ -97,11 +104,9 @@ const CreateModalComponent = ({formik, close, error, style}: createModalUIType) 
                         <ComponentError>{error}</ComponentError>
                         <SendButtonsWrapper>
                             <ButtonsContainer w={80} jc={'flex-end'}>
-                                {/*@ts-ignore*/}
-                                <Button onClick={close}
+                                <Button onClick={startClosing}
                                         variant="outlined" size={'small'}
                                         sx={{width: '120px', marginRight: '10px'}} color={'info'}>Cancel</Button>
-                                {/*@ts-ignore*/}
                                 <Button onClick={() => {
                                     if (errors.title || !values.title) return animateError()
                                     handleSubmit()

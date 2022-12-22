@@ -1,19 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {Route, Routes} from "react-router-dom";
-import Login from "./components/Login/login";
-import Main from './components/Main/main';
 import {useDispatch} from "react-redux";
-import {getAuth} from "./reducers/userDataReducer";
-import About from "./components/About/About";
+import {getAuth} from "./setup/reducers/userDataReducer";
+import {About, Login, Main} from './components'
+import {DispatchType} from "./setup/store";
 
 
 function App() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<DispatchType>()
     const [isUserLoading, setUserLoading] = useState(true)
     useEffect(() => {
-        //@ts-ignore
         dispatch(getAuth()).then(() => setUserLoading(false))
-    })
+    }, [])
+
     return isUserLoading ? null : (
         <div className="App">
             <Routes>

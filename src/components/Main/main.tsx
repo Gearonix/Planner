@@ -1,62 +1,57 @@
 import React, {useEffect, useReducer, useRef} from 'react';
 import {useNavigate} from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
-import {DispatchType} from '../../global/store';
-import {setCurrentData, setUserDays} from "../../reducers/tasksListReducer";
-import DayCalendar from './DayCalendar/dayCalendar';
-import MonthCalendar from './MonthCalendar/monthCalendar';
-import {timeToString,} from '../../helpers/tools';
+import {DispatchType} from '../../setup/store';
+import {setUserDays} from "../../setup/reducers/tasksListReducer";
+import DayCalendar from './components/DayCalendar/dayCalendar';
+import MonthCalendar from './components/MonthCalendar/monthCalendar';
 import Aside from '../Aside/aside';
-import {Layer, MainPage} from './main.styles';
+import {BackgroundLayer, Layer, MainPage} from './others/main.styles';
 import Header from '../Header/header';
 import {IParallax, Parallax} from '@react-spring/parallax'
-import {initialState, MainContext, mainReducer} from "./reducer";
+import {actions, initialState, MainContext, mainReducer} from "./utils/reducer";
 import Selectors from '../../helpers/selectors';
-import dayjs from "dayjs";
-import {DATE_FORMAT} from "../../global/constants";
-import {useScrolls} from '../../helpers/hooks';
 import Animations from '../../helpers/animations';
-import {mainContextType, toTodayT} from "../../global/types/components/mainTypes";
+import {mainContextType, modalComponentT} from "./others/mainTypes";
 import {SpaceBackground} from "../others/SpaceBackground/spaceBackground";
+import {useScrolls} from "./utils/utils";
 
 
 const Main = () => {
-    const user_id: string = useSelector(Selectors.userId) as string
-    const {month: currentMonth, year: currentYear, date: date} = useSelector(Selectors.taskLists)
-    const {date: currentDate} = useSelector(Selectors.current)
+    const user_id = useSelector(Selectors.userId)
+    const selectedDate = useSelector(Selectors.selectedDate)
     const navigate = useNavigate()
     const dispatch = useDispatch<DispatchType>()
     const [mainState, mainDispatch] = useReducer(mainReducer, initialState)
-
-    useEffect(() => {
-        if (!user_id) return navigate('/login')
-        dispatch(setUserDays({user_id: user_id, fulldate: timeToString(currentYear, currentMonth, date)}))
-    }, [])
-
-    const toToday = (animate ?: (count: 1 | -1) => void) => {
-        const date = dayjs()
-        const submitData: toTodayT = {user_id, fulldate: date.format(DATE_FORMAT)}
-        dispatch(setCurrentData(submitData))
-
-        const [year, month] = [date.format('YYYY'), date.format('MM')]
-        if (year == currentYear && month == currentMonth) {
-            if (animate) {
-                if (date.get('date') == Number(currentDate)) return
-                animate(date.get('date') > Number(currentDate) ? 1 : -1)
-            }
-            return
-        }
-        dispatch(setUserDays(submitData))
-
-
-    }
-
     const parallax = useRef<IParallax>(null!)
     const scrolls = useScrolls(parallax)
 
+
+    useEffect(() => {
+        if (!user_id) {
+            navigate('/login')
+        }
+    }, [user_id])
+
+    useEffect(() => {
+        dispatch(setUserDays(selectedDate))
+    }, [])
+
+    const openModal = (idx: number, name: modalComponentT) => {
+        mainDispatch(actions.openModal(name))
+        mainDispatch(actions.setIndex(idx))
+        mainDispatch(actions.animate(true))
+    }
+    const closeModal = () => {
+        mainDispatch(actions.setIndex(null))
+        mainDispatch(actions.openModal(null))
+    }
+
+
     const contextValues: mainContextType = {
         state: mainState, scrolls,
-        dispatch: mainDispatch, toToday
+        dispatch: mainDispatch,
+        openModal, closeModal
     }
 
     return <MainContext.Provider value={contextValues}>
@@ -74,6 +69,10 @@ const Main = () => {
                         speed={0.1}>
                         <MonthCalendar/>
                     </Layer>
+                    <BackgroundLayer offset={0.5} speed={1} style={{
+                        background: '#292929', zIndex: 0
+                        , opacity: 0.7
+                    }}/>
                 </Parallax>
                 <Aside/>
             </SpaceBackground>

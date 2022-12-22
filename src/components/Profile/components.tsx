@@ -1,8 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
-import {changePassFormType, userImageProps} from "../../global/types/components/profileTypes";
-import {changeUserPassword} from "../../reducers/userDataReducer";
+import {changePassFormType, userImageProps} from "./others/profileTypes";
+import {changeUserPassword} from "../../setup/reducers/userDataReducer";
 import {useFormik} from "formik";
-import {changePasswordValidator} from "../../helpers/validate";
+import {changePasswordValidator} from "../../utils/validate";
 import {
     EmptyAvatar,
     EmptyAvatarTitle,
@@ -13,11 +13,11 @@ import {
     PasswordInput,
     PasswordInputsBlock,
     UserImageElement
-} from "./profile.styles";
-import React from "react";
-import {FILES_LOCATION} from "../../global/constants";
+} from "./others/profile.styles";
+import React, {FC} from "react";
+import {FILES_LOCATION} from "../../setup/constants";
 import Selectors from "../../helpers/selectors";
-import {DispatchType} from "../../global/store";
+import {DispatchType} from "../../setup/store";
 
 export const ChangePassword = ({close}: { close: () => void }) => {
     const {password: currentPassword, user_id} = useSelector(Selectors.userData)
@@ -55,7 +55,7 @@ export const ChangePassword = ({close}: { close: () => void }) => {
     </PasswordBlock>
 }
 
-export const createInput = (Component: any, formik: any, name: string) => {
+export const createInput = (Component: FC<any>, formik: any, name: string) => {
     return <Component value={formik.values[name]} onChange={formik.handleChange}
                       onBlur={formik.handleSubmit}
                       type={'text'} name={name}/>

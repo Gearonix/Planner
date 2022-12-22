@@ -1,5 +1,5 @@
 import {AnimationResult, Controller} from "@react-spring/web";
-import {randomizeNumber} from "./tools";
+import {randomizeNumber} from "../utils/tools";
 
 const Animations = {
     scale: (onRest: Function) => ({
@@ -53,21 +53,23 @@ const Animations = {
             if (!item) onRest()
         }
     }),
-    deleteTask: () => ({
-
+    deleteTask: {
         start: {
             from: {
                 opacity: 1,
                 width: 96
             }
         },
-        api: () => ({
+        api: (callback: () => void) => ({
             to: [{
                 width: 0,
                 opacity: 0,
                 config: {
                     duration: 500
                 },
+                onRest: ({finished}: AnimationResult) => {
+                    if (finished) callback()
+                }
             },
                 {
                     opacity: 1,
@@ -76,11 +78,11 @@ const Animations = {
                         duration: 0
                     }
                 }
+            ],
 
-            ]
 
         })
-    }),
+    },
     modalError: (style: any) => ({
         start: {
             translate: 0,
@@ -96,7 +98,7 @@ const Animations = {
             }, {translate: 0, backgroundColor: 'white'}]
         },
         transformHandler: (value: any) => {
-            const transform = style.transform == 'none' ? '' : style.transform
+            const transform = style.transform === 'none' ? '' : style.transform
             return `translate(${value}px) ${transform}`
         }
     }),
@@ -125,33 +127,30 @@ const Animations = {
         }
     }),
     parallax: () => ({mass: 1, tension: 380, friction: 60}),
-    arrowMoves: () => ({
+    opacityMoves: {
         start: {
             from: {
+                opacity: 1,
                 x: 0,
             }
-
         },
-        next: {
+        animate: (onRest: () => void) => ({
             to: [{
-                x: 100,
-            }, {opacity: 0, x: -100, config: {duration: 1}}, {
+                opacity: 0.3,
+                x: -20,
+                config: {
+                    duration: 100
+                }
+            }, {
+                opacity: 1,
                 x: 0,
-                config: {duration: 200}
-            }]
-        },
-        prev: {
-            to: [{
-                x: -100,
-            }, {opacity: 0, x: 100, config: {duration: 1}}, {
-                x: 0,
-                config: {duration: 200}
-            }]
-        },
-        transform(value: any) {
-            return `translate(${value}vw)`
-        },
-    }),
+                config: {
+                    duration: 100
+                }
+            }],
+            onRest
+        })
+    },
     springOpacity: {
         from: {
             opacity: 0,

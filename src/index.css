@@ -9,7 +9,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
     font-family: 'Poppins', sans-serif;
     background-color: #253237;
-    background-image: url('images/stars.svg');
+    background-image: url('assets/images/stars.svg');
     overflow: hidden;
     user-select: none;
     touch-action: none;

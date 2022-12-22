@@ -16,11 +16,11 @@ import {
     ProfileWrapper,
     SmallerTitle,
     UserAvatarBlock
-} from './profile.styles';
-import {profileValidator} from '../../helpers/validate';
-import {changeUserName, logoutUser, updateUserImage, uploadFile} from "../../reducers/userDataReducer";
+} from './others/profile.styles';
+import {profileValidator} from '../../utils/validate';
+import {changeUserName, logoutUser, updateUserImage, uploadFile} from "../../setup/reducers/userDataReducer";
 import Selectors from '../../helpers/selectors';
-import {DispatchType} from "../../global/store";
+import {DispatchType} from "../../setup/store";
 import {ChangePassword, UserImage} from "./components";
 
 
@@ -36,7 +36,7 @@ const Profile = () => {
     }
 
     const changeAvatar = async (e: any) => {
-        if (e.target.files.lengt == 0) return
+        if (e.target.files.length === 0) return
         const {payload: filename} = await dispatch(uploadFile({file: e.target.files[0], name: 'user_avatars'}))
         if (!filename) return
         dispatch(updateUserImage({user_id: user_id || '', filename}))
@@ -80,7 +80,6 @@ const Profile = () => {
                         {isPasswordOpened || <ChangePassword close={() => openPasswordComp(true)}/>}
                         <FieldBlock>
                             <FieldTitle>Leave the account</FieldTitle>
-                            {/*@ts-ignore   */}
                             <PasswordButton style={{width: '27%'}} onClick={() => dispatch(logoutUser())}>
                                 Log out
                             </PasswordButton>

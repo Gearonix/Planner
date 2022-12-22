@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {SpaceBackground} from "../others/SpaceBackground/spaceBackground";
 import {NavLink, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
@@ -16,7 +16,10 @@ export const About = () => {
     const navigate = useNavigate()
     const user_id = useSelector(Selectors.userId)
     const github = 'https://github.com/Gearonix/Planner'
-    if (!user_id) navigate('/login')
+    useEffect(() => {
+        if (!user_id) navigate('/login')
+    }, [user_id])
+
     const [animation, api] = useSpring(Animations.aboutPage().start, [])
     setTimeout(() => api.start(Animations.aboutPage().api), 500)
 

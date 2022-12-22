@@ -3,17 +3,19 @@ import styled from 'styled-components'
 
 export const Animated = styled.div`
   width: 400px;
-  height: ${({isBackground}: { isBackground?: boolean }) => isBackground ? 770 : 620}px;
+  height: ${({isbackground}: { isbackground?: any }) => isbackground ? 770 : 620}px;
   border-radius: 14px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  -webkit-box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
+  box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
   position: absolute;
-  z-index: 1;
+  z-index: 10;
 `
 export const DraggableModal = styled.div`
   width: 400px;
   height: 620px;
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   background: transparent;
 
 `

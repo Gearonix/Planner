@@ -17,72 +17,63 @@ import {AiOutlineClose} from 'react-icons/ai'
 import {BsCalendarEvent, BsPen, BsTrash} from 'react-icons/bs';
 import {TfiBell} from 'react-icons/tfi'
 import Draggable from "react-draggable";
-import {taskColors} from '../../../../global/constants';
-import {useDispatch, useSelector} from "react-redux";
-import {capitalizeFirstLetter, cutString, stringToTime, toMonthName} from "../../../../helpers/tools";
-import {deleteTask} from "../../../../reducers/tasksListReducer";
+import {taskColors} from '../../../../setup/constants';
+import {useSelector} from "react-redux";
+import {capitalizeFirstLetter, cutString, getCurrentList} from "../../../../utils/tools";
 import {animated, useTransition} from "@react-spring/web";
 import Animations from "../../../../helpers/animations";
-import {actions, MainContext} from "../../../Main/reducer";
-import {DispatchType} from "../../../../global/store";
-import {taskType} from "../../../../global/types/stateTypes";
+import {actions, MainContext} from "../../../Main/utils/reducer";
 import Selectors from "../../../../helpers/selectors";
+import {infoModalT} from "../../../Main/others/mainTypes";
 
 
 const InfoModalWrapper = () => {
     const Animated = animated(InfoModal)
     const context = useContext(MainContext)
+    const taskLists = useSelector(Selectors.taskLists)
+    const userName = useSelector(Selectors.userName)
     const mainState = context.state
-    const tasklist = useSelector(Selectors.currentTaskList)
-    const task = tasklist[mainState.componentIndex || 0]
-    const dispatch = useDispatch<DispatchType>()
-    const closeComponent = () => {
-        context.dispatch(actions.closeModal())
-        if (mainState.DeletingTaskId == task.task_id && mainState.DeletingTaskId != null) {
-            dispatch(deleteTask(task.task_id || ''))
-            context.dispatch(actions.setDeletingTask(null))
-        }
+    const task = getCurrentList(taskLists)[mainState.modalIndex || 0]
+
+    const openEditPage = () => context.dispatch(actions.openModal('editPage'))
+    const close = () => context.dispatch(actions.animate(false))
+
+    const startDeleting = () => {
+        close()
+        context.dispatch(actions.setDeletingTask(task.task_id))
     }
-    const transitions = useTransition(mainState.isModalAnimated, Animations.infoModal(closeComponent))
-    return transitions((style, item) => item ? <Animated style={style} task={task}/> : null)
+    const transitions = useTransition(mainState.isModalAnimating, Animations.infoModal(context.closeModal))
+
+    return transitions((style, item) => item ? <Animated style={style} task={task}
+                                                         openEditPage={openEditPage} close={close}
+                                                         deleteTask={startDeleting} userName={userName}/> : null)
 }
 
 
-const InfoModal = ({style, task}: { style: any, task: taskType }) => {
-    const context = useContext(MainContext)
-    const {weekDay} = useSelector(Selectors.current)
-    const userName = useSelector(Selectors.userName)
+const InfoModal = ({style, task, openEditPage, close, deleteTask, userName}: infoModalT) => {
     if (!task) return null
-
-    const [year, month, date] = stringToTime(task.date)
+    const {month, date} = task.selectedDate
 
     return (
-        <Draggable bounds={'.dragableMain'}
+        <Draggable bounds={'.draggableElement'}
                    defaultPosition={{x: 500, y: 100}}>
             <InfoDraggable>
                 <ChangeModalElement style={style}>
                     <ImageBlock>
                         <CircleButtonBlock>
-                            <CircleButton onClick={() => context.dispatch(actions.openModal('editPage'))}>
+                            <CircleButton onClick={openEditPage}>
                                 <BsPen/>
                             </CircleButton>
-                            {/*@ts-ignore*/}
-                            <CircleButton onClick={() => {
-                                context.dispatch(actions.animateModal(false))
-                                context.dispatch(actions.setDeletingTask(task.task_id))
-                            }
-                            }>
+                            <CircleButton onClick={deleteTask}>
                                 <BsTrash/>
                             </CircleButton>
-                            {/*@ts-ignore*/}
-                            <CircleButton onClick={() => context.dispatch(actions.animateModal(false))}>
+                            <CircleButton onClick={close}>
                                 <AiOutlineClose/>
                             </CircleButton>
                         </CircleButtonBlock>
                     </ImageBlock>
                     <MainBlock>
                         <ColorBlock>
-                            {/*@ts-ignore*/}
                             <Color color={taskColors[task.color]}/>
                             <InfoIcon>
                                 <TfiBell/>
@@ -94,7 +85,7 @@ const InfoModal = ({style, task}: { style: any, task: taskType }) => {
                         <InfoBlock>
                             <Title>{task.title}</Title>
                             <Description>
-                                {weekDay}, {date} {toMonthName(month)} &bull; {task.starts}-{task.ends}
+                                {'WEEK_DAY'}, {date} {month} &bull; {task.starts}-{task.ends}
                             </Description>
                             <Description>
                                 {capitalizeFirstLetter(task.repetitionDelay)}

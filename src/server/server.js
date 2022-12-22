@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const {MongoClient, ObjectId} = require('mongodb');
-const server = require('http').Server(app);
+const http = require('http')
+const server = http.Server(app);
 const cors = require('cors');
 const multer = require('multer')
 const emailValidator = require('deep-email-validator');
@@ -144,9 +145,9 @@ const fileFilter = (req, file, cb) => cb(null, true)
 
 // ///////////////////
 
-app.get('/planner/month', (req, res) => {
-    const {user_id, fulldate} = req.query
-    const [year, month] = fulldate.split('-')
+app.put('/planner/month', (req, res) => {
+    const {user_id, selectedDate} = req.body
+    const {year, month} = selectedDate
     db.collection('tasklists').find({user_id, month, year}).toArray((err, result) => {
         if (err) {
             console.log(err)
@@ -159,8 +160,8 @@ app.get('/planner/month', (req, res) => {
 
 app.post('/planner/task/create', (req, res) => {
     const {user_id, data} = req.body
-    const [year, month, date] = data.date.split('-')
     const insertData = {...data, task_id: new ObjectId()}
+    const {year, month, date} = data.selectedDate
     db.collection('tasklists').find({year, month, date, user_id}).toArray((err, [result]) => {
         if (err) {
             console.log(err)

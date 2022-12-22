@@ -1,4 +1,4 @@
-import sprites from './../../../images/index'
+import sprites from '../../../assets/index'
 import React from "react";
 import {animated, useSpring} from "@react-spring/web";
 import Animations from "../../../helpers/animations";

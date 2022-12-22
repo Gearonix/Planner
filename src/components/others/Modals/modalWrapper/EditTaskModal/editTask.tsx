@@ -12,38 +12,31 @@ import {
     UserNameWrapper
 } from './editTask.styles';
 import {AiOutlineClose} from 'react-icons/ai'
-import {
-    CheckBox,
-    ColorPicker,
-    DropDownC,
-    Input,
-    InputDatePicker,
-    Progress,
-    TextArea,
-    UploadButton
-} from '../../../components';
+import {CheckBox, Input, Progress, TextArea, UploadButton} from '../../../materialUI/buttonsAndInputs';
 import {Dayjs} from "dayjs";
-import {getArrayByC, numberTimeToStr, strToTimeNumber} from "../../../../../helpers/tools";
-import {repetitionDelays, taskColors} from "../../../../../global/constants";
+import {generateArray, numberTimeToStr, strToTimeNumber} from "../../../../../utils/tools";
+import {repetitionDelays, taskColors} from "../../../../../setup/constants";
 import {BsCalendarEvent} from "react-icons/bs";
 import {useSelector} from "react-redux";
 import Alert from '@mui/material/Alert/Alert';
-import {taskType} from "../../../../../global/types/stateTypes";
-import {StateType} from "../../../../../global/types/types";
-import {createModalUIType} from "../../../../../global/types/components/mainTypes";
-import {actions, MainContext} from "../../../../Main/reducer";
+import {taskType} from "../../../../../types/stateTypes";
+import {StateType} from "../../../../../types/appTypes";
+import {createModalUIType} from "../../../../Main/others/mainTypes";
+import {actions, MainContext} from "../../../../Main/utils/reducer";
+import {DropDownC, InputDatePicker} from "../../../materialUI/datepicker";
+import {ColorPicker} from "../../../materialUI/colorPicker";
 
-const EditTask = ({formik, close, error, style}: createModalUIType) => {
+const EditTask = ({formik, startClosing, error, style}: createModalUIType) => {
     const {handleChange, handleSubmit, setFieldValue, errors} = formik
     const values: taskType = formik.values
     const username = useSelector((state: StateType) => state.userData.userName)
-    const fullHours = [...getArrayByC(24).map(numberTimeToStr)]
+    const fullHours = [...generateArray(24).map(numberTimeToStr)]
     const context = useContext(MainContext)
 
 
     return <EditTaskPage style={style}>
         <SaveBlock>
-            <CrossContainer onClick={close}>
+            <CrossContainer onClick={startClosing}>
                 <AiOutlineClose/>
             </CrossContainer>
             <TitleContainer>
@@ -62,7 +55,7 @@ const EditTask = ({formik, close, error, style}: createModalUIType) => {
                     <DropDownC handler={(value: string) => {
                         setFieldValue('starts', value)
                         let ends = numberTimeToStr(strToTimeNumber(value) + 1)
-                        if (ends == '24:00') ends = '00:00'
+                        if (ends === '24:00') ends = '00:00'
                         setFieldValue('ends', ends)
                     }} value={values.starts} names={fullHours} title={'Starts'}/>
                     <SymbolText>
@@ -70,7 +63,7 @@ const EditTask = ({formik, close, error, style}: createModalUIType) => {
                     </SymbolText>
                     <DropDownC handler={handleChange('ends')}
                                value={values.ends}
-                               names={values.starts == '23:00' ? ['00:00'] : fullHours.slice(fullHours.indexOf(values.ends))}
+                               names={values.starts === '23:00' ? ['00:00'] : fullHours.slice(fullHours.indexOf(values.ends))}
                                title={'Ends'}/>
                 </DateSelectBlock>
                 <CheckBox title={'Event'} checked={values.isTask || false}
@@ -106,7 +99,7 @@ const EditTask = ({formik, close, error, style}: createModalUIType) => {
             </TitleContainer>
             <SaveButtonsContainer>
                 <SaveButton variant="contained" onClick={() => {
-                    close()
+                    startClosing()
                     setTimeout(() => {
                         handleSubmit()
                     }, 400)
@@ -116,7 +109,7 @@ const EditTask = ({formik, close, error, style}: createModalUIType) => {
                 </SaveButton>
                 <SaveButton color={'error'} variant={'outlined'} onClick={() => {
                     context.dispatch(actions.setDeletingTask(values.task_id))
-                    close()
+                    startClosing()
                 }}>Delete</SaveButton>
 
             </SaveButtonsContainer>
