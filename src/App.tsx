@@ -4,7 +4,11 @@ import {useDispatch} from "react-redux";
 import {getAuth} from "./setup/reducers/userDataReducer";
 import {About, Login, Main} from './components'
 import {DispatchType} from "./setup/store";
+import i18next from "i18next";
+import {initReactI18next} from "react-i18next";
+import Translations from './helpers/translation';
 
+i18next.use(initReactI18next).init(Translations)
 
 function App() {
     const dispatch = useDispatch<DispatchType>()

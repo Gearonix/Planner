@@ -2,13 +2,13 @@ import styled from "styled-components";
 import {CellTask, MonthBlock} from "../MonthCalendar/monthCalendar.styles";
 
 export const DayCalendarMain = styled(MonthBlock)`
-  width: 87.5%;
+  width: calc(100% - 250px);
   height: 100%;
   position: absolute;
   background: #242526;
   margin: 0;
-  margin-left: 244px;
   opacity: 0.98;
+  margin-left: 250px;
 `
 
 export const DayCalendarInner = styled.div`
@@ -64,18 +64,23 @@ export const HourTime = styled.h4`
   font-size: 15px;
   margin: 0;
 `
+
+type DayTaskProps = { length: number, top: number, isTask: boolean }
+
 export const DayTask = styled(CellTask)`
   position: absolute;
   right: 0;
   margin-top: 0;
   margin-bottom: 0;
   border: none;
+  box-sizing: border-box;
   width: 98%;
   border-radius: 15px;
-  height: ${({length}: { length: number, top: number }) => length * 91}px;
-  top: ${({top}: { length: number, top: number }) => top * 91 - 10}px;
+  height: ${({length}: DayTaskProps) => length * 91}px;
+  top: ${({top}: DayTaskProps) => top * 91 - 10}px;
   display: block;
-
+  background: ${(props: any) => !props.isTask ? '#61dafb' : props.theme.background};
+  color: ${(props: any) => !props.isTask ? '#16181D' : props.theme.color} !important;
 `
 export const DayTaskTitle = styled.h2`
   margin-top: 10px;

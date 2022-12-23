@@ -14,7 +14,6 @@ export enum actionsTypes {
     openModalComponent = 'open_modal_component',
     setIndex = 'set_index',
     closeModal = 'close_modal',
-    setIsAsideOpened = 'set_is_aside_opened',
     animateModal = 'animate_modal',
     setError = 'set_error',
     clearError = 'clear_error',
@@ -22,18 +21,19 @@ export enum actionsTypes {
     switchRange = 'switch_range',
     setIsProfile = 'set_is_profile',
     animateComponent = 'animate_component',
+    setFilter = 'set_filter'
 }
 
 export type mainStateT = {
     modalComponent: modalComponentT,
     modalIndex: number | null,
-    isAsideOpened: boolean,
     isModalAnimating: boolean,
     componentError: string | null,
     deletingTaskId: string | null,
     range: componentNameT,
     isProfile: boolean,
-    isComponentAnimating: boolean
+    isComponentAnimating: boolean,
+    filter: taskFilterT
 }
 export type mainContextType = {
     state: mainStateT, dispatch: React.Dispatch<any>,
@@ -44,6 +44,8 @@ export type mainContextType = {
     openModal: (idx: number, name: modalComponentT) => void,
     closeModal: () => void
 }
+
+export type taskFilterT = { tasks: boolean, reminders: boolean }
 
 export type cellType = {
     title: string | number,
@@ -96,4 +98,5 @@ export type infoModalT = {
 }
 export type CellRenderType = {
     daysData: Array<taskListType>, selectedDate: selectedDateT,
+    filter: taskFilterT
 }

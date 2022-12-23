@@ -24,11 +24,11 @@ const ModalWrapper = () => {
     const dispatch = useDispatch<DispatchType>()
     const taskLists = useSelector(Selectors.taskLists)
     const selectedDate = useSelector(Selectors.selectedDate)
-    const taskList = getCurrentList(taskLists)
-
-
     const context = useContext(MainContext)
     const mainState = context.state
+    const taskList = getCurrentList(taskLists, mainState.filter)
+
+
     const modalIdx = mainState.modalIndex
     const task = mainState.modalComponent === 'editPage' ? taskList[modalIdx || 0] : null
 
@@ -66,6 +66,7 @@ const ModalWrapper = () => {
     const animate = createAnimation(context.closeModal, mainState.isModalAnimating)
     const Render = !task ? animated(CreateModalComponent) : animated(EditTask)
 
+    console.log(mainState)
 
     return animate(!task)((style, item) => item ? <Render {...componentProps} style={style}/> : null)
 }

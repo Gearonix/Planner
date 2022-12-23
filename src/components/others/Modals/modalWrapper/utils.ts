@@ -16,4 +16,3 @@ export const createAnimation = (callback: Function, isAnimated: boolean) => (edi
     return useTransition(isAnimated, Animations[edit ? 'scale' : 'opacity'](() => callback()))
 }
 
-

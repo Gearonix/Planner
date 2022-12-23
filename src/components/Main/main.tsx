@@ -15,6 +15,7 @@ import Animations from '../../helpers/animations';
 import {mainContextType, modalComponentT} from "./others/mainTypes";
 import {SpaceBackground} from "../others/SpaceBackground/spaceBackground";
 import {useScrolls} from "./utils/utils";
+import {isItLaptop} from "../../utils/tools";
 
 
 const Main = () => {
@@ -27,11 +28,16 @@ const Main = () => {
     const scrolls = useScrolls(parallax)
 
 
+
     useEffect(() => {
         if (!user_id) {
             navigate('/login')
         }
+        if (isItLaptop()) {
+            navigate('/about')
+        }
     }, [user_id])
+
 
     useEffect(() => {
         dispatch(setUserDays(selectedDate))
@@ -53,8 +59,7 @@ const Main = () => {
         dispatch: mainDispatch,
         openModal, closeModal
     }
-
-    return <MainContext.Provider value={contextValues}>
+    return !isItLaptop() ? <MainContext.Provider value={contextValues}>
         <MainPage>
             <Header/>
             <SpaceBackground>
@@ -78,7 +83,7 @@ const Main = () => {
             </SpaceBackground>
 
         </MainPage>
-    </MainContext.Provider>
+    </MainContext.Provider> : null
 }
 
 

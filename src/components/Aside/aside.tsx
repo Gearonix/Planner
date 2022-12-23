@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import './others/lib.css'
 import {actions, MainContext} from "../Main/utils/reducer";
@@ -9,6 +9,7 @@ import {ChangeEventT} from '../../types/appTypes';
 import AsideRender from "./others/asideRender";
 import {setDate, setUserDays} from '../../setup/reducers/tasksListReducer';
 import {convertToDate, convertToDayJs, isDateInThisMonth} from '../../utils/tools';
+import {taskFilterT} from '../Main/others/mainTypes';
 
 const Aside = () => {
     const dispatch = useDispatch<DispatchType>()
@@ -16,10 +17,6 @@ const Aside = () => {
 
     const context = useContext(MainContext)
     const mainState = context.state
-
-    const [filterValues, setFilterValues] = useState<{ tasks: boolean, reminders: boolean }>
-    ({tasks: false, reminders: false})
-
 
     const pickDate = (dateObject: Dayjs) => {
         context.closeModal()
@@ -33,12 +30,13 @@ const Aside = () => {
     const addEvent = () => context.openModal(6, 'createModal')
 
     const DropDownChange = (e: ChangeEventT) => {
-        setFilterValues({...filterValues, [e.target.name]: e.target.checked})
+        const filter: taskFilterT = {...mainState.filter, [e.target.name]: e.target.checked}
+        context.dispatch(actions.setFilter(filter))
     }
 
 
     return <AsideRender datePickerValue={convertToDayJs(selectedDate)} dropDownChange={DropDownChange}
-                        filterValues={filterValues} mainState={mainState} pickDate={pickDate} addEvent={addEvent}/>
+                        filterValues={mainState.filter} mainState={mainState} pickDate={pickDate} addEvent={addEvent}/>
 }
 
 

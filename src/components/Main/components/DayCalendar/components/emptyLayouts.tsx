@@ -34,7 +34,7 @@ export const NoneTask = () => {
         return item ? <DayTask length={1} top={state.modalIndex || 0}
                                as={animated.div} style={{
             ...style, width: style.width.to(i => i + '%')
-        }} theme={taskColors.blue}>
+        }} theme={taskColors.blue} isTask={true}>
             <DayTaskTitle>(No Title)</DayTaskTitle></DayTask> : null
     })
 }

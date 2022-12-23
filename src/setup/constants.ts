@@ -33,3 +33,18 @@ export const DATE_FORMAT = 'YYYY-MM-DD'
 
 export const repetitionDelays = ['single', 'daily', 'weekly', 'monthly', 'annually']
 
+export const devices = {
+    mobileS: `(max-width: 320px)`,
+    mobileM: `(max-width: 375px)`,
+    mobileL: `(max-width: 573px)`,
+    mobileXL: `(max-width: 638px)`,
+    tablet: `(max-width: 830px)`,
+    laptopXS: `(max-width: 1124px)`,
+    laptopS: `(max-width: 1250px)`,
+    laptopM: `(max-width: 1490px)`,
+    laptopL: `(max-width: 1664px)`,
+    laptopXL: `(max-width: 1890px)`,
+    desktop: `(max-width: 2560px)`,
+};
+
+export const github = 'https://github.com/Gearonix/Planner'

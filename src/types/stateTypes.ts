@@ -25,7 +25,7 @@ export type taskType = {
     color: string,
     description: string,
     repetitionDelay: string,
-    isTask?: boolean
+    isTask: boolean
 }
 
 

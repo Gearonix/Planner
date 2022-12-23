@@ -76,7 +76,7 @@ export const TodayButton = styled.button`
   margin-left: 20px;
   border: 1px solid #d9d9d9;
   color: white;
-  font-size: 17px;
+  font-size: 14px;
   cursor: pointer;
   transition: background 200ms;
 
@@ -135,7 +135,7 @@ export const RangeDropDown = mui(Select)`
 
 export const SettingsBlock = styled.div`
   height: 60px;
-  width: 10.5%;
+  width: 11.5%;
   position: absolute;
   right: 50px;
   display: flex;
@@ -144,14 +144,18 @@ export const SettingsBlock = styled.div`
 `
 
 
-export const SettingsIconWrapper = styled.div`
+export const SettingsIconWrapper = styled.a`
   & > * {
     color: white;
     width: 26px;
     height: 26px;
-
   }
 
+  & > *:hover {
+    color: #dbd9d9;
+  }
+
+  margin-right: 20px;
   cursor: pointer;
   display: flex;
   align-items: center;

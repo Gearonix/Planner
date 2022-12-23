@@ -1,7 +1,6 @@
 import {componentNameT, selectedDateT} from "../../Main/others/mainTypes";
 
 export type HeaderRenderType = {
-    openAside: () => void,
     toToday: () => void,
     switchDate: (direction: 1 | -1) => void,
     toAboutPage: () => void,

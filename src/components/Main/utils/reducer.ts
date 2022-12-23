@@ -5,19 +5,21 @@ import {createAction, createReducer} from "@reduxjs/toolkit";
 export const initialState: mainStateT = {
     modalComponent: null,
     modalIndex: null,
-    isAsideOpened: true,
     isModalAnimating: false,
     componentError: null,
     deletingTaskId: null,
     range: 'date',
     isProfile: false,
-    isComponentAnimating: false
+    isComponentAnimating: false,
+    filter: {
+        tasks: true,
+        reminders: true
+    }
 }
 export const actions = {
     openModal: createAction<modalComponentT>(actionsTypes.openModalComponent),
     setIndex: createAction<number | null>(actionsTypes.setIndex),
     closeModal: createAction(actionsTypes.closeModal),
-    setIsAsideOpened: createAction<boolean>(actionsTypes.setIsAsideOpened),
     animate: createAction<boolean>(actionsTypes.animateModal),
     setError: createAction<string | null>(actionsTypes.setError),
     clearError: createAction(actionsTypes.clearError),
@@ -25,6 +27,7 @@ export const actions = {
     switchRange: createAction<componentNameT>(actionsTypes.switchRange),
     setIsProfile: createAction<boolean>(actionsTypes.setIsProfile),
     animateComponent: createAction<boolean>(actionsTypes.animateComponent),
+    setFilter: createAction<{ tasks: boolean, reminders: boolean }>(actionsTypes.setFilter)
 
 }
 
@@ -38,9 +41,6 @@ export const mainReducer = createReducer(initialState, builder => {
         })
         .addCase(actions.closeModal, state => {
             state.modalComponent = null
-        })
-        .addCase(actions.setIsAsideOpened, (state, {payload}) => {
-            state.isAsideOpened = payload
         })
         .addCase(actions.animate, (state, {payload}) => {
             state.isModalAnimating = payload
@@ -62,6 +62,9 @@ export const mainReducer = createReducer(initialState, builder => {
         })
         .addCase(actions.animateComponent, (state, {payload}) => {
             state.isComponentAnimating = payload
+        })
+        .addCase(actions.setFilter, (state, {payload}) => {
+            state.filter = payload
         })
 })
 

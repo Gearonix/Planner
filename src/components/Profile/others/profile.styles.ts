@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {devices} from "../../../setup/constants";
 
 
 export const ProfileWrapper = styled.div`
@@ -43,13 +44,14 @@ export const UserAvatarBlock = styled.div`
   align-items: center;
 `
 export const UserImageElement = styled.img`
-  width: ${(props: {
-    size:
-            number
-  }) => props.size + 'px'};
-  height: ${props => props.size + 'px'};
+  width: ${(props: { size: number }) => props.size + 'px'};
+  height: ${(props: { size: number }) => props.size + 'px'};
   border-radius: 100%;
   border: 1px solid black;
+  @media ${devices.laptopS} {
+    width: ${(props: { size: number }) => props.size == 40 ? props.size : props.size - 30 + 'px'};
+    height: ${(props: { size: number }) => props.size == 40 ? props.size : props.size - 30 + 'px'};
+  }
 `
 export const EmptyAvatar = styled.div`
   width: ${(props: {
@@ -161,7 +163,11 @@ export const PasswordButton = styled(AvatarButton)`
   width: 32%;
   margin-bottom: 20px;
   height: 32px;
-  font-size: 15px;
+  font-size: 13px;
+  margin-left: 25px;
+  @media ${devices.laptopS} {
+    font-size: 10px;
+  }
 `
 
 

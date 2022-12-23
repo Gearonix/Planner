@@ -2,11 +2,12 @@ import styled from 'styled-components'
 
 export const MonthBlock = styled.div`
   border-radius: 4px;
-  width: 87%;
+  width: calc(100% - 250px);
   opacity: 0.98;
   height: 100%;
   position: absolute;
   z-index: 0;
+
   margin-left: 250px;
 `
 
@@ -26,4 +27,5 @@ export const CellTask = styled.div`
   margin-top: 7px;
   border: 1px solid ${(props: any) => props.theme.color};
   cursor: pointer;
+
 `

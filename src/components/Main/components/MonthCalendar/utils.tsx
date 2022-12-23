@@ -6,16 +6,19 @@ import {CellRenderType} from "../../others/mainTypes";
 import {convertToDate, isDateInThisMonth} from "../../../../utils/tools";
 
 
-export const CellRender = ({daysData, selectedDate}: CellRenderType) => (value: Dayjs) => {
-    if (!isDateInThisMonth(selectedDate, convertToDate(value))) return null
+export const CellRender = (props: CellRenderType) => (value: Dayjs) => {
+    if (!isDateInThisMonth(props.selectedDate, convertToDate(value))) return null
 
-    const {tasklist} = daysData.find(item => Number(item.date) === value.date()) || {tasklist: []}
-
+    const tasks = props.daysData.find(({date}) => Number(date) === value.date())
+        ?.tasklist
+        ?.filter(({isTask}) => props.filter[isTask ? 'tasks' : 'reminders']) || []
 
     return (
         <>
-            {tasklist.map(({title, color}: any, idx) =>
+            {tasks.map(({title, color}: any, idx: number) =>
                 <CellTask theme={taskColors[color]} key={idx}>{title}</CellTask>)}
         </>
     )
 }
+
+

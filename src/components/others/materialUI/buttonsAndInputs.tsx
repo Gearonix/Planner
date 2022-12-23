@@ -8,6 +8,7 @@ import {BiCloudUpload} from "react-icons/bi";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
 import {ChangeEventT} from "../../../types/appTypes";
+import {useTranslation} from "react-i18next";
 
 
 type TextAreaProps = {
@@ -109,15 +110,16 @@ type checkBoxesT = {
 }
 
 export const CheckBoxes: React.FC<checkBoxesT> = ({filterValues, handler}) => {
+    const {t} = useTranslation()
     return <FormControl sx={{m: 3}} component="fieldset" variant="standard">
-        <FormLabel component="legend" sx={{color: 'white'}}>Calendar Filter</FormLabel>
+        <FormLabel component="legend" sx={{color: 'white'}}>{t('calendarFilter')}</FormLabel>
         <FormGroup>
             <FormControlLabel
                 control={
                     <Checkbox checked={filterValues.tasks} onChange={handler}
                               sx={{color: 'white'}} name={'tasks'}/>
                 }
-                label="Tasks"
+                label={t('tasks')}
                 sx={{color: 'white'}}
             />
             <FormControlLabel
@@ -125,7 +127,7 @@ export const CheckBoxes: React.FC<checkBoxesT> = ({filterValues, handler}) => {
                     <Checkbox checked={filterValues.reminders} onChange={handler}
                               sx={{color: 'white'}} name={'reminders'}/>
                 }
-                label="Reminders"
+                label={t('reminders')}
                 sx={{color: 'white'}}
             />
         </FormGroup>

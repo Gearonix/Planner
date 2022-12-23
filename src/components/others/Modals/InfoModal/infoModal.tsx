@@ -25,6 +25,7 @@ import Animations from "../../../../helpers/animations";
 import {actions, MainContext} from "../../../Main/utils/reducer";
 import Selectors from "../../../../helpers/selectors";
 import {infoModalT} from "../../../Main/others/mainTypes";
+import {FaGripLines} from 'react-icons/fa';
 
 
 const InfoModalWrapper = () => {
@@ -33,7 +34,7 @@ const InfoModalWrapper = () => {
     const taskLists = useSelector(Selectors.taskLists)
     const userName = useSelector(Selectors.userName)
     const mainState = context.state
-    const task = getCurrentList(taskLists)[mainState.modalIndex || 0]
+    const task = getCurrentList(taskLists, mainState.filter)[mainState.modalIndex || 0]
 
     const openEditPage = () => context.dispatch(actions.openModal('editPage'))
     const close = () => context.dispatch(actions.animate(false))
@@ -56,11 +57,14 @@ const InfoModal = ({style, task, openEditPage, close, deleteTask, userName}: inf
 
     return (
         <Draggable bounds={'.draggableElement'}
-                   defaultPosition={{x: 500, y: 100}}>
+                   defaultPosition={{x: 500, y: 100}} handle={'.draggableModalHandler'}>
             <InfoDraggable>
                 <ChangeModalElement style={style}>
                     <ImageBlock>
                         <CircleButtonBlock>
+                            <CircleButton>
+                                <FaGripLines className={'draggableModalHandler'}/>
+                            </CircleButton>
                             <CircleButton onClick={openEditPage}>
                                 <BsPen/>
                             </CircleButton>
@@ -88,7 +92,7 @@ const InfoModal = ({style, task, openEditPage, close, deleteTask, userName}: inf
                                 {'WEEK_DAY'}, {date} {month} &bull; {task.starts}-{task.ends}
                             </Description>
                             <Description>
-                                {capitalizeFirstLetter(task.repetitionDelay)}
+                                {capitalizeFirstLetter(task.repetitionDelay)} | {task.isTask ? 'Task' : 'Reminder'}
                             </Description>
                             <Description style={{marginTop: '35px'}}>
                                 {cutString(task.description || '', 20) || 'No description'}

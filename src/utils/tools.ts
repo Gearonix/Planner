@@ -2,7 +2,7 @@ import {DATE_FORMAT, MONTHS, STATUS} from "../setup/constants"
 import {DispatchType} from "../setup/store";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {StateType} from "../types/appTypes";
-import {selectedDateT} from "../components/Main/others/mainTypes";
+import {selectedDateT, taskFilterT} from "../components/Main/others/mainTypes";
 import {taskListReducerType} from "../types/stateTypes";
 import dayjs, {Dayjs} from "dayjs";
 
@@ -33,10 +33,11 @@ export const randomizeNumber = (min: number, max: number) => Math.floor(Math.ran
 
 export const isError = (data: any) => data.status === STATUS.serverError
 
-export const getCurrentList = (taskLists: taskListReducerType) => {
+export const getCurrentList = (taskLists: taskListReducerType, filter: taskFilterT) => {
     const {daysData, selectedDate} = taskLists
     return daysData.find(i => i.date === selectedDate.date &&
-        i.month === selectedDate.month && i.year === selectedDate.year)?.tasklist || []
+        i.month === selectedDate.month && i.year === selectedDate.year)?.tasklist
+        ?.filter(item => filter[item.isTask ? 'tasks' : 'reminders']) || []
 }
 
 export const convertToDate = (value: Dayjs): selectedDateT => {
@@ -53,3 +54,5 @@ export const toMonthName = (month: string) => MONTHS[parseInt(month) - 1]
 
 export const isDateInThisMonth = (date: selectedDateT, selectedDate: selectedDateT) =>
     date.month === selectedDate.month && date.year === selectedDate.year
+
+export const isItLaptop = () => window.innerWidth <= 1156

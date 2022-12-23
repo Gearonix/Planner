@@ -17,7 +17,7 @@ const DayCalendar = () => {
     const context = useContext(MainContext)
     const {dispatch: mainDispatch, state} = context
     const taskLists = useSelector(Selectors.taskLists)
-    const taskList = getCurrentList(taskLists)
+    const taskList = getCurrentList(taskLists, state.filter)
     const dispatch = useDispatch<DispatchType>()
 
     const deleteTaskById = (task_id: string) => () => {
@@ -42,13 +42,13 @@ const DayCalendar = () => {
     return <DayCalendarMain>
         {(state.modalComponent === 'createModal' || state.modalComponent === 'editPage') && <ModalWrapper/>}
         {state.modalComponent === 'infoModal' && <InfoModal/>}
-        {state.isProfile ? <Profile/> : <DayCalendarInner style={initialAnimation} as={animated.div}>
+        {state.isProfile ? <Profile/> : <DayCalendarInner style={{...initialAnimation}} as={animated.div}>
             <DayList className={'draggableElement'}>
                 <HoursWrapper openModal={context.openModal} tasklist={taskList} deleteTask={deleteTaskById}
                               state={state}/>
             </DayList>
-        </DayCalendarInner>}
-
+        </DayCalendarInner>
+        }
     </DayCalendarMain>
 }
 

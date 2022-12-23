@@ -3,7 +3,7 @@ import {styled as mui} from '@mui/material/styles';
 import Button from '@mui/material/Button';
 
 export const AsideElement = styled.aside`
-  width: 13%;
+  width: 250px;
   height: 100%;
   background: #242526;
 
@@ -12,18 +12,16 @@ export const AsideElement = styled.aside`
   }
 
   position: relative;
-  animation: ${({isHide}: { isHide: boolean }) =>
-          !isHide ? openAside : closeAside};
-  animation-duration: 250ms;
-  animation-fill-mode: forwards;
   border-right: 1px solid #615d5e;
   opacity: 0.98;
+
 `
 
 export const AddButton = mui(Button)`
     border: 1px solid white;
     background: #242526;
     color: white;
+    font-size: 14px !important;
     &:hover{
         color: white;
         border-color: white !important;

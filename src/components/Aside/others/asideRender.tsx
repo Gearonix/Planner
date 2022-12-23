@@ -8,6 +8,7 @@ import {Dayjs} from "dayjs";
 import {ChangeEventT} from "../../../types/appTypes";
 import {DatePicker} from "../../others/materialUI/datepicker";
 import {CheckBoxes} from '../../others/materialUI/buttonsAndInputs';
+import {useTranslation} from "react-i18next";
 
 
 type asideRenderT = {
@@ -19,21 +20,23 @@ type asideRenderT = {
     },
     dropDownChange: (e: ChangeEventT) => void,
     datePickerValue: Dayjs | null,
-    addEvent: () => void
+    addEvent: () => void,
 }
 
 
 const AsideRender: React.FC<asideRenderT> = (props) => {
     const {
-        mainState, dropDownChange, filterValues, pickDate,
+        dropDownChange, filterValues, pickDate,
         datePickerValue, addEvent
     } = props
-    return <AsideElement isHide={!mainState.isAsideOpened}>
+    const {t} = useTranslation()
+
+    return <AsideElement>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <AddButtonBlock>
                 <AddButton variant="outlined" size={'large'}
-                           startIcon={<HiOutlinePlus style={{color: 'white'}}/>} onClick={addEvent}>Add
-                    Event</AddButton>
+                           startIcon={<HiOutlinePlus style={{color: 'white'}}/>}
+                           onClick={addEvent}>{t('addEvent')}</AddButton>
             </AddButtonBlock>
             <DatePickerWrapper>
                 <DatePicker value={datePickerValue} handleDate={pickDate}/>

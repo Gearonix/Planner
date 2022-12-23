@@ -18,10 +18,12 @@ import React, {FC} from "react";
 import {FILES_LOCATION} from "../../setup/constants";
 import Selectors from "../../helpers/selectors";
 import {DispatchType} from "../../setup/store";
+import {useTranslation} from "react-i18next";
 
 export const ChangePassword = ({close}: { close: () => void }) => {
     const {password: currentPassword, user_id} = useSelector(Selectors.userData)
     const dispatch = useDispatch<DispatchType>()
+    const {t} = useTranslation()
 
     const initialValues: changePassFormType = {
         nextPassword: '',
@@ -39,16 +41,16 @@ export const ChangePassword = ({close}: { close: () => void }) => {
         <PasswordInputsBlock>
             <PasswordInput disabled value={currentPassword || ''}/>
             <PasswordInput value={values.nextPassword} onChange={handleChange}
-                           name={'nextPassword'} placeholder={'New password'}/>
+                           name={'nextPassword'} placeholder={t('newPassword') || ''}/>
             <PasswordInput value={values.repeatPassword} onChange={handleChange}
-                           name={'repeatPassword'} placeholder={'Confirm new password'}/>
+                           name={'repeatPassword'} placeholder={t('confirmPass') || ''}/>
 
             <PasswordButtons>
                 <PasswordButton onClick={close}>
-                    Cancel
+                    {t('cancel')}
                 </PasswordButton>
                 <PasswordButton onClick={() => handleSubmit()}>
-                    Save
+                    {t('save')}
                 </PasswordButton>
             </PasswordButtons>
         </PasswordInputsBlock>

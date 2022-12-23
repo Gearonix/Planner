@@ -1,5 +1,5 @@
 import {AnimationResult, Controller} from "@react-spring/web";
-import {randomizeNumber} from "../utils/tools";
+import {isItLaptop, randomizeNumber} from "../utils/tools";
 
 const Animations = {
     scale: (onRest: Function) => ({
@@ -99,7 +99,8 @@ const Animations = {
         },
         transformHandler: (value: any) => {
             const transform = style.transform === 'none' ? '' : style.transform
-            return `translate(${value}px) ${transform}`
+            const scale = isItLaptop() ? '0.8' : '1'
+            return `translate(${value}px) ${transform} scale(${scale})`
         }
     }),
     infoModal: (onRest: Function) => ({
@@ -188,6 +189,7 @@ const Animations = {
             },
         }
     })
+
 }
 
 export default Animations

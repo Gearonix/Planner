@@ -71,8 +71,8 @@ export const Task: FC<taskProps> = ({task, openInfo, deleteTask, state}) => {
     return <DayTask length={endTime - startTime} top={startTime}
                     onClick={openInfoModal}
                     theme={taskColors[task.color]}
-                    style={styles} as={animated.div}>
-        <DayTaskTitle>{task.title}</DayTaskTitle>
+                    style={styles} as={animated.div} isTask={task.isTask}>
+        <DayTaskTitle>{task.title} {!task.isTask && ' | Reminder'}</DayTaskTitle>
         <DayTaskTimeRange>{task.starts}-{task.ends}</DayTaskTimeRange>
         {task.taskBackground &&
         <DayTaskImage src={FILES_LOCATION + '/task_backgrounds/' + task.taskBackground}/>}

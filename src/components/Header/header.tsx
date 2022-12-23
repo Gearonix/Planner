@@ -33,7 +33,6 @@ const Header = () => {
         if (range === 'month' || !isDateInThisMonth(selectedDate, date)) dispatch(setUserDays(date))
     }
 
-    const openAside = () => context.dispatch(actions.setIsAsideOpened(!context.state.isAsideOpened))
 
     const toToday = () => {
         context.dispatch(actions.animateComponent(true))
@@ -51,7 +50,7 @@ const Header = () => {
         context.dispatch(actions.switchRange('date'))
     }
 
-    return <HeaderRender toToday={toToday} range={range} openAside={openAside} switchDate={switchDate}
+    return <HeaderRender toToday={toToday} range={range} switchDate={switchDate}
                          switchRange={switchRange} toAboutPage={toAboutPage} selectedDate={selectedDate}
                          setIsProfile={setIsProfile}/>
 }

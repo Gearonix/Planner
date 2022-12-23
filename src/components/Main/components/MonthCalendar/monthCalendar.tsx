@@ -20,6 +20,7 @@ const MonthCalendar = () => {
     const context = useContext(MainContext)
     const mainState = context.state
 
+
     useEffect(() => {
         if (mainState.range === 'date') {
             context.scrolls.toDay()
@@ -35,7 +36,7 @@ const MonthCalendar = () => {
 
     return <MonthBlock className={'draggableElement'}>
         {context.state.modalComponent === 'createModal' && <ModalWrapper/>}
-        <Calendar dateCellRender={CellRender({daysData, selectedDate})}
+        <Calendar dateCellRender={CellRender({daysData, selectedDate, filter: mainState.filter})}
                   onSelect={clickToDay} headerRender={() => null}
                   value={convertToDayJs(selectedDate)}/>;
     </MonthBlock>
