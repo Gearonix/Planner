@@ -31,7 +31,8 @@ export const ModalDraggable = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  & > *{
+
+  & > * {
     color: #696969;
     width: 22px;
     height: 22px;
@@ -95,6 +96,7 @@ export const ColorWrapper = styled.div`
   transform: translate(0.8);
   height: 50px;
   overflow: hidden;
+  margin-left: 8px;
 
   & > .twitter-picker > div {
     padding-left: 0 !important;

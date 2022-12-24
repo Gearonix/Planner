@@ -1,4 +1,3 @@
-
 export type getOrCreateUserType = {
     email: string,
     password: string,
@@ -25,5 +24,6 @@ export type loginRenderType = {
     isRegistration: boolean,
     formik: any,
     pageName: '/login' | '/signup',
-    error: string | null
+    error: string | null,
+    changeLanguage: () => void
 }

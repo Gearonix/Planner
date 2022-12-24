@@ -7,6 +7,7 @@ import {
     Error,
     Input,
     InputTitle,
+    LanguageButton,
     LinkContainer,
     LoginSection,
     LoginTitle,
@@ -20,13 +21,17 @@ import {Link} from "react-router-dom";
 import {SpaceBackground} from "../others/SpaceBackground/spaceBackground";
 import {loginRenderType} from './others/loginTypes';
 import {useTranslation} from "react-i18next";
+import {FaLanguage} from "react-icons/fa";
 
 
-const LoginRender: React.FC<loginRenderType> = ({formik, isRegistration, pageName, error}) => {
+const LoginRender: React.FC<loginRenderType> = ({formik, isRegistration, pageName, error, changeLanguage}) => {
     const {handleChange, values, errors} = formik
     const {t} = useTranslation()
     return <SpaceBackground>
         <LoginSection>
+            <LanguageButton onClick={changeLanguage}>
+                <FaLanguage/>
+            </LanguageButton>
             <LoginWrapper>
                 <WelcomeBack>{t('welcomeBack')}</WelcomeBack>
                 <LoginTitle>{!isRegistration ? t('loginToAccount') : t('createAccount')}</LoginTitle>
@@ -56,6 +61,7 @@ const LoginRender: React.FC<loginRenderType> = ({formik, isRegistration, pageNam
                             <span style={{color: '#499AEE'}}> {t('joinFree')}</span></Link>
                     </SwitchPageLink>
                 </LinkContainer>
+
             </LoginWrapper>
         </LoginSection>
     </SpaceBackground>

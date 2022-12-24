@@ -47,6 +47,7 @@ export const UserImageElement = styled.img`
   width: ${(props: { size: number }) => props.size + 'px'};
   height: ${(props: { size: number }) => props.size + 'px'};
   border-radius: 100%;
+  margin-left: 10px;
   border: 1px solid black;
   @media ${devices.laptopS} {
     width: ${(props: { size: number }) => props.size == 40 ? props.size : props.size - 30 + 'px'};
@@ -58,6 +59,8 @@ export const EmptyAvatar = styled.div`
     size:
             number
   }) => props.size + 'px'};
+  margin-left: 10px;
+  margin-right: 10px;
   height: ${props => props.size + 'px'};
   border-radius: 100%;
   background: ${({color}: any) => color};
@@ -65,6 +68,7 @@ export const EmptyAvatar = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  object-fit: cover;
 `
 export const EmptyAvatarTitle = styled.h2`
   font-size: ${({fontSize}:
@@ -76,6 +80,7 @@ export const EmptyAvatarTitle = styled.h2`
 
 export const AvatarButton = styled.div`
   width: 138px;
+  margin-right: 10px;
   height: 35px;
   border: 1px solid white;
   color: white;
@@ -101,6 +106,7 @@ export const AvatarButton = styled.div`
     opacity: 0;
     cursor: pointer;
   }
+
   cursor: pointer;
 `
 export const AvatarButtonTitle = styled.span`
@@ -117,7 +123,7 @@ export const FieldsContainer = styled.div`
 export const FieldBlock = styled.div`
   border-top: 2px solid #f2f2f2;
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
 `
 export const FieldTitle = styled.h4`
@@ -196,7 +202,8 @@ export const PasswordButtons = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  & > button{
+
+  & > button {
     width: 45%;
     height: 80%;
   }

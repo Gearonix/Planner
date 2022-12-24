@@ -178,12 +178,12 @@ export const ButtonTitle = styled.span`
 `
 
 const animateButton = keyframes`
-    from{
-      transform: translate(-25%, -75%) rotate(0);
-    }
-    to{
-      transform: translate(-25%, -75%) rotate(360deg);
-    }
+  from {
+    transform: translate(-25%, -75%) rotate(0);
+  }
+  to {
+    transform: translate(-25%, -75%) rotate(360deg);
+  }
 `
 export const ButtonInner = styled.div`
   position: absolute;
@@ -226,28 +226,28 @@ export const ButtonInner = styled.div`
   top: 0;
   left: 0;
   transform: translate(-25%, -75%);
-  }
+}
 
-  &:after {
-    border-radius: 45%;
-    background: rgba(20, 20, 20, 1);
-    box-shadow: 0 0 10px 5px #7293ff, inset 0 0 5px #7293ff;
-    animation: ${animateButton} 5s linear infinite;
-    opacity: 0.8;
-  }
+&:after {
+  border-radius: 45%;
+  background: rgba(20, 20, 20, 1);
+  box-shadow: 0 0 10px 5px #7293ff, inset 0 0 5px #7293ff;
+  animation: ${animateButton} 5s linear infinite;
+  opacity: 0.8;
+}
 
-  &:before {
-    border-radius: 40%;
-    box-shadow: 0 0 10px rgba(26, 26, 26, 0.5),
-    inset 0 0 5px rgba(26, 26, 26, 0.5);
-    background: rgba(26, 26, 26, 0.5);
+&:before {
+  border-radius: 40%;
+  box-shadow: 0 0 10px rgba(26, 26, 26, 0.5),
+  inset 0 0 5px rgba(26, 26, 26, 0.5);
+  background: rgba(26, 26, 26, 0.5);
 
-    animation: ${animateButton} 7s linear infinite;
-  }
+  animation: ${animateButton} 7s linear infinite;
+}
 
-  &:hover {
-    top: -120px;
-  }
+&:hover {
+  top: -120px;
+}
 
 `
 
@@ -277,6 +277,18 @@ export const SwitchPageLink = styled.div`
   }
 `
 
+export const LanguageButton = styled.div`
+  position: absolute;
+  right: 30px;
+  top: 30px;
 
+  & > svg {
+    color: white;
+    width: 30px;
+    height: 30px;
+  }
+
+  cursor: pointer;
+`
 
 

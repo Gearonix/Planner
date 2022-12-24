@@ -9,6 +9,7 @@ import HeaderRender from './headerRender';
 import {convertToDate, convertToDayJs, isDateInThisMonth} from '../../utils/tools';
 import {setDate, setUserDays} from '../../setup/reducers/tasksListReducer';
 import dayjs from "dayjs";
+import {useTranslation} from "react-i18next";
 
 const Header = () => {
     const selectedDate = useSelector(Selectors.selectedDate)
@@ -16,7 +17,7 @@ const Header = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch<DispatchType>()
     const range: componentNameT = context.state.range
-
+    const {i18n} = useTranslation()
 
     const switchRange = (value: componentNameT) => {
         context.dispatch(actions.switchRange(value))
@@ -50,9 +51,14 @@ const Header = () => {
         context.dispatch(actions.switchRange('date'))
     }
 
+    const changeLanguage = () => {
+        const isEnglish = i18n.language == 'en'
+        i18n.changeLanguage(isEnglish ? 'ru' : 'en')
+    }
+
     return <HeaderRender toToday={toToday} range={range} switchDate={switchDate}
                          switchRange={switchRange} toAboutPage={toAboutPage} selectedDate={selectedDate}
-                         setIsProfile={setIsProfile}/>
+                         setIsProfile={setIsProfile} changeLanguage={changeLanguage}/>
 }
 
 

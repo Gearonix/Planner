@@ -3,11 +3,11 @@ import {
     ArrowIconWrapper,
     ArrowsBlock,
     HeaderElement,
+    IconWrapper,
     Logo,
     LogoText,
     RangeDropDown,
     SettingsBlock,
-    SettingsIconWrapper,
     TodayButton,
     TodayTitle
 } from "./others/header.styles";
@@ -17,19 +17,22 @@ import {FiSettings} from "react-icons/fi";
 import {UserImage} from "../Profile/components";
 import {HeaderRenderType} from './others/headerTypes';
 import {DropDownC} from "../others/materialUI/datepicker";
-import {toMonthName} from '../../utils/tools';
+import {convertToDayJs} from '../../utils/tools';
 import {SiGithub} from "react-icons/si";
 import {github} from '../../setup/constants';
 import {useTranslation} from "react-i18next";
+import {FaLanguage} from 'react-icons/fa'
 
 
 const HeaderRender: React.FC<HeaderRenderType> = (props) => {
     const {
         toToday, switchDate, toAboutPage,
-        switchRange, range, selectedDate, setIsProfile
+        switchRange, range, selectedDate, setIsProfile, changeLanguage
     } = props
     const {t} = useTranslation()
-    const {year, month, date} = selectedDate
+    const {year, date} = selectedDate
+
+    const normalizeDate = (format: string) => t(convertToDayJs(selectedDate).format(format))
     return <HeaderElement>
         <Logo>
             <BsCalendar3/>
@@ -47,15 +50,19 @@ const HeaderRender: React.FC<HeaderRenderType> = (props) => {
             </ArrowIconWrapper>
         </ArrowsBlock>
         <TodayTitle>
-            {range === 'date' && date} {toMonthName(month)} {year}
+            {range === 'date' && date} {normalizeDate('MMMM')} {year}
+            {range === 'date' && `, ${normalizeDate('dddd')}`}
         </TodayTitle>
         <SettingsBlock>
-            <SettingsIconWrapper href={github} target='_blank'>
+            <IconWrapper onClick={changeLanguage}>
+                <FaLanguage/>
+            </IconWrapper>
+            <IconWrapper href={github} target='_blank'>
                 <SiGithub/>
-            </SettingsIconWrapper>
-            <SettingsIconWrapper onClick={toAboutPage}>
+            </IconWrapper>
+            <IconWrapper onClick={toAboutPage}>
                 <FiSettings/>
-            </SettingsIconWrapper>
+            </IconWrapper>
             <DropDownC names={['date', 'month']} value={range}
                        handler={switchRange} Component={RangeDropDown}
                        minWidth={75}/>

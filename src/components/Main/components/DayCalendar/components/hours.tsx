@@ -16,6 +16,7 @@ import {hoursProps, taskProps} from "../../../others/mainTypes";
 import {animated, useSpring} from "@react-spring/web";
 import Animations from "../../../../../helpers/animations";
 import {FILES_LOCATION, taskColors} from "../../../../../setup/constants";
+import {useTranslation} from "react-i18next";
 
 
 export const HoursWrapper: FC<hoursProps> = (props) => {
@@ -66,13 +67,14 @@ export const Task: FC<taskProps> = ({task, openInfo, deleteTask, state}) => {
             openInfo()
         }
     }
+    const {t} = useTranslation()
 
 
     return <DayTask length={endTime - startTime} top={startTime}
                     onClick={openInfoModal}
                     theme={taskColors[task.color]}
                     style={styles} as={animated.div} isTask={task.isTask}>
-        <DayTaskTitle>{task.title} {!task.isTask && ' | Reminder'}</DayTaskTitle>
+        <DayTaskTitle>{task.title} {!task.isTask && ` | ${t('reminder')}`}</DayTaskTitle>
         <DayTaskTimeRange>{task.starts}-{task.ends}</DayTaskTimeRange>
         {task.taskBackground &&
         <DayTaskImage src={FILES_LOCATION + '/task_backgrounds/' + task.taskBackground}/>}

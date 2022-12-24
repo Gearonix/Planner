@@ -25,6 +25,7 @@ import {createModalUIType} from "../../../../Main/others/mainTypes";
 import {actions, MainContext} from "../../../../Main/utils/reducer";
 import {DropDownC, InputDatePicker} from "../../../materialUI/datepicker";
 import {ColorPicker} from "../../../materialUI/colorPicker";
+import {useTranslation} from "react-i18next";
 
 const EditTask = ({formik, startClosing, error, style}: createModalUIType) => {
     const {handleChange, handleSubmit, setFieldValue, errors} = formik
@@ -32,6 +33,7 @@ const EditTask = ({formik, startClosing, error, style}: createModalUIType) => {
     const username = useSelector((state: StateType) => state.userData.userName)
     const fullHours = [...generateArray(24).map(numberTimeToStr)]
     const context = useContext(MainContext)
+    const {t} = useTranslation()
 
 
     return <EditTaskPage style={style}>
@@ -43,13 +45,12 @@ const EditTask = ({formik, startClosing, error, style}: createModalUIType) => {
                 <Input id={"standard-password-input"} variant={'standard'}
                        fw css={{fontSize: 26,}} onChange={handleChange('title')} value={values.title}
                        error={errors.title}
-                       placeholder={'Add Title'}/>
+                       placeholder={t('addTitle') || ''}/>
                 <DateSelectBlock>
                     <div style={{marginTop: '7px', marginRight: '10px'}}>
                         <InputDatePicker handleDate={(date: Dayjs) => {
                             // @ts-ignore
-                            setFieldValue('date', date)
-                        }} date={values.date} disabled={true}/>
+                            setFieldValue('date', date)}} date={values.date} disabled={true}/>
                     </div>
 
                     <DropDownC handler={(value: string) => {
@@ -57,28 +58,28 @@ const EditTask = ({formik, startClosing, error, style}: createModalUIType) => {
                         let ends = numberTimeToStr(strToTimeNumber(value) + 1)
                         if (ends === '24:00') ends = '00:00'
                         setFieldValue('ends', ends)
-                    }} value={values.starts} names={fullHours} title={'Starts'}/>
+                    }} value={values.starts} names={fullHours} title={t('starts') || ''}/>
                     <SymbolText>
                         —
                     </SymbolText>
                     <DropDownC handler={handleChange('ends')}
                                value={values.ends}
                                names={values.starts === '23:00' ? ['00:00'] : fullHours.slice(fullHours.indexOf(values.ends))}
-                               title={'Ends'}/>
+                               title={t('ends') || ''}/>
                 </DateSelectBlock>
-                <CheckBox title={'Event'} checked={values.isTask || false}
+                <CheckBox title={t('event') || ''} checked={values.isTask || false}
                           handler={(checked: boolean) => {
                               setFieldValue('isTask', checked)
                           }}/>
                 <DropDownC handler={handleChange('repetitionDelay')} value={values.repetitionDelay}
                            names={repetitionDelays}
-                           title={'Repeat'}/>
+                           title={t('repeat') || ''}/>
                 <MarginBottom/>
                 <Progress theme={taskColors[values.color].muiColor}/>
                 <UploadButton
                     handler={(file: React.FormEvent<HTMLInputElement>) => setFieldValue('taskBackground', file)}
                     size={'medium'}
-                    title={'Upload Image'}/>
+                    title={t('uploadImage') || ''}/>
                 <MarginBottom/>
 
                 <ColorPicker handler={(hex: string) => setFieldValue('color', hex)}
@@ -93,8 +94,10 @@ const EditTask = ({formik, startClosing, error, style}: createModalUIType) => {
                           css={{
                               width: '690px', height: '140px',
                               background: '#444444', color: 'black',
-                              paddingTop: '10px', paddingLeft: '10px'
-                          }}/>
+                              paddingTop: '10px', paddingLeft: '10px',
+                              marginLeft: '-10px'
+                          }} ph={t('description') || ''}
+                />
 
             </TitleContainer>
             <SaveButtonsContainer>
@@ -105,12 +108,12 @@ const EditTask = ({formik, startClosing, error, style}: createModalUIType) => {
                     }, 400)
                 }
                 }>
-                    Save
+                    {t('save')}
                 </SaveButton>
                 <SaveButton color={'error'} variant={'outlined'} onClick={() => {
                     context.dispatch(actions.setDeletingTask(values.task_id))
                     startClosing()
-                }}>Delete</SaveButton>
+                }}>{t('delete')}</SaveButton>
 
             </SaveButtonsContainer>
         </SaveBlock>

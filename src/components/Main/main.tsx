@@ -28,7 +28,6 @@ const Main = () => {
     const scrolls = useScrolls(parallax)
 
 
-
     useEffect(() => {
         if (!user_id) {
             navigate('/login')

@@ -19,14 +19,14 @@ import {TfiBell} from 'react-icons/tfi'
 import Draggable from "react-draggable";
 import {taskColors} from '../../../../setup/constants';
 import {useSelector} from "react-redux";
-import {capitalizeFirstLetter, cutString, getCurrentList} from "../../../../utils/tools";
+import {convertToDayJs, cutString, getCurrentList} from "../../../../utils/tools";
 import {animated, useTransition} from "@react-spring/web";
 import Animations from "../../../../helpers/animations";
 import {actions, MainContext} from "../../../Main/utils/reducer";
 import Selectors from "../../../../helpers/selectors";
 import {infoModalT} from "../../../Main/others/mainTypes";
 import {FaGripLines} from 'react-icons/fa';
-
+import {useTranslation} from "react-i18next";
 
 const InfoModalWrapper = () => {
     const Animated = animated(InfoModal)
@@ -52,8 +52,10 @@ const InfoModalWrapper = () => {
 
 
 const InfoModal = ({style, task, openEditPage, close, deleteTask, userName}: infoModalT) => {
+    const {t} = useTranslation()
     if (!task) return null
     const {month, date} = task.selectedDate
+
 
     return (
         <Draggable bounds={'.draggableElement'}
@@ -63,7 +65,8 @@ const InfoModal = ({style, task, openEditPage, close, deleteTask, userName}: inf
                     <ImageBlock>
                         <CircleButtonBlock>
                             <CircleButton>
-                                <FaGripLines className={'draggableModalHandler'}/>
+                                <FaGripLines className={'draggableModalHandler'}
+                                             style={{cursor: 'grab'}}/>
                             </CircleButton>
                             <CircleButton onClick={openEditPage}>
                                 <BsPen/>
@@ -89,13 +92,13 @@ const InfoModal = ({style, task, openEditPage, close, deleteTask, userName}: inf
                         <InfoBlock>
                             <Title>{task.title}</Title>
                             <Description>
-                                {'WEEK_DAY'}, {date} {month} &bull; {task.starts}-{task.ends}
+                                {t(convertToDayJs(task.selectedDate).format('dddd'))}, {date} {month} &bull; {task.starts} - {task.ends}
                             </Description>
                             <Description>
-                                {capitalizeFirstLetter(task.repetitionDelay)} | {task.isTask ? 'Task' : 'Reminder'}
+                                {t(task.repetitionDelay)} | {task.isTask ? t('task') : t('reminder')}
                             </Description>
                             <Description style={{marginTop: '35px'}}>
-                                {cutString(task.description || '', 20) || 'No description'}
+                                {cutString(task.description || '', 20) || t('noDescription')}
                             </Description>
                             <Description style={{marginTop: '8px'}}>
                                 {userName}

@@ -61,7 +61,7 @@ const Animations = {
             }
         },
         api: (callback: () => void) => ({
-            to: [{
+            to: {
                 width: 0,
                 opacity: 0,
                 config: {
@@ -70,17 +70,7 @@ const Animations = {
                 onRest: ({finished}: AnimationResult) => {
                     if (finished) callback()
                 }
-            },
-                {
-                    opacity: 1,
-                    width: 96,
-                    config: {
-                        duration: 0
-                    }
-                }
-            ],
-
-
+            }
         })
     },
     modalError: (style: any) => ({

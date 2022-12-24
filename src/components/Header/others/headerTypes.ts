@@ -7,5 +7,6 @@ export type HeaderRenderType = {
     switchRange: (range: componentNameT) => void,
     range: componentNameT,
     selectedDate: selectedDateT,
-    setIsProfile: (bool: boolean) => void
+    setIsProfile: (bool: boolean) => void,
+    changeLanguage: () => void
 }

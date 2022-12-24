@@ -13,19 +13,26 @@ import {useTranslation} from "react-i18next";
 
 type TextAreaProps = {
     desc: string, setDesc: any,
-    css?: any
+    css?: any,
+    ph: string
 }
 
-export const TextArea = ({desc, setDesc, css = {maxLength: 55}}: TextAreaProps) => <TextField
+export const TextArea = ({
+                             desc, setDesc, css = {maxLength: 55},
+                             ph
+                         }: TextAreaProps) => <TextField
     id="filled-multiline-flexible"
-    placeholder="Description..."
+    placeholder={ph}
     multiline
     maxRows={2}
     value={desc}
     onChange={setDesc}
     inputProps={{style: css}}
     variant="filled"
-    sx={{padding: 0, border: 'none', marginLeft: '-10px'}}
+    sx={{
+        border: 'none', marginLeft: ' 8px',
+        marginTop: '10px'
+    }}
 />
 
 
@@ -93,10 +100,10 @@ type UploadButtonProps = {
     title?: string
 }
 
-export const UploadButton = ({handler, size = 'small', title = 'Upload'}: UploadButtonProps) => {
+export const UploadButton = ({handler, size = 'small', title}: UploadButtonProps) => {
     return <Button variant="outlined"
                    component="label" startIcon={<BiCloudUpload/>}
-                   size={size} sx={{marginTop: '15px'}}>{title}
+                   size={size} sx={{marginTop: '15px', marginLeft: '8px'}}>{title}
         <input type="file" hidden onChange={(e: React.BaseSyntheticEvent) =>
             handler(e.target?.files?.[0])}/></Button>
 }

@@ -36,37 +36,6 @@ export const LogoText = styled.h4`
 
 `
 
-
-
-export const BurgerWrapper = styled.div`
-  width: 45px;
-  height: 45px;
-  margin-left: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 200ms;
-
-  &:hover {
-    color: #f7f7f7;
-  }
-`
-
-export const BurgerIconWrapper = styled.div`
-  & > svg {
-    width: 24px;
-    height: 24px;
-    color: white;
-    display: flex;
-    justify-content: center;
-  }
-
-  & > svg:hover {
-    color: #e3e1e1;
-  }
-`
-
 export const TodayButton = styled.button`
   background: #242526;
   outline: none;
@@ -135,16 +104,17 @@ export const RangeDropDown = mui(Select)`
 
 export const SettingsBlock = styled.div`
   height: 60px;
-  width: 11.5%;
+  width: 15%;
   position: absolute;
   right: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-right: 10px;
 `
 
 
-export const SettingsIconWrapper = styled.a`
+export const IconWrapper = styled.a`
   & > * {
     color: white;
     width: 26px;

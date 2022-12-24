@@ -85,7 +85,7 @@ export const Title = styled.h2`
   font-size: 22px;
   font-weight: normal;
   margin: 0;
-  
+
 `
 export const Description = styled.p`
   color: #666;
@@ -93,7 +93,7 @@ export const Description = styled.p`
   font-weight: normal;
   margin: 0;
   height: 17px;
-  
+
 `
 
 export const InfoIcon = styled(CircleButton)`

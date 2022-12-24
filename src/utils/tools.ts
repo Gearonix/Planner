@@ -1,10 +1,11 @@
-import {DATE_FORMAT, MONTHS, STATUS} from "../setup/constants"
+import {DATE_FORMAT, STATUS} from "../setup/constants"
 import {DispatchType} from "../setup/store";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {StateType} from "../types/appTypes";
 import {selectedDateT, taskFilterT} from "../components/Main/others/mainTypes";
 import {taskListReducerType} from "../types/stateTypes";
 import dayjs, {Dayjs} from "dayjs";
+
 
 export const capitalizeFirstLetter = (word: string) => word[0].toUpperCase() + word.slice(1)
 
@@ -20,7 +21,7 @@ export const generateArray = (count: number) => {
 
 export const convertPromise = (state: any): taskListReducerType => JSON.parse(JSON.stringify(state));
 
-export const numberTimeToStr = (time: number | string): string => String(time).length > 1 ? '0' + time : time + ':00'
+export const numberTimeToStr = (time: number | string): string => (time.toString().length == 1 ? '0' + time : time) + ':00'
 
 export const strToTimeNumber = (time: string): number => +(time.split(':')[0])
 
@@ -32,7 +33,10 @@ export const cutString = (str: string, length: number = 16) =>
 export const randomizeNumber = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min)
 
 export const isError = (data: any) => data.status === STATUS.serverError
+export const isItLaptop = () => window.innerWidth <= 1156
 
+
+//
 export const getCurrentList = (taskLists: taskListReducerType, filter: taskFilterT) => {
     const {daysData, selectedDate} = taskLists
     return daysData.find(i => i.date === selectedDate.date &&
@@ -50,9 +54,10 @@ export const convertToDayJs = (data: selectedDateT): Dayjs => {
     return dayjs(`${year}-${month},${date}`)
 }
 
-export const toMonthName = (month: string) => MONTHS[parseInt(month) - 1]
 
 export const isDateInThisMonth = (date: selectedDateT, selectedDate: selectedDateT) =>
     date.month === selectedDate.month && date.year === selectedDate.year
 
-export const isItLaptop = () => window.innerWidth <= 1156
+//
+
+

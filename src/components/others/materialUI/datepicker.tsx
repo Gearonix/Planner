@@ -10,6 +10,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DesktopDatePicker} from "@mui/x-date-pickers/DesktopDatePicker";
 import TextField from "@mui/material/TextField";
 import {StaticDatePicker} from "@mui/x-date-pickers/StaticDatePicker";
+import {useTranslation} from "react-i18next";
 
 export type dropDownType = {
     handler: any,
@@ -24,6 +25,7 @@ export type dropDownType = {
 }
 export const DropDownC: React.FC<dropDownType> = (props) => {
     const Element = props.Component || Select
+    const {t} = useTranslation()
     return <FormControl sx={{m: 1, minWidth: props.minWidth || 120}} size="small"
                         variant={props.formVariant}>
         {props.title && <InputLabel id="demo-simple-select-filled-label">{props.title}</InputLabel>}
@@ -38,7 +40,7 @@ export const DropDownC: React.FC<dropDownType> = (props) => {
             sx={{marginLeft: '-0px', ...props.css}}
         >
             {props.names.map((i, idx) => <MenuItem value={idx.toString()}
-                                                   key={idx}>{capitalizeFirstLetter(i)}</MenuItem>)}
+                                                   key={idx}>{i.includes(':') ? capitalizeFirstLetter(i) : t(i)}</MenuItem>)}
         </Element>
     </FormControl>
 }
@@ -46,13 +48,14 @@ export const DropDownC: React.FC<dropDownType> = (props) => {
 export type inputDatePickerT = {
     date: Dayjs,
     handleDate: any,
-    disabled?: boolean
+    disabled?: boolean,
+    label?: string
 }
 
-export const InputDatePicker = ({date, handleDate, disabled}: inputDatePickerT) => <LocalizationProvider
+export const InputDatePicker = ({date, handleDate, disabled, label}: inputDatePickerT) => <LocalizationProvider
     dateAdapter={AdapterDayjs}>
     <DesktopDatePicker
-        label="Choose date"
+        label={label || 'Choose date'}
         inputFormat="DD/MM/YYYY"
         value={date} onChange={handleDate}
         disabled={disabled}

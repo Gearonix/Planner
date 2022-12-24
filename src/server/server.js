@@ -5,7 +5,6 @@ const http = require('http')
 const server = http.Server(app);
 const cors = require('cors');
 const multer = require('multer')
-const emailValidator = require('deep-email-validator');
 const cookieParser = require('cookie-parser')
 const PORT = 6868
 
@@ -59,8 +58,6 @@ app.put('/user/login', (req, res) => {
 })
 app.post('/user/signup', async (req, res) => {
     const {email, password, rememberMe} = req.body
-    const {valid: isEmailExists} = await emailValidator.validate(email)
-    if (!isEmailExists) return res.json(error('Email does not exist'))
     db.collection('users').find({email}).toArray((err, result) => {
         if (result[0]) {
             res.json(error('User already exists'))

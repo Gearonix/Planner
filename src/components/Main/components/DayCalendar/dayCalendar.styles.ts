@@ -48,7 +48,7 @@ export const HoursContainer = styled.div`
   width: 95%;
   margin: 0 auto;
   position: relative;
-  cursor: pointer;
+  cursor: crosshair;
 `
 
 export const HourBlock = styled.div`
@@ -81,6 +81,8 @@ export const DayTask = styled(CellTask)`
   display: block;
   background: ${(props: any) => !props.isTask ? '#61dafb' : props.theme.background};
   color: ${(props: any) => !props.isTask ? '#16181D' : props.theme.color} !important;
+  border: 1px solid ${(props: any) => !props.isTask ? '#16181D' : props.theme.color} !important;
+
 `
 export const DayTaskTitle = styled.h2`
   margin-top: 10px;

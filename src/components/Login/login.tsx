@@ -8,12 +8,14 @@ import {loginValidator} from "../../utils/validate";
 import {loginFormValues, LoginProps} from "./others/loginTypes";
 import Selectors from '../../helpers/selectors';
 import LoginRender from './loginRender';
+import {useTranslation} from "react-i18next";
 
 const Login: React.FC<LoginProps> = ({isRegistration}) => {
     const dispatch = useDispatch<DispatchType>()
     const user_id = useSelector(Selectors.userId)
     const [error, setError] = useState<null | string>(null)
     const navigate = useNavigate()
+    const {i18n} = useTranslation()
 
     useEffect(() => {
         if (user_id) navigate('/')
@@ -32,8 +34,14 @@ const Login: React.FC<LoginProps> = ({isRegistration}) => {
         validate: loginValidator, validateOnBlur: true, validateOnChange: false
     }
 
+    const changeLanguage = () => {
+        const isEnglish = i18n.language == 'en'
+        i18n.changeLanguage(isEnglish ? 'ru' : 'en')
+    }
+
     const formik = useFormik(formikParams)
 
-    return <LoginRender error={error} formik={formik} isRegistration={isRegistration} pageName={pageName}/>
+    return <LoginRender error={error} formik={formik} isRegistration={isRegistration} pageName={pageName}
+                        changeLanguage={changeLanguage}/>
 }
 export default Login

@@ -98,19 +98,22 @@ export const MarginBottom = styled.div`
 
 export const UserNameWrapper = styled.div`
   & > svg {
-    color : #3c4043;
+    color: #3c4043;
     width: 20px;
     height: 20px;
     font-weight: normal;
     margin-top: 10px;
     margin-right: 10px;
   }
-  & > h5{
+
+  & > h5 {
     margin-bottom: 0;
     margin-top: 10px;
     font-size: 14px;
-    color : #3c4043;
+    color: #3c4043;
   }
+
+  margin-left: 10px;
   display: flex;
 `
 

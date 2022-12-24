@@ -16,6 +16,7 @@ import {uploadFile} from '../../../../setup/reducers/userDataReducer';
 import {taskToServerT} from '../../../Main/others/mainTypes';
 import {createTask, updateTask} from '../../../../setup/reducers/tasksListReducer';
 import {convertToDayJs, getCurrentList} from "../../../../utils/tools";
+import {useTranslation} from "react-i18next";
 
 dayjs.extend(customParseFormat)
 
@@ -27,6 +28,7 @@ const ModalWrapper = () => {
     const context = useContext(MainContext)
     const mainState = context.state
     const taskList = getCurrentList(taskLists, mainState.filter)
+    const {t} = useTranslation()
 
 
     const modalIdx = mainState.modalIndex
@@ -34,13 +36,15 @@ const ModalWrapper = () => {
 
 
     const submitTask = async (data: taskType) => {
-        if (!convertToDayJs(data.selectedDate).isValid()) return context.dispatch(actions.setError('Invalid date'))
+        if (!convertToDayJs(data.selectedDate).isValid()) {
+            return context.dispatch(actions.setError(t('invalidDate')))
+        }
 
         let filename = task?.taskBackground || null
         const file = data.taskBackground
 
         if (file && typeof file !== 'string') {
-            if (!isFileImage(file)) return context.dispatch(actions.setError('Invalid background'))
+            if (!isFileImage(file)) return context.dispatch(actions.setError(t('invalidBackground')))
             const {payload} = await dispatch(uploadFile({file, name: 'task_backgrounds'}))
             filename = payload
         }

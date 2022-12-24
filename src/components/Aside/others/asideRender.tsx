@@ -39,7 +39,8 @@ const AsideRender: React.FC<asideRenderT> = (props) => {
                            onClick={addEvent}>{t('addEvent')}</AddButton>
             </AddButtonBlock>
             <DatePickerWrapper>
-                <DatePicker value={datePickerValue} handleDate={pickDate}/>
+                <DatePicker
+                    value={datePickerValue} handleDate={pickDate}/>
             </DatePickerWrapper>
             <CheckBoxes filterValues={filterValues} handler={dropDownChange}/>
         </LocalizationProvider>
